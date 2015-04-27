@@ -1,0 +1,190 @@
+<?php defined('SYSPATH') or die('No direct script access.');
+
+class Map {
+	static function getContinents() {
+		return array('EU', 'AZ', 'AF', 'AN', 'AS', 'AU');
+	}
+
+	static function getRegions() {
+		$query = GlobalArrays::getCities();
+		$regions = array();
+		foreach ($query as $city) {
+			$region = $city->region;
+			if (!in_array($region, $regions)) {
+				array_push($regions, $region);
+			}
+		}
+		return $regions;
+	}
+
+	static function countRegionMaxOrders($biuro, $region) {
+		//$zlec = DB::select(array('COUNT(*)', 'zlecen'))->from('zlecenia')->where('region', '=', $region)->execute()->get('zlecen');
+		if (in_array($biuro, array(1, 2, 5, 6))) {
+			$cities = Map::getRegionCities($region);
+		} else {
+			$cities = Map::getRegionCities($region, true);
+		}
+
+		$zlecen = 0;
+		$ilosciConfig = Kohana::$config->load('zlecenia.zlecenia');
+		$ilosciConfig = $ilosciConfig[$biuro];
+		foreach ($cities as $city) {
+
+			$ilosci = $ilosciConfig[$city->rozmiar];
+			$zlecen += array_sum($ilosci);
+		}
+		return $zlecen;
+	}
+
+	static function getRegionCities($region, $onlyBig = false) {
+		$rozmiar = 0;
+		if ($onlyBig) {
+			$rozmiar = 1;
+		}
+
+		if ($region == 'WR') {
+			return ORM::factory("City")->cached()->where('rozmiar', '>=', $rozmiar)->order_by('id', 'asc')->distinct(true)->find_all();
+		}
+
+		$continents = Map::getContinents();
+		if (in_array($region, $continents)) {
+			return ORM::factory("City")->cached()->where('region', 'LIKE', '%-' . $region . '%')->and_where('rozmiar', '>=', $rozmiar)->order_by('id', 'asc')->distinct(true)->find_all();
+		}
+		return ORM::factory("City")->cached()->where('region', '=', $region)->and_where('rozmiar', '>=', $rozmiar)->order_by('id', 'asc')->distinct(true)->find_all();
+	}
+
+	static function getAllRegionCities() {
+		$arr = ['regions' => [], 'continents' => [], 'worldSmall' => [], 'worldBig' => []];
+		$regions = Map::getRegions();
+		foreach ($regions as $r) {
+			$cities = Map::getRegionCities($r, false);
+			$arr['regions'][$r] = $cities;
+		}
+		$regions = Map::getContinents();
+		foreach ($regions as $r) {
+			$cities = Map::getRegionCities($r, false);
+			$arr['continents'][$r] = $cities;
+		}
+		$cities = Map::getRegionCities('WR', false);
+		$arr['worldSmall'] = $cities;
+
+		$cities = Map::getRegionCities('WR', true);
+		$arr['worldBig'] = $cities;
+
+		return $arr;
+	}
+
+	static function getBigCities() {
+		return Map::getRegionCities('WR', true);
+	}
+	/*
+	//
+	//	Dodawanie pustych dystansów dla nowych miast
+	//
+	function prepareDistances()
+	{
+	$query = DB::select()->from('cities')->execute()->as_array();
+
+	foreach($query as $city)
+	{
+	foreach($query as $city2)
+	{
+	if($city == $city2)
+	continue;
+	$q = DB::select()->from('distances')->where('from', '=', $city['id'])->and_where('to', '=', $city2['id'])->execute()->as_array();
+	$q2 = DB::select()->from('distances')->where('from', '=', $city2['id'])->and_where('to', '=', $city['id'])->execute()->as_array();
+	if(empty($q) && empty($q2))
+	{
+	DB::insert('distances', array('from', 'fromName', 'to', 'toName'))
+	->values(array($city['id'], $city['name'], $city2['id'], $city2['name']))
+	->execute();
+	}
+	}
+	}
+	}*/
+
+	static function getCityName($city) {
+		return ORM::factory("City", $city)->cached()->get("name");
+	}
+
+	static function getCityCode($city) {
+		return ORM::factory("City", $city)->cached()->get("code");
+	}
+
+	static function getDistanceBetween($city1, $city2) {
+		try {
+			if (!is_object($city1)) {
+				$city1 = ORM::factory("City", $city1);
+			}
+
+			return $city1->countDistanceTo($city2);
+		} catch (Exception $e) {
+			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
+		}
+		return 0;
+	}
+
+	static function findCityOnPath($city1, $city2, $dist) {
+		try {
+			if (!is_object($city1)) {
+				$city1 = ORM::factory("City", $city1);
+			}
+
+			if (!is_object($city2)) {
+				$city2 = ORM::factory("City", $city2);
+			}
+
+			$distance = $city1->countDistanceTo($city2);
+			$cities = GlobalArrays::getCities();
+			$city1Distances = $city1->getCitiesInRange($cities, $dist - 100, $dist + 100);
+
+			if (empty($city1Distances)) {
+				return false;
+			}
+
+			$closestDist = 999999;
+			$closest = null;
+
+			foreach ($city1Distances as $d1 => $c) {
+				$cDist = $c->countDistanceTo($city2);
+				if (($d1 + $cDist - 50) <= $distance && $cDist <= $closestDist) {
+					$closest = $c;
+					$closestDist = $cDist;
+				}
+			}
+
+			return $closest;
+		} catch (Exception $e) {
+			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
+		}
+		return false;
+	}
+
+	static function findPath($city1, $city2) {
+		try {
+			if (!is_object($city1)) {
+				$city1 = ORM::factory("City", $city1);
+			}
+
+			if (!is_object($city2)) {
+				$city2 = ORM::factory("City", $city2);
+			}
+
+			$distance = $city1->countDistanceTo($city2);
+			if ($distance <= 200) {
+				return false;
+			}
+
+			$setek = round($distance / 100) - 1;
+			$path = array();
+			for ($i = 1; $i <= $setek; $i++) {
+				$path[$i] = Map::findCityOnPath($city1, $city2, $i * 100);
+			}
+
+			return $path;
+		} catch (Exception $e) {
+			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
+		}
+		return false;
+	}
+};

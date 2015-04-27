@@ -1,0 +1,60 @@
+--2015-03-22 10:40:34--  http://serwer1418595.home.pl/checkEvents
+Resolving serwer1418595.home.pl... 188.128.140.251
+Connecting to serwer1418595.home.pl|188.128.140.251|:80... connected.
+HTTP request sent, awaiting response... 301 Moved
+Location: http://planes.vipserv.org/index.php/checkEvents [following]
+--2015-03-22 10:40:34--  http://planes.vipserv.org/index.php/checkEvents
+Resolving planes.vipserv.org... 148.251.6.230
+Connecting to planes.vipserv.org|148.251.6.230|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: `checkEvents'
+
+     0K                                                        1.01M=0s
+
+2015-03-22 10:40:34 (1.01 MB/s) - `checkEvents' saved [4]
+
+--2015-03-22 10:45:01--  http://planes.vipserv.org/checkEvents
+Resolving planes.vipserv.org... 148.251.6.230
+Connecting to planes.vipserv.org|148.251.6.230|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4
+Saving to: `checkEvents.1'
+
+     0K                                                       100%  858K=0s
+
+2015-03-22 10:45:01 (858 KB/s) - `checkEvents.1' saved [4/4]
+
+--2015-03-22 10:50:01--  http://planes.vipserv.org/checkEvents
+Resolving planes.vipserv.org... 148.251.6.230
+Connecting to planes.vipserv.org|148.251.6.230|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4
+Saving to: `checkEvents.2'
+
+     0K                                                       100%  524K=0s
+
+2015-03-22 10:50:01 (524 KB/s) - `checkEvents.2' saved [4/4]
+
+--2015-03-22 10:55:01--  http://planes.vipserv.org/checkEvents
+Resolving planes.vipserv.org... 148.251.6.230
+Connecting to planes.vipserv.org|148.251.6.230|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4
+Saving to: `checkEvents.3'
+
+     0K                                                       100%  793K=0s
+
+2015-03-22 10:55:01 (793 KB/s) - `checkEvents.3' saved [4/4]
+
+--2015-03-22 11:00:01--  http://planes.vipserv.org/checkEvents
+Resolving planes.vipserv.org... 148.251.6.230
+Connecting to planes.vipserv.org|148.251.6.230|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4
+Saving to: `checkEvents.4'
+
+     0K                                                       100%  831K=0s
+
+2015-03-22 11:00:01 (831 KB/s) - `checkEvents.4' saved [4/4]
+
