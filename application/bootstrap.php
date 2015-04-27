@@ -164,7 +164,6 @@ try
 	View::bind_global('profil', $profil);
 	View::bind_global('users_online', $users_online);
 
-	include_once 'declarations.php';
 	include_once 'functions.php';
 
 	Route::set('login', '(user(/<action>(/<id>)))')
