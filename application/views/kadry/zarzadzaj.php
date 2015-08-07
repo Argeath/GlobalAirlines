@@ -3,7 +3,7 @@
 		<h1>Kadry <small>Zarządzanie</small></h1>
 	</div>
 	<div class="well col-xs-12 col-md-4" style="float: left;" id="kadry-podzial">
-		<? 
+		<?
 		$colorN = 'btn-default';
 		if($planeId == 0)
 			$colorN = 'btn-primary';
@@ -13,21 +13,21 @@
 			if($p->id == $planeId)
 				$color = 'btn-primary';
 			echo HTML::anchor('kadry/zarzadzaj/'.$p->id, $p->rejestracja, array('class' => 'btn '.$color.' btn-medium'));
-		
+
 		} ?>
 	</div>
 	<div class="well form_300">
 		<h3>Zatrudnianie</h3>
-		<?= ($planeId > 0) ? Form::open('kadry/zatrudnij/'.$planeId) : Form::open('kadry/zatrudnij'); ?>
+		<?=($planeId > 0) ? Form::open('kadry/zatrudnij/' . $planeId) : Form::open('kadry/zatrudnij');?>
 		<select name="type" class="form-control">
 			<option value="1">Pilot</option>
 			<option value="2">Stewardessa</option>
 		</select>
 		<select name="experience" class="form-control">
 			<option value="0">Amator(~5%)</option>
-			<option value="1">Początkujący(~16%)</option>
-			<option value="2">Doświadczony(~31%)</option>
-			<option value="3">Zaawansowany(~44%)</option>
+			<?=($level > 10) ? '<option value="1">Początkujący(~16%)</option>' : ''?>
+			<?=($level > 20) ? '<option value="2">Doświadczony(~31%)</option>' : ''?>
+			<?=($level > 30) ? '<option value="3">Zaawansowany(~44%)</option>' : ''?>
 		</select>
 		<button class="btn btn-block btn-primary" id="kadry-zatrudnij">Zatrudnij</button>
 		<div class="clearfix"></div>
@@ -45,7 +45,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?= $kadry; ?>
+		<?=$kadry;?>
 	</tbody>
 	</table>
 	<? if($planeId > 0)
@@ -57,8 +57,8 @@
 			$juzDodatkowej = $plane->staff->where('type', '!=', 'pilot')->count_all();
 			echo "<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Preferowane doświadczenie pilotów' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-graduation-cap'></i> ".($plane->getPreferStaffExp()+5) ."%</div> ";
 			echo "<div class='text-rounded ".(($juzPilotow == $pilotow) ? 'bg-blue' : 'bg-red')." Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Wymaganych pilotów' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-user'></i> ".$juzPilotow." / ".$pilotow."</div> ";
-			echo "<div class='text-rounded ".(($juzDodatkowej == $dodatkowej) ? 'bg-blue' : 'bg-red')." Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Wymaganych stewardess' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-female'></i> ".$juzDodatkowej." / ".$dodatkowej."</div><br />"; 
-				
+			echo "<div class='text-rounded ".(($juzDodatkowej == $dodatkowej) ? 'bg-blue' : 'bg-red')." Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Wymaganych stewardess' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-female'></i> ".$juzDodatkowej." / ".$dodatkowej."</div><br />";
+
 		}
 
 	?>

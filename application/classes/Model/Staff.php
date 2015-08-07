@@ -60,7 +60,7 @@ class Model_Staff extends ORM {
 		return false;
 	}
 
-	public function getExperience()// 0% - 100%
+	public function getExperience() // 0% - 100%
 	{
 		try {
 			$l = Experience::getLevelByExp($this->experience);
@@ -98,7 +98,7 @@ class Model_Staff extends ORM {
 	}
 
 	//Bonus do spalania paliwa
-	public function getOilBonus()// 1% expa = 0.3% bonusu
+	public function getOilBonus() // 1% expa = 0.3% bonusu
 	{
 		return $this->getExperience() * 0.2;
 	}
@@ -325,7 +325,7 @@ class Model_Staff extends ORM {
 		return false;
 	}
 
-	public function getAccidentChance()// Return 0+
+	public function getAccidentChance() // Return 0+
 	{
 		try {
 			if (!$this->UserPlane->loaded()) {
@@ -529,9 +529,7 @@ class Model_Staff extends ORM {
 			$nazwisko = $namesSorted['nazwisko'][$nazwiskoR];
 
 			$name = $imie . ' ' . $nazwisko;
-			$this->name = $name;
-			$this->save();
-			return true;
+			return $name;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
 		}

@@ -55,7 +55,7 @@
                     echo "<td>".$ch->user->drawButton()."</td>";
                     echo "<td>".$c['bonus']."%</td>";
                     echo "<td>".(($ch->user_id == $profil['id']) ? 0 : formatCash($ch->cost))." ".WAL."</td>";
-                    echo "<td>".secondsToText($c['odprawa'])."</td>";
+                    echo "<td>".secondsToText(round($c['odprawa']))."</td>";
                     echo "<td>".$placeT."</td>";
                     echo '<td>
                         '.Form::open('zlecenie/confirm').'

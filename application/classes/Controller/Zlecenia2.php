@@ -17,7 +17,7 @@ class Controller_Zlecenia2 extends Controller_Template {
 		foreach ($zlecenia as $zl) {
 			$order = $zl->order;
 			$flight = $zl->flight;
-			if ($flight->loaded() && ($flight->started >= time() || $flight->checked == 1) && $flight->canceled == 0) {
+			if (($flight->loaded() && ($flight->started >= time() || $flight->checked == 1) && $flight->canceled == 0) || $order->deadline <= time()) {
 				continue;
 			}
 

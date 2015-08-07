@@ -5,7 +5,8 @@
 			<h1>Rejestracja</h1>
 		</div>
 		<div class="list-group">
-<?=Form::open('user/create');?>
+<?=Form::open('user/create')?>
+<?=Form::hidden('csrf', Security::token())?>
 			<?=Form::input('username', HTML::chars(Arr::get($_POST, 'username')), array('class' => "list-group-item col-xs-12", 'placeholder' =>
 "Login" . ((Arr::get($errors, 'username')) ? " (" . Arr::get($errors, 'username') . ")" : ""),
 ));?>

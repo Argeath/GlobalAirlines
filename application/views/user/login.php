@@ -28,7 +28,8 @@
 </h3>
 		<? endif; ?>
 		<div class="form-group row">
-<?=Form::open('user/login');?>
+<?=Form::open('user/login')?>
+<?=Form::hidden('csrf', Security::token())?>
 <div class="col-xs-12">
                 <div class="col-md-6">
 <?=Form::input('username', HTML::chars(Arr::get($_POST, 'username')), array('class' => "form-control", 'placeholder' => "Login"));?>

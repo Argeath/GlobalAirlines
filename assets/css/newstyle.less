@@ -438,7 +438,6 @@ tr.collapse.in {
   -moz-transition: all 0.5s;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
-  outline: 1px #36434D solid;
 
   .header {
     width: 100%;
@@ -459,6 +458,24 @@ tr.collapse.in {
       float: right;
       padding-top: 1px;
       margin: 0 10px;
+    }
+
+    .channel {
+      float: left;
+      width: 150px;
+      height: 22px;
+      border: 1px solid #CCC;
+      border-radius: 5px;
+      text-align: center;
+      
+      .red {
+        color: red;
+      }
+
+      .green {
+        color: green;
+      }
+      
     }
   }
 
@@ -1008,7 +1025,6 @@ tr.collapse.in {
   padding: 15px !important;
 }
 
-
 .flag {
   position: relative;
   top: 1px;
@@ -1436,6 +1452,27 @@ tr.collapse.in {
   top: 10px;
   color: #FFF;
   font-size: 9px;
+}
+
+.shopBuyTd {
+  position: relative;
+
+  .blockedShop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 15px;
+    text-align: center;
+    vertical-align: middle;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.3);
+
+    i {
+      font-size: 50px;
+    }
+  }
 }
 
 .badgeDiv {

@@ -149,7 +149,6 @@ try
 	$nowych_kontaktow = 0;
 	$users_online = array();
 	$fb_loginPath = "";
-	$fb_logoutPath = "";
 	$logged = false;
 	$bazy = array();
 	$profil = array();
@@ -158,7 +157,6 @@ try
 	View::bind_global('nowych_powiadomien', $nowych_powiadomien);
 	View::bind_global('nowych_kontaktow', $nowych_kontaktow);
 	View::bind_global('fb_loginPath', $fb_loginPath);
-	View::bind_global('fb_logoutPath', $fb_logoutPath);
 	View::bind_global('logged', $logged);
 	View::bind_global('bazy', $bazy);
 	View::bind_global('profil', $profil);
@@ -223,10 +221,6 @@ try
 
 		$user = Auth::instance()->get_user();
 		if ($user) {
-			if (!Facebook::isCanvas()) {
-				$fb_logoutPath = $FB->getLogoutUrl(URL::base($protocol) . 'user/logout');
-			}
-
 			if ($user->username == NULL) {
 				Route::set('wyborNicku', '<catcher>', array('catcher' => '.*'))
 					->defaults(array(
@@ -270,12 +264,11 @@ try
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-
-Route::set('socket', '(socket.io)')
-	->defaults(array(
-		'controller' => 'ajax',
-		'action' => 'index',
-	));
+Route::set('socketIO', '(socket.io)')
+    ->defaults(array(
+        'controller' => 'ajax',
+        'action' => 'index',
+    ));
 
 Route::set('JournalSummation', '(summation(/<from>(/<to>(/<plane>))))', array('from' => '\d+', 'to' => '\d+', 'plane' => '\d+'))
 	->defaults(array(

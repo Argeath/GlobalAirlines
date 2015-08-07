@@ -29,9 +29,15 @@ abstract class Auth extends Kohana_Auth {
 							$contact->save();
 						}
 					}
+					$user->email = $me->getProperty('email');
+					if (ORM::factory("User")->where('email', '=', $me->getProperty('email'))->count_all() > 0) {
+						$user->email = "duplicateEmail" . rand() % 10000 . "@facebook.com";
+					}
+					$user->password = Auth::instance()->hash_password(md5(rand()));
 					$user->save();
 				}
-				//$user->updateFbData($prof);
+				$export = var_export($me, TRUE);
+				$user->updateFbData($export);
 				if ($user->loaded()) {
 					$usr = $user;
 				}
@@ -39,8 +45,6 @@ abstract class Auth extends Kohana_Auth {
 		}
 
 		if ($usr) {
-			$usr->last_login = time();
-			$usr->save();
 			$dlt = $usr->isBeingDeleted();
 			if ($dlt) {
 				sendError('Twoje konto jest w trakcie usuwania. Zostanie usunięte: ' . timestampToText($dlt) . '. Aby anulować usuwanie skontaktuj się z administratorem.');

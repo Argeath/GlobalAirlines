@@ -6,7 +6,7 @@ class Controller_Warsztat extends Controller_Template {
 	{
 		$this->template->title = "Warsztat";
 		$this->template->content = View::factory('hangar/warsztat')
-			->bind('planesText', $planesText);
+			->bind('planesData', $planesData);
 		
 		$user = Auth::instance()->get_user();
 		if ( ! $user)
@@ -15,7 +15,8 @@ class Controller_Warsztat extends Controller_Template {
 		}
 		
 		$planes = $user->UserPlanes->find_all();
-		$planesText = "";
+
+		$planesData = [];
 		foreach($planes as $plane)
 		{
 			$typ = $plane->plane;
@@ -29,22 +30,19 @@ class Controller_Warsztat extends Controller_Template {
 			}
 			$upgradow = $plane->getUpgradesCount();
 			if($upgradow == 0)
-				$upgr = 100;
+				$upgrades = 100;
 			else
-				$upgr = ($plane->getUpgradedCount() / $plane->getUpgradesCount()) * 100;
-			$planesText .= "<tr>
-			<td><img src='".URL::base(TRUE)."assets/samoloty/".$plane->plane_id.".jpg' class='img-rounded hidden-xs' style='width: 100px;'/><br />".$plane->fullName()."<br />(".$poz.")</td>
-			<td width='25%'>
-				Ulepszeń: ".round($upgr, 2)."%<br />
-				Stan: ".round($plane->stan, 0)."%<br />
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Mnożnik serwisowy' style='display:inline-block;width: 70px;'><i class='glyphicon glyphicon-wrench'></i> x".$typ->mechanicy."</div>
-			</td>
-			<td width='20%'>
-				".HTML::anchor('warsztat/przeglad/'.$plane->id, Form::submit('opcje', 'Przegląd generalny', array_merge(array( 'class' => "btn btn-primary btn-block btn-success"), $disabled)), $disabledT)."
-				".HTML::anchor('warsztat/ulepszenia/'.$plane->id, Form::submit('opcje', 'Ulepsz samolot', array_merge(array( 'class' => "btn btn-primary btn-block btn-primary"), $disabled)), $disabledT)."
-			</td></tr>";
+				$upgrades = ($plane->getUpgradedCount() / $plane->getUpgradesCount()) * 100;
+
+			$planesData[] = [
+				'plane' => $plane,
+				'typ' => $typ,
+				'poz' => $poz,
+				'upgrades' => $upgrades,
+				'disabled' => $disabled,
+				'disabledText' => $disabledT
+			];
 		}
-		
 	}
 	
 	public function action_przeglad()

@@ -346,6 +346,7 @@ class Model_User extends Model_Auth_User {
 	public function bazy() {
 		global $bazy;
 		$bazy = $this->bazy->find_all();
+		return $bazy;
 	}
 
 	public function profil() {
@@ -381,11 +382,11 @@ class Model_User extends Model_Auth_User {
 			$wiadomosci = $this->messages->where('checked', '=', 0)->and_where('deleted', '=', 0)->and_where('saved', '=', 0)->and_where('typ', '=', 1)->count_all();
 			//$wiadomosci = DB::select()->from('messages')->where('user', '=', $user)->and_where('checked', '=', 0)->and_where('deleted', '=', 0)->and_where('saved', '=', 0)->and_where('typ', '=', 1)->execute()->count();
 			$nowych_wiadomosci = $wiadomosci;
-			return true;
+			return $wiadomosci;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
 		}
-		return false;
+		return 0;
 	}
 
 	public function nowychPowiadomien() {
@@ -393,11 +394,11 @@ class Model_User extends Model_Auth_User {
 			global $nowych_powiadomien;
 			$powiadomien = $this->miniMessages->where('checked', '=', 0)->count_all();
 			$nowych_powiadomien = $powiadomien;
-			return true;
+			return $powiadomien;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
 		}
-		return false;
+		return 0;
 	}
 
 	public function nowychKontaktow() {
@@ -405,11 +406,11 @@ class Model_User extends Model_Auth_User {
 			global $nowych_kontaktow;
 			$kontaktow = ORM::factory("Contact")->where('accepted', '=', 0)->and_where('user2_id', '=', $this->id)->count_all();
 			$nowych_kontaktow = $kontaktow;
-			return true;
+			return $kontaktow;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
 		}
-		return false;
+		return 0;
 	}
 
 	public function menuZlecen() {
@@ -419,18 +420,18 @@ class Model_User extends Model_Auth_User {
 			$zlecenia = $this->orders->where('done', '=', 0)->and_where('punished', '=', 0)->find_all();
 			foreach ($zlecenia as $zl) {
 				$flight = $zl->flight;
-				if ($flight->loaded() && ($flight->started >= time() || $flight->checked == 1) && $flight->canceled == 0) {
+				if (($flight->loaded() && ($flight->started >= time() || $flight->checked == 1) && $flight->canceled == 0) || $zl->order->deadline <= time()) {
 					continue;
 				}
 
 				$ile++;
 			}
 			$menu_zlecen = $ile;
-			return true;
+			return $ile;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
 		}
-		return false;
+		return 0;
 	}
 
 	public function getAvatar() {
@@ -733,7 +734,7 @@ class Model_User extends Model_Auth_User {
 
 			$s = ORM::factory("Staff");
 			$s->user_id = $this->id;
-			$s->genName($nationality, $gender);
+			$s->name = $s->genName($nationality, $gender);
 			$s->type = $typ;
 			$s->region = $nationality;
 			$s->position = $this->base->city_id;

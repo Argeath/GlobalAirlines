@@ -78,7 +78,7 @@ class Controller_Terminarz extends Controller_Template {
 
 		$id = (int) $this->request->param('id');
 		$date = getDate();
-		if ($id > 1356998400)// 1.01.2013
+		if ($id > 1356998400) // 1.01.2013
 		{
 			$date = getDate($id);
 		}
@@ -86,13 +86,12 @@ class Controller_Terminarz extends Controller_Template {
 		$dateText = $date['mday'] . '.' . $date['mon'] . '.' . $date['year'];
 
 		for ($i = 1; $i <= 7; $i++) {
-			$timeS = mktime(0, 0, 0, $date['mon'], $date['mday'] + ($i - 1), $date['year']);
-			$timeS2 = mktime(0, 0, 0, $date['mon'], $date['mday'] + $i, $date['year']);
+			$timeS = gmmktime(0, 0, 0, $date['mon'], $date['mday'] + ($i - 1), $date['year']);
+			$timeS2 = gmmktime(0, 0, 0, $date['mon'], $date['mday'] + $i, $date['year']);
 
-			if (date('I', $timeS) == "1") {
-				$timeS += 3600;
-				$timeS2 += 3600;
-			}
+			$offset = Date::offset('Europe/Warsaw', 'GMT');
+			$timeS -= $offset;
+			$timeS2 -= $offset;
 
 			$dateS = getDate($timeS);
 			$data = date("d.m.Y", $timeS);

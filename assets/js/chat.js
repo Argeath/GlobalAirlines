@@ -14,6 +14,15 @@ $(function () {
     var header = $('.tmp-chat .header');
     var content = $('.tmp-chat .content');
     var input = $('.tmp-chat .input');
+    var status = $('#chat-status');
+
+    function setStatus(bl) {
+        if(bl == true) {
+            $('#chat-status').removeClass("red glyphicon-remove").addClass("green glyphicon-ok");
+        } else {
+            $('#chat-status').removeClass("green glyphicon-ok").addClass("red glyphicon-remove");
+        }
+    }
 
     var normalTitle = document.title;
     var newMessages = 0;
@@ -61,31 +70,39 @@ $(function () {
 
 	var userToken = $("#userToken").attr('token');
 
-    io.socket.on('connect', function () {
-
-        messages = [];
-        refreshMessages();
-
-    	io.socket.post('/user', {token: userToken}, function serverResponded (body, JWR) {
-            if(body.err) {
-                addServerMessage(body.err);
-                console.log(body.err);
-            }
-        });
-
-        io.socket.on('message', function(json) {
-            //console.log(json);
-            messages[messages.length] = json;
-            refreshMessages();
-        });
-        
-        io.socket.get('/getHistory', function serverResponded (body, JWR) {
-            if(body.err) {
-                console.log(body.err);
-            }
-        });
+    io.socket.get('/getHistory', function serverResponded (body, JWR) {
+        if(body.success == true) {
+            setStatus(true);
+        } else {
+            setStatus(false);
+        }
+        if(body.err) {
+            console.log(body.err);
+        }
     });
- 
+
+    //io.socket.on('connect', function () {
+
+    messages = [];
+    refreshMessages();
+
+	io.socket.post('/user', {token: userToken}, function serverResponded (body, JWR) {
+        if(body.success == true) {
+            setStatus(true);
+        } else {
+            setStatus(false);
+        }
+        if(body.err) {
+            addServerMessage(body.err);
+            console.log(body.err);
+        }
+    });
+
+    io.socket.on('message', function(json) {
+        console.log(json);
+        messages[messages.length] = json;
+        refreshMessages();
+    });
 
 	/**
 	 * Send mesage when user presses Enter key
@@ -97,6 +114,7 @@ $(function () {
 				return;
 			}
             io.socket.post('/addMessage', { token: userToken, msg: msg },  function serverResponded (body, JWR) {
+                console.log(body);
 
                 if(body.err) {
                     addServerMessage(body.err);

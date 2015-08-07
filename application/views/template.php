@@ -17,15 +17,27 @@
 	<link rel="Shortcut icon" href="<?php echo URL::base(TRUE);?>assets/fav.ico" />
 
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-	<link rel="stylesheet/less" type="text/css" href="<?php echo URL::base(TRUE);?>assets/css/newstyle.less" />
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/newstyle.css" />
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
 
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">
-	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/jquery.datetimepicker.css">
-	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/fancySelect.css">
-	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/animate.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css" />
+	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/jquery.datetimepicker.css" />
+	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/animate.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
 
-	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.3.1/less.min.js"></script>
+
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.transit.min.js"></script>
+	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.complete-placeholder.min.js"></script>
+
+	<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.nicescroll.js"></script>
+	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/tock.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -53,21 +65,6 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 </script>
-
-
-<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.transit.min.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.complete-placeholder.min.js"></script>
-
-<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.nicescroll.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/tock.min.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/fancySelect.js"></script>
-
 <script>
 	window.tutorialElements = [];
 
@@ -143,111 +140,7 @@
 </script>
 
 <div id="tmp-container" class="tmp-container">
-		<nav class="new-menu" id="menu" onselectstart="return false" onselect="return false">
-            <ul>
-                <?
-                $menus = Kohana::$config->load('menu');
-                if($logged)
-                    $menus = $menus['login'];
-                else
-                    $menus = $menus['logout'];
-                foreach($menus as $name => $param)
-                {
-                	$categoryName = "";
-                	$categoryUrl = "";
-                    if(is_array($param))
-                    {
-                        echo '<li>';
-                        echo '<ul>';
-                        foreach($param as $pname => $pparam)
-                        {
-	                        if($pname == 'name') {
-	                        	$categoryName = $pparam;
-	                        }
-	                        if($pname == 'url') {
-	                        	$categoryUrl = $pparam;
-	                        }
-	                        $badges = 0;
-                            if(is_array($pparam))
-                            {
-                                if(isset($pparam['function']))
-                                {
-                                    if($pparam['function'] == 'bazy')
-                                    {
-                                        foreach($bazy as $b)
-                                        {
-                                            echo '<li><div>'.HTML::anchor('airport/office/'.$b->id, $b->city->code).'<small>'.$b->city->name.'</small></div></li>';
-                                        }
-                                    } elseif($pparam['function'] == 'find_city')
-                                    {
-                                        echo Form::open('airport/find');
-                                        echo '<div class="form-group row">
-                                                <div class="col-xs-offset-1 col-xs-7" style="padding:0;">
-                                                    <input type="text" name="nick" class="form-control" placeholder="Wyszukaj lotnisko"/>
-                                                </div>
-                                                <div class="col-xs-3"  style="padding:0;">';
-                                        echo Form::submit('send', 'Szukaj', array( 'class' => "btn btn-primary btn-block"));
-                                        echo '</div>
-                                            </div>';
-                                        echo Form::close();
-                                    } elseif($pparam['function'] == 'find_user')
-                                    {
-                                        echo Form::open('profil/znajdz');
-                                        echo '<div class="form-group row">
-                                                <div class="col-xs-offset-1 col-xs-7" style="padding:0;">
-                                                    <input type="text" name="nick" class="form-control" placeholder="Cały lub część nicku"/>
-                                                </div>
-                                                <div class="col-xs-3"  style="padding:0;">';
-                                        echo Form::submit('send', 'Szukaj', array( 'class' => "btn btn-primary btn-block"));
-                                        echo '</div>
-                                            </div>';
-                                        echo Form::close();
-                                    }
-                                    continue;
-                                }
-                                $badge = "";
-                                if(isset($pparam['badge']))
-                                {
-                                    $z = ${$pparam['badge']};
-                                    if(isset($z) && (int)$z > 0) {
-                                        $badge = '<div class="badge badgeDiv">'.$z.'</div>';
-                                        $badges += $z;
-                                    }
-                                }
-                                $blocked = "";
-                                if(isset($pparam['blocked']))
-                                {
-                                    $blocked = printBlocked($profil['exp'], $pparam['blocked']);
-                                }
-
-                                if(isset($pparam['admin']) && $pparam['admin'] == 1 && isset($profil['admin']) && $profil['admin'] != 1)
-                                    continue;
-
-                                if(isset($pparam['url']))
-                                	echo '<li><div>'.HTML::anchor("/".$pparam['url'], $pname).$badge.$blocked.'<small>'.$pparam['name'].'</small></div></li>';
-                                    //echo '<li data-container="body" data-toggle="tooltip" data-placement="top" title="'.$pparam['name'].'">'.HTML::anchor($pparam['url'], $pname).$badge.$blocked.'</li>';
-
-                            } elseif($pparam == 'user/logout' && Facebook::instance()->isLogged()) {
-		                        if(Facebook::isCanvas())
-									$name = "Wyloguj z FB";
-		                        echo '<li>'.HTML::anchor($fb_logoutPath, $name).'</li>';
-		                        continue;
-		                    }
-                        }
-                        echo '</ul>';
-                        echo '<a href="'.(($categoryUrl != null) ? "/".$categoryUrl : '#').'">';
-                        echo $name.'</a><small class="category-horizontal">'.$categoryName.'</small><div class="rotate category-vertical">'.$categoryName.'</div>';
-                        if($badges > 0) {
-                           echo '<div class="badge badgeDiv">'.$badges.'</div>';
-                        }
-                        //echo '<a href="'.(($categoryUrl != null) ? $categoryUrl : '#').'">';
-                        //echo $name.'<small>'.$categoryName.'</small></a>';
-                        echo '</li>';
-                    }
-                }
-                ?>
-            </ul>
-		</nav>
+		<? Menu::show(); ?>
 
 
 		<div class="tmp-content">
@@ -374,7 +267,7 @@
 							<i class="glyphicon glyphicon-flash" id="chatHeaderSetDings" on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Miganie czatu"></i>
 							<i class="glyphicon glyphicon-circle-arrow-up" id="chatHeaderSetAutoUp" on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Automatyczne przewijanie"></i>
 						</div>
-						LOCAL
+						<div class="channel">LOCAL <p id="chat-status" class="glyphicon glyphicon-remove red"></p></div>
 						<div class="right">
 							<? if($logged && $profil['admin']) { ?><button id="tmp-admin-trigger" class="btn btn-primary btn-xs">ADMIN <i class="glyphicon glyphicon-chevron-left"></i></button><? } ?>
 						</div>
@@ -418,8 +311,8 @@
 <?=(isset($modals)) ? $modals : '';?>
 <?php //echo View::factory('profiler/stats') ?>
 <? if($logged) { ?>
-<script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/sails.io.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
+<script type="text/javascript" src="<?php echo URL::base(TRUE);?>bower_components/sails.io.js/sails.io.js"></script>
 <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/chat.js"></script>
 <? if($logged && $profil['admin']) { ?> <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/admin.js"></script><? } ?>
 <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.datetimepicker.js"></script>
@@ -431,8 +324,11 @@
 	<? if($logged) { ?>
 		io.sails.url = 'http://ws.planes.vipserv.org';
 	<? } ?>
-    <!--
     $(function () {
+
+        $('.rusureButtonGroup #cancelCheckbox').on('click', function() {
+            $(this).parent().parent().find("#rusureButton").prop('disabled', !$(this).is(":checked"));
+        });
 
     	$('#menu a').mouseover(function() { $(this).addClass('animated tada'); });
     	$('#menu a').mouseout(function() { $(this).removeClass('animated tada'); });
@@ -467,12 +363,16 @@
         });
         scaleMenu();
 
-		$(".selectpicker").fancySelect();
-		$(".selectpickerflag").fancySelect({
-			optionTemplate: function(optionEl) {
-				return '<div class="flag flag-' + optionEl.data('flag') + '"></div> ' + optionEl.text();
-			}
-		});
+        function formatState (state) {
+            if (!$(state.element).attr('data-flag')) { return state.text; }
+            return $(
+                '<span><i class="flag flag-' + $(state.element).attr('data-flag') + '"></i> ' + state.text + '</span>'
+            );
+        };
+
+        $('select').select2({
+            templateResult: formatState
+        });
 
 		if($.cookie('chatOpen') == 1)
 		{
@@ -543,7 +443,6 @@
         });
 		<? } ?>
     });
-    //-->
 </script>
 
 <script type="text/javascript">
@@ -619,9 +518,5 @@ $(function() {
 		window.location = "<?=$fb_loginPath;?>";
 	});
 </script>
-
-<script type="text/javascript"><!--
-document.writeln('<'+'scr'+'ipt type="text/javascript" src="http://home.hit.stat24.com/_'+(new Date()).getTime()+'/script.js?id=0ig7__uwlN.gy8CmqPF_NJR8HbEisUcclQXA2Q0b2.X.a7"></'+'scr'+'ipt>');
-//--></script>
 </body>
 </html>

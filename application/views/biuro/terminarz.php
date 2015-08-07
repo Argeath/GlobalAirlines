@@ -27,7 +27,7 @@
 			<? } ?>
 			<div class="clearfix"></div>
 		</div>
-		<div style="display: table-cell;">
+		<div class="col-md-12 col-lg-3" style="display: table-cell;">
 			<div class="well">
 				<ul class="nav nav-tabs" id="terminarzTab">
 				  <li class="active"><a href="#samoloty" id="terminarzPodglad">Samoloty</a></li>
@@ -63,12 +63,7 @@
 						<tr><td>Zlecenie zaliczone: </td><td id="zlecenie_done"></td></tr>
 						<tr><td><button id="moveButton" name="option" value="move" class="btn btn-block btn-warning"><i class="glyphicon glyphicon-backward"></i> Przesuń <i class="glyphicon glyphicon-forward"></i></button></td>
 						<td>
-						<div class="button-group">
-							  <span class="button-group-addon">
-								<input type="checkbox" id="cancelCheckbox">
-							  </span>
-							  <button id="cancelButton" name="option" value="cancel" disabled="disabled" class="btn btn-small btn-danger"><i class="glyphicon glyphicon-remove"></i> Odwołaj</button>
-						</div>
+						<?=Prints::rusureButton('<i class="glyphicon glyphicon-remove"></i> Odwołaj', 'option', 'cancel', ['btn-danger']);?>
 						</td></tr>
 					</table>
 					</form>
@@ -123,15 +118,6 @@ $(function() {
 
 	$("#terminarzDateButton").click(function(){
 	  $("#terminarzDateInput").datetimepicker("show");
-	});
-
-	$('.button-group input').click(function(e) {
-		e.stopPropagation();
-		var btn = $(this).parent().parent().find('button');
-		if($(this).is(':checked'))
-			btn.removeAttr('disabled');
-		else
-			btn.attr('disabled', 'disabled');
 	});
 
 	$('.suwakZlecenie').hide();

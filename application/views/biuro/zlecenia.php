@@ -17,4 +17,8 @@
 <?=$zlecenia;?>
 	</tbody>
 	</table>
+	<br />
+	<div class="alert alert-info">
+		Można anulować wysłany lot do <b>30 minut</b> przed rozpoczęciem odprawy. Aby odwołać lot wejdź w <b>Terminarz</b>, wybierz konkretny lot i kliknij <b>Odwołaj</b>.
+	</div>
 </div>

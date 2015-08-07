@@ -46,25 +46,39 @@ class Controller_Sklep extends Controller_Template {
 
 		$offset = $strona * $naStrone;
 
+        $lvls = Kohana::$config->load('lvls')['biura'];
+        $requiredLvl = $lvls[$klasa+1];
+
 		$planes = ORM::factory("Plane")->where('klasa', '=', $klasa + 1)->and_where('ukryty', '=', 0)->order_by("cena", "ASC")->find_all();
 
 		$samoloty = "";
+
+		$warning = '. Uwaga! Ten parametr odbiega od normy tej klasy samolotów. Może to spowodować podwyższenie kosztów eksloatacji.';
 
 		foreach ($planes as $plane) {
 			$samoloty .= "<tr>
 			<td><img src='" . URL::base(TRUE) . "assets/samoloty/" . $plane->id . ".jpg' class='img-rounded hidden-xs' style='width: 100px;'/><br />" . $plane->producent . " " . $plane->model . "</td>
 			<td>
-				<div class='text-rounded " . (($plane->wyrozZasieg == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip inline' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Zasięg samolotu' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-arrows-h'></i> " . $plane->zasieg . " km</div>
-				<div class='text-rounded " . (($plane->wyrozMiejsca == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Miejsca pasażerskie' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-users'></i> " . $plane->miejsc . "</div>
-				<div class='text-rounded " . (($plane->wyrozSpalanie == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Spalanie silników' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-fire'></i> " . $plane->spalanie . " kg/km</div>
+				<div class='text-rounded " . (($plane->wyrozZasieg == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip inline' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Zasięg samolotu" . (($plane->wyrozZasieg == 1) ? $warning : '') . "' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-arrows-h'></i> " . $plane->zasieg . " km</div>
+				<div class='text-rounded " . (($plane->wyrozMiejsca == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Miejsca pasażerskie" . (($plane->wyrozMiejsca == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-users'></i> " . $plane->miejsc . "</div>
+				<div class='text-rounded " . (($plane->wyrozSpalanie == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Spalanie silników" . (($plane->wyrozSpalanie == 1) ? $warning : '') . "' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-fire'></i> " . $plane->spalanie . " kg/km</div>
 				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Prędkość maksymalna' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-tachometer'></i> " . $plane->predkosc . " km/h</div>
 			</td>
 			<td>
-				<div class='text-rounded " . (($plane->wyrozPilot == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Wymaganych pilotów' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-user'></i> " . $plane->piloci . "</div>
-				<div class='text-rounded " . (($plane->wyrozStewardessa == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Wymaganych stewardess' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-female'></i> " . $plane->zaloga_dodatkowa . "</div>
-				<div class='text-rounded " . (($plane->wyrozMechanik == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Mnożnik serwisowy' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='glyphicon glyphicon-wrench'></i> x" . $plane->mechanicy . "</div>
+				<div class='text-rounded " . (($plane->wyrozPilot == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Ilość wymaganych pilotów" . (($plane->wyrozPilot == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-user'></i> " . $plane->piloci . "</div>
+				<div class='text-rounded " . (($plane->wyrozStewardessa == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Ilość wymaganych stewardess" . (($plane->wyrozStewardessa == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-female'></i> " . $plane->zaloga_dodatkowa . "</div>
+				<div class='text-rounded " . (($plane->wyrozMechanik == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Mnożnik serwisowy" . (($plane->wyrozMechanik == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='glyphicon glyphicon-wrench'></i> x" . $plane->mechanicy . "</div>
 			</td>
-			<td width='10%'><form method='post'><input type='hidden' name='plane' value='" . $plane->id . "'/> <button type='submit' name='action' value='buy_wal' class='btn btn-primary btn-small'>" . formatCash($plane->cena) . " " . WAL . "</button> <button type='submit' name='action' value='buy_pkt' class='btn btn-success btn-small'>" . formatCash(round(sqrt($plane->cena) / 40) * 20) . " PP</button> </form></td>
+			<td width='10%' class='shopBuyTd'>";
+
+            if($user->getLevel() < $requiredLvl)
+                $samoloty .= "<div class='blockedShop'><i class='fa fa-lock'></i><br />Wymagany poziom: ".$requiredLvl."</div>";
+
+			$samoloty .= "<form method='post'><input type='hidden' name='plane' value='" . $plane->id . "'/>
+					" . Prints::rusureButton(formatCash($plane->cena) . ' ' . WAL, 'action', 'buy_wal', ['btn-primary']) . "
+					" . Prints::rusureButton(formatCash(round(sqrt($plane->cena) / 40) * 20) . ' PP', 'action', 'buy_pkt', ['btn-success']) . "
+				</form>
+			</td>
 			</tr>";
 		}
 		if (empty($samoloty)) {
@@ -76,39 +90,51 @@ class Controller_Sklep extends Controller_Template {
 			if ($post['action'] == "buy_wal" && (int) $post['plane'] > 0) {
 				$plane = ORM::factory("Plane", (int) $post['plane']);
 				if (!empty($plane)) {
-					if ($user->cash >= $plane->cena) {
-						$p = ORM::factory("UserPlane");
-						$p->user_id = $user->id;
-						$p->plane_id = $plane->id;
-						$p->position = $user->base->city->id;
-						$p->save();
-						$info = array('type' => Financial::Sklep, 'plane_id' => $p->id);
-						$user->operateCash(-$plane->cena, 'Zakup samolotu - ' . $plane->producent . ' ' . $plane->model . '.', time(), $info);
-						sendMsg("Kupiłeś " . $plane->producent . " " . $plane->model . " za " . formatCash($plane->cena) . " " . WAL . ".");
-						$this->redirect('samoloty/rejestracja/' . $p->id);
-					} else {
-						sendError('Nie masz wystarczającej ilości pieniędzy.');
-					}
+                    $lvls = Kohana::$config->load('lvls')['biura'];
+                    $requiredLvl = $lvls[$klasa+1];
+                    if($user->getLevel() >= $requiredLvl) {
+                        if ($user->cash >= $plane->cena) {
+                            $p = ORM::factory("UserPlane");
+                            $p->user_id = $user->id;
+                            $p->plane_id = $plane->id;
+                            $p->position = $user->base->city->id;
+                            $p->save();
+                            $info = array('type' => Financial::Sklep, 'plane_id' => $p->id);
+                            $user->operateCash(-$plane->cena, 'Zakup samolotu - ' . $plane->producent . ' ' . $plane->model . '.', time(), $info);
+                            sendMsg("Kupiłeś " . $plane->producent . " " . $plane->model . " za " . formatCash($plane->cena) . " " . WAL . ".");
+                            $this->redirect('samoloty/rejestracja/' . $p->id);
+                        } else {
+                            sendError('Nie masz wystarczającej ilości pieniędzy.');
+                        }
+                    } else {
+                        sendError("Nie osiągnąłeś wystarczającego poziomu konta.");
+                    }
 				} else {
 					sendError('Nie ma takiego samolotu o id: ' . (int) $post['plane'] . '.');
 				}
 			} else if ($post['action'] == "buy_pkt" && (int) $post['plane'] > 0) {
 				$plane = ORM::factory("Plane", (int) $post['plane']);
 				if (!empty($plane)) {
-					$cena = round(round(sqrt($plane->cena) / 40) * 20);
-					if ($user->premium_points >= $cena) {
-						$p = ORM::factory("UserPlane");
-						$p->user_id = $user->id;
-						$p->plane_id = $plane->id;
-						$p->position = $user->base->city->id;
-						$p->save();
-						$info = array('type' => Financial::Sklep, 'plane_id' => $p->id);
-						$user->operatePoints(-$cena, 'Zakup samolotu - ' . $plane->producent . ' ' . $plane->model . '.', time(), $info);
-						sendMsg("Kupiłeś " . $plane->producent . " " . $plane->model . " za " . formatCash($cena) . " PP.");
-						$this->redirect('samoloty/rejestracja/' . $p->id);
-					} else {
-						sendError('Nie masz wystarczającej ilości pieniędzy.');
-					}
+                    $lvls = Kohana::$config->load('lvls')['biura'];
+                    $requiredLvl = $lvls[$klasa+1];
+                    if($user->getLevel() >= $requiredLvl) {
+                        $cena = round(round(sqrt($plane->cena) / 40) * 20);
+                        if ($user->premium_points >= $cena) {
+                            $p = ORM::factory("UserPlane");
+                            $p->user_id = $user->id;
+                            $p->plane_id = $plane->id;
+                            $p->position = $user->base->city->id;
+                            $p->save();
+                            $info = array('type' => Financial::Sklep, 'plane_id' => $p->id);
+                            $user->operatePoints(-$cena, 'Zakup samolotu - ' . $plane->producent . ' ' . $plane->model . '.', time(), $info);
+                            sendMsg("Kupiłeś " . $plane->producent . " " . $plane->model . " za " . formatCash($cena) . " PP.");
+                            $this->redirect('samoloty/rejestracja/' . $p->id);
+                        } else {
+                            sendError('Nie masz wystarczającej ilości pieniędzy.');
+                        }
+                    } else {
+                        sendError("Nie osiągnąłeś wystarczającego poziomu konta.");
+                    }
 				} else {
 					sendError('Nie ma takiego samolotu.');
 				}

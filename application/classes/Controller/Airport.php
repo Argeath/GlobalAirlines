@@ -135,7 +135,7 @@ class Controller_Airport extends Controller_Template {
 		//$orders = ORM::Factory("Order")->where('deadline', '>', time() - Date::WEEK*2)->and_where_open()->where('from', '=', $lotnisko->id)->or_where('to', '=', $lotnisko->id)->and_where_close()->and_where('done', '=', 1)->find_all();
 		$orders = ORM::Factory("Order")->where('deadline', '>', time() - Date::WEEK * 2)->and_where('from', '=', $lotnisko->id)->and_where('taken', '=', 1)->find_all();
 		foreach ($orders as $o) {
-			$flight = $o->flight;
+			$flight = $o->UserOrder->flight;
 			if (!$flight->loaded()) {
 				continue;
 			}
@@ -446,7 +446,7 @@ class Controller_Airport extends Controller_Template {
 
 		$id = (int) $this->request->param('id2');
 		$date = getDate();
-		if ($id > 1356998400)// 1.01.2013
+		if ($id > 1356998400) // 1.01.2013
 		{
 			$date = getDate($id);
 		}

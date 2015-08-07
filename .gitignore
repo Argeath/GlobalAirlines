@@ -49,3 +49,5 @@ $RECYCLE.BIN/
 *.lnk
 
 .phpintel
+.idea
+bower_components

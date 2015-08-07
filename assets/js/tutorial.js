@@ -120,9 +120,6 @@
         if (type.POINT.Y == 0.5)
             divSize.Y = boxSize.Y;
 
-
-        console.log(rect);
-
         var targetPoint = { X: 0, Y: 0 };
         if (type.POINT.X == 0 && type.POINT.Y == 0)
             targetPoint = { X: rect.right, Y: rect.bottom };

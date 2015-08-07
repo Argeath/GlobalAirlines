@@ -4,9 +4,9 @@
 <script type="text/javascript">
 var citymap = {};
 var zlmap = {};
-<?= $citymap; ?>
+<?=$citymap;?>
 
-<?= $zlmap; ?>
+<?=$zlmap;?>
 var cityCircle;
 var zleceniePath;
 
@@ -22,10 +22,10 @@ var zleceniePath;
 	};
 	var map = new google.maps.Map(document.getElementById("map-canvas"),
 		mapOptions);
-		
+
 	var airportIcon = '/assets/airporticon.png';
-		
-	
+
+
 	for (var city in citymap) {
 		var populationOptions = {
 		  strokeColor: '#FF0000',
@@ -40,25 +40,26 @@ var zleceniePath;
 		var markerOptions = {
 			position: citymap[city].center,
 			map: map,
-			icon: airportIcon
-		
+			icon: airportIcon,
+			opacity: 0.5
+
 		};
 		// Add the circle for this city to the map.
 		cityCircle = new google.maps.Circle(populationOptions);
-		
+
 		var marker = new google.maps.Marker(markerOptions);
-		
+
 		attachInfoWindow(marker, citymap[city].name);
 	}
 	var infowindow;
 	function attachInfoWindow(marker, name) {
 		google.maps.event.addListener(marker, 'click', function() {
 			if(infowindow) infowindow.close();
-			infowindow = new google.maps.InfoWindow({ content: name });
+			infowindow = new google.maps.InfoWindow({ content: "<div style='min-width: 120px;'>" + name + "</div>" });
 			infowindow.open(map,marker);
 		});
 	}
-	
+
 	for (var zlecenie in zlmap) {
 		var flightPlanCoordinates = [
 			zlmap[zlecenie].first,

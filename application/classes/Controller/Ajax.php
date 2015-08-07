@@ -482,7 +482,12 @@ class Controller_Ajax extends Controller {
 				return false;
 			}
 
-			$from = (int) $this->request->param('param1');
+			$from = (int) $this->request->param('param');
+            if ($from == 0) {
+                echo json_encode(['from' => $from]);
+                return false;
+            }
+
 			$to = (int) $this->request->param('param2');
 
 			$plane = ORM::factory("UserPlane", $planeId);
@@ -495,12 +500,6 @@ class Controller_Ajax extends Controller {
 
 			$offices = $plane->plane->getOffices();
 
-			if ($from == 0) {
-				$cities = $user->getActiveCities();
-			} else {
-				$cities = ORM::factory('City')->select('id')->order_by('region', 'asc')->order_by('name', 'asc')->find_all()->as_array();
-			}
-
 			if ($to == 0) {
 				$citiesTo = ORM::factory('City')->select('id')->order_by('region', 'asc')->order_by('name', 'asc')->find_all()->as_array();
 			} else {
@@ -510,7 +509,7 @@ class Controller_Ajax extends Controller {
 
 			$orders = ORM::factory('Order')
 				->where('biuro', 'IN', $offices)
-				->and_where('from', 'IN', $cities)
+				->and_where('from', '=', $from)
 				->and_where('to', 'IN', $citiesTo)
 				->and_where('count', '<=', $miejsc)
 				->and_where('taken', '=', 0)
@@ -576,14 +575,5 @@ class Controller_Ajax extends Controller {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
 		}
 	}
-
-	/*public function action_cities() {
-$cities = GlobalArrays::getCities();
-$arr = [];
-foreach ($cities as $c) {
-$arr[] = ['name' => $c->name];
-}
-echo json_encode($arr);
-}*/
 
 };

@@ -71,7 +71,7 @@ class Bot {
 
 					$plane->user_id = 0;
 					$plane->save();
-				} elseif ($plane->stan <= 80 && $plane->plane->cost >= $plane->cash / 2) {
+				} elseif ($plane->stan <= 80 && $plane->plane->cost >= $u->cash / 2) {
 					$plane->przegladGeneralny();
 				}
 				continue;
@@ -109,7 +109,7 @@ class Bot {
 				->and_where('test', '=', 0)
 				->and_where('count', '<=', $miejsc)
 				->order_by('cash', 'DESC')
-				->limit(15)
+				->limit(10)
 				->find_all();
 
 			$zlecen = $orders->count();
@@ -163,7 +163,7 @@ class Bot {
 			}
 
 			$plane->lotZlecenie($orderTaken->id, $flight->end + 120, false, $checkin->id);
-			usleep(500000);
+			usleep(200000);
 		}
 	}
 

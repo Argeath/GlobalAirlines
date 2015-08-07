@@ -1,6 +1,6 @@
 <div class="well">
 	<div class="page-header">
-		<h1>Lotnisko <small><?=$lotnisko->getName();?> (<?=$lotnisko->code?>)</small></h1>
+		<h1>Lotnisko <small><?=$lotnisko->getName();?> (<?=$lotnisko->city->code?>)</small></h1>
 	</div>
 	<ul class="pagination pagination-xm">
 		<li <?=($action == 'index') ? "class='active'" : "";?>><?=HTML::anchor('airport/index/' . $city_id, 'Lotnisko');?></li>

@@ -155,9 +155,8 @@ class Events {
 								$flight->event = $event_id;
 								$flight->save();
 
-								$stanZaMinute = 0.025; // Tyle za kazda minute lotu
 								$pilotow = $plane->staff->where('type', '=', 'pilot')->count_all();
-								$stanZaLot = round((($timeInAir / 60) * $stanZaMinute) / $pilotow, 2);
+								$stanZaLot = round((($timeInAir / 60) * 0.025) / $pilotow, 2);
 								$plane->updateStaffConditionFuture(-$stanZaLot);
 
 								//Parametry
@@ -297,8 +296,8 @@ class Events {
 										$mechanik = $plane->plane->mechanicy;
 										$stan = round((rand(1, 10) / 100) * ceil($timeInAir / 1800) * 2 / sqrt($mechanik), 2);
 
-										$xp = ceil(ceil($order->count / 2) * ($distance / 1000));
-										if ($xp < 4) {
+										$xp = ceil(pow($order->count+3, 0.66) * pow(($distance / 100)+1, 0.66));
+										if ($xp < 5) {
 											$xp = mt_rand(1, 4);
 										}
 
@@ -348,12 +347,14 @@ class Events {
 
 						$check_stop = microtime_float();
 						Events::updateCheckEventTypes($q->type, $check_stop - $check_start);
+
 					} elseif ($q->type == 6)//Usunięcie konta
 					{
 						$check_start = microtime_float();
 						$q->user->delete();
 						$check_stop = microtime_float();
 						Events::updateCheckEventTypes($q->type, $check_stop - $check_start);
+
 					} elseif ($q->type == 7)//Lot swobodny pracownika
 					{
 						$check_start = microtime_float();
@@ -386,6 +387,7 @@ class Events {
 
 						$check_stop = microtime_float();
 						Events::updateCheckEventTypes($q->type, $check_stop - $check_start);
+
 					} elseif ($q->type == 8)//Obliczanie ceny paliwa
 					{
 						$check_start = microtime_float();
@@ -408,6 +410,7 @@ class Events {
 						$needOneMore = true;
 						$check_stop = microtime_float();
 						Events::updateCheckEventTypes($q->type, $check_stop - $check_start);
+
 					} elseif ($q->type == 9)//Przeglad generalny
 					{
 						$check_start = microtime_float();
@@ -431,6 +434,7 @@ class Events {
 						unset($plane);
 						$check_stop = microtime_float();
 						Events::updateCheckEventTypes($q->type, $check_stop - $check_start);
+
 					} elseif ($q->type == 10)//Rozpoczęcie odprawy zlecenia
 					{
 						$check_start = microtime_float();
@@ -514,6 +518,7 @@ class Events {
 						unset($plane);
 						$check_stop = microtime_float();
 						Events::updateCheckEventTypes($q->type, $check_stop - $check_start);
+
 					} elseif ($q->type == 11)//Rozpoczęcie odprawy lotu swobodnego
 					{
 						$check_start = microtime_float();
@@ -553,6 +558,7 @@ class Events {
 						unset($plane);
 						$check_stop = microtime_float();
 						Events::updateCheckEventTypes($q->type, $check_stop - $check_start);
+
 					} elseif ($q->type == 12)//Aukcja
 					{
 						$check_start = microtime_float();
@@ -580,6 +586,7 @@ class Events {
 						unset($auction);
 						$check_stop = microtime_float();
 						Events::updateCheckEventTypes($q->type, $check_stop - $check_start);
+
 					} elseif ($q->type == 13)// Regeneracja stanu zalogi
 					{
 						            /*$check_start = microtime_float();
@@ -716,16 +723,16 @@ class Events {
 							$needOneMore = true;
 						}
 					}
-					$lastStaff = ORM::factory("Event")->where('type', '=', 13)->order_by('when', 'DESC')->find();
-					if ($lastStaff->loaded()) {
-						if ($lastStaff->when < time() - 950) {
-							$newEvent = ORM::factory("Event");
-							$newEvent->when = $lastStaff->when + 900;
-							$newEvent->type = 13;
-							$newEvent->save();
-							$needOneMore = true;
-						}
-					}
+					/*$lastStaff = ORM::factory("Event")->where('type', '=', 13)->order_by('when', 'DESC')->find();
+				if ($lastStaff->loaded()) {
+				if ($lastStaff->when < time() - 950) {
+				$newEvent = ORM::factory("Event");
+				$newEvent->when = $lastStaff->when + 900;
+				$newEvent->type = 13;
+				$newEvent->save();
+				$needOneMore = true;
+				}
+				}*/
 				}
 			} while ($needOneMore);
 

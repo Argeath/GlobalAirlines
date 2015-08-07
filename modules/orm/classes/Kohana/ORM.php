@@ -269,22 +269,22 @@ class Kohana_ORM extends Model implements serializable {
 				$this->where($this->_object_name . '.' . $this->_primary_key, '=', $id)->find();
 			}
 		} elseif (!empty($this->_cast_data)) {
-			                      // Load preloaded data from a database call cast
-			$this->_load_values($this->_cast_data);
+			                                            // Load preloaded data from a database call cast
+			                      $this->_load_values($this->_cast_data);
 
-			$this->_cast_data = array();
-		}
-	}
+			        $this->_cast_data = array();
+		                      }
+	                      }
 
-	/**
-	 * Prepares the model database connection, determines the table name,
-	 * and loads column information.
-	 *
-	 * @return void
-	 */
-	protected function _initialize() {
-		// Set the object name if none predefined
-		if (empty($this->_object_name)) {
+	                      /**
+	                       * Prepares the model database connection, determines the table name,
+	                       * and loads column information.
+	                       *
+	                       * @return void
+	                       */
+	                      protected function _initialize() {
+		                      // Set the object name if none predefined
+		                      if (empty($this->_object_name)) {
 			$this->_object_name = strtolower(substr(get_class($this), 6));
 		}
 
@@ -380,9 +380,9 @@ class Kohana_ORM extends Model implements serializable {
 	protected function _validation() {
 		// Build the validation object with its rules
 		$this->_validation = Validation::factory($this->_object)
-		                                              ->bind(':model', $this)
-		                                              ->bind(':original_values', $this->_original_values)
-		                                                                              ->bind(':changed', $this->_changed);
+			->bind(':model', $this)
+			->bind(':original_values', $this->_original_values)
+			->bind(':changed', $this->_changed);
 
 		foreach ($this->rules() as $field => $rules) {
 			$this->_validation->rules($field, $rules);
@@ -466,7 +466,7 @@ class Kohana_ORM extends Model implements serializable {
 		if ($this->_loaded) {
 			return $this->clear()
 			            ->where($this->_object_name . '.' . $this->_primary_key, '=', $primary_key)
-			                         ->find();
+				->find();
 		} else {
 			return $this->clear();
 		}
@@ -578,9 +578,9 @@ class Kohana_ORM extends Model implements serializable {
 			? $this->_unserialize_value($this->_object[$column])
 			: $this->_object[$column];
 		} elseif (isset($this->_related[$column])) {
-			                     // Return related model that has already been fetched
-			return $this->_related[$column];
-		} elseif (isset($this->_belongs_to[$column])) {
+			                                          // Return related model that has already been fetched
+			                     return $this->_related[$column];
+		                     } elseif (isset($this->_belongs_to[$column])) {
 			$model = $this->_related($column);
 
 			// Use this model's column and foreign model's primary key
@@ -682,18 +682,18 @@ class Kohana_ORM extends Model implements serializable {
 				$this->_saved = $this->_valid = FALSE;
 			}
 		} elseif (isset($this->_belongs_to[$column])) {
-			                     // Update related object itself
-			$this->_related[$column] = $value;
+			                                          // Update related object itself
+			                     $this->_related[$column] = $value;
 
-			// Update the foreign key of this model
-			$this->_object[$this->_belongs_to[$column]['foreign_key']] = ($value instanceof ORM)
-			? $value->pk()
-			: NULL;
+			                     // Update the foreign key of this model
+			                     $this->_object[$this->_belongs_to[$column]['foreign_key']] = ($value instanceof ORM)
+			                     ? $value->pk()
+			                     : NULL;
 
-			$this->_changed[$column] = $this->_belongs_to[$column]['foreign_key'];
-		} else {
-			throw new Kohana_Exception('The :property: property does not exist in the :class: class',
-				array(':property:' => $column, ':class:' => get_class($this)));
+			                     $this->_changed[$column] = $this->_belongs_to[$column]['foreign_key'];
+		                     } else {
+			                     throw new Kohana_Exception('The :property: property does not exist in the :class: class',
+				                     array(':property:' => $column, ':class:' => get_class($this)));
 		}
 
 		return $this;
@@ -1185,9 +1185,9 @@ class Kohana_ORM extends Model implements serializable {
 		}
 
 		$result = DB::insert($this->_table_name)
-		                          ->columns(array_keys($data))
-		                          ->values(array_values($data))
-		                          ->execute($this->_db);
+			->columns(array_keys($data))
+			->values(array_values($data))
+			->execute($this->_db);
 
 		if (!array_key_exists($this->_primary_key, $data)) {
 			// Load the insert id as the primary key if it was left out
@@ -1248,9 +1248,9 @@ class Kohana_ORM extends Model implements serializable {
 
 		// Update a single record
 		DB::update($this->_table_name)
-		                ->set($data)
-		                ->where($this->_primary_key, '=', $id)
-		                             ->execute($this->_db);
+			->set($data)
+			->where($this->_primary_key, '=', $id)
+			->execute($this->_db);
 
 		if (isset($data[$this->_primary_key])) {
 			// Primary key was changed, reflect it
@@ -1295,8 +1295,8 @@ class Kohana_ORM extends Model implements serializable {
 
 		// Delete the object
 		DB::delete($this->_table_name)
-		                ->where($this->_primary_key, '=', $id)
-		                             ->execute($this->_db);
+			->where($this->_primary_key, '=', $id)
+			->execute($this->_db);
 
 		return $this->clear();
 	}
@@ -1373,8 +1373,8 @@ class Kohana_ORM extends Model implements serializable {
 		if ($far_keys === NULL) {
 			return (int) DB::select(array(DB::expr('COUNT(*)'), 'records_found'))
 				->from($this->_has_many[$alias]['through'])
-			             ->where($this->_has_many[$alias]['foreign_key'], '=', $this->pk())
-			             ->execute($this->_db)->get('records_found');
+				->where($this->_has_many[$alias]['foreign_key'], '=', $this->pk())
+				->execute($this->_db)->get('records_found');
 		}
 
 		$far_keys = ($far_keys instanceof ORM) ? $far_keys->pk() : $far_keys;
@@ -1389,9 +1389,9 @@ class Kohana_ORM extends Model implements serializable {
 
 		$count = (int) DB::select(array(DB::expr('COUNT(*)'), 'records_found'))
 			->from($this->_has_many[$alias]['through'])
-		             ->where($this->_has_many[$alias]['foreign_key'], '=', $this->pk())
-		             ->where($this->_has_many[$alias]['far_key'], 'IN', $far_keys)
-		                          ->execute($this->_db)->get('records_found');
+			->where($this->_has_many[$alias]['foreign_key'], '=', $this->pk())
+			->where($this->_has_many[$alias]['far_key'], 'IN', $far_keys)
+			->execute($this->_db)->get('records_found');
 
 		// Rows found need to match the rows searched
 		return (int) $count;
@@ -1448,7 +1448,7 @@ class Kohana_ORM extends Model implements serializable {
 		$far_keys = ($far_keys instanceof ORM) ? $far_keys->pk() : $far_keys;
 
 		$query = DB::delete($this->_has_many[$alias]['through'])
-		                         ->where($this->_has_many[$alias]['foreign_key'], '=', $this->pk());
+			->where($this->_has_many[$alias]['foreign_key'], '=', $this->pk());
 
 		if ($far_keys !== NULL) {
 			// Remove all the relationships in the array
@@ -1486,9 +1486,9 @@ class Kohana_ORM extends Model implements serializable {
 		$this->_build(Database::SELECT);
 
 		$records = $this->_db_builder->from(array($this->_table_name, $this->_object_name))
-		                                               ->select(array(DB::expr('COUNT(' . $this->_db->quote_column($this->_object_name . '.' . $this->_primary_key) . ')'), 'records_found'))
-		                                                                                                                ->execute($this->_db)
-		                                                                                                                               ->get('records_found');
+		                                                                                              ->select(array(DB::expr('COUNT(' . $this->_db->quote_column($this->_object_name . '.' . $this->_primary_key) . ')'), 'records_found'))
+			->execute($this->_db)
+			->get('records_found');
 
 		// Add back in selected columns
 		$this->_db_pending += $selects;
@@ -2131,4 +2131,4 @@ class Kohana_ORM extends Model implements serializable {
 
 		return (!$model->loaded());
 	}
-}// End ORM
+} // End ORM

@@ -7,40 +7,72 @@
 		<h1>Dostępne zlecenia</h1>
 	</div>
 	<div class="tablica">
-		<div class="col-xs-12">
-			<div class="form-inline">
-					<select class="selectpicker" id="sort_plane" style="margin-right: 10px;">
-						<option value='0'>Samolot</option>
-						<?
-							foreach($planes as $p) {
-								$plane = $p->getUpgradedModel();
-								if( ! $plane->loaded())
-									continue;
-								$poz = " (".$p->city->name.")";
-                                $busy = $p->isBusy();
-                                $busyT = ($busy == Busy::NotBusy) ? $poz : " (".Busy::getText($busy).")";
-								echo '<option id="plane_'.$p->id.'" value="'.$p->id.'" spalanie="'.$plane->spalanie.'" zasieg="'.$plane->zasieg.'" miejsc="'.$plane->miejsc.'" mnoznik="'.$p->getMultiplier().'" predkosc="'.$plane->predkosc.'">'.$p->rejestracja.''.$busyT.'</option>';
-							}
-						?>
-					</select>
-					<select class="selectpickerflag" id="sort_z" style="margin-right: 10px;">
-						<option value='0'>Lot z</option>
-						<?
-							foreach($citiess as $city)
-								echo '<option value="'.$city->id.'" data-flag="'.strtolower($city->getCountry()).'">'.$city->name.'</option>';
-						?>
-					</select>
-					<select class="selectpickerflag" id="sort_do">
-						<option value='0'>Lot do</option>
-						<?
-							$cities = ORM::factory('City')->order_by('region', 'asc')->order_by('name', 'asc')->find_all();
-							foreach($cities as $city)
-								echo '<option value="'.$city->id.'" data-flag="'.strtolower($city->getCountry()).'">'.$city->name.'</option>';
-						?>
-					</select>
-			</div>
+		<div class="col-xs-12 col-md-2 col-md-offset-3">
+            <select id="sort_plane" data-placeholder="Wybierz samolot" style="width: 100%;">
+                <option></option>
+                <?
+                    foreach($planes as $p) {
+                        $plane = $p->getUpgradedModel();
+                        if( ! $plane->loaded())
+                            continue;
+                        $poz = " (".$p->city->name.")";
+                        $busy = $p->isBusy();
+                        $busyT = ($busy == Busy::NotBusy) ? $poz : " (".Busy::getText($busy).")";
+                        echo '<option id="plane_'.$p->id.'" value="'.$p->id.'" spalanie="'.$plane->spalanie.'" zasieg="'.$plane->zasieg.'" miejsc="'.$plane->miejsc.'" mnoznik="'.$p->getMultiplier().'" predkosc="'.$plane->predkosc.'">'.$p->rejestracja.''.$busyT.'</option>';
+                    }
+                ?>
+            </select>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <select id="sort_z" data-placeholder="Lot z" style="width: 100%;">
+                <option></option>
+                <optgroup label="Aktualne">
+                    <?
+                        $printed = [];
+                        foreach($citiess as $city) {
+                            echo '<option value="' . $city->id . '" data-flag="' . strtolower($city->getCountry()) . '"">' . $city->name . '</option>';
+                            $printed[] = $city->name;
+                        }
+                        $cities = ORM::factory('City')->order_by('region', 'asc')->order_by('name', 'asc')->find_all();
+                        $lastRegion = "";
+                        foreach($cities as $city) {
+                            if($city->region != $lastRegion) {
+                                if($lastRegion != "")
+                                    echo "</optgroup>";
+                                echo "<optgroup label='".$city->getCountry()."' data-flag='".strtolower($city->getCountry())."'>";
+                                $lastRegion = $city->region;
+                            }
+                            if(!in_array($city->name, $printed))
+                                echo '<option value="' . $city->id . '">' . $city->name . '</option>';
+                        }
+                    ?>
+                </optgroup>
+            </select>
+        </div>
+        <div class="col-xs-12 col-md-2">
+            <select id="sort_do" data-placeholder="Lot do" style="width: 100%;">
+                <option></option>
+                <?
+                    $cities = ORM::factory('City')->order_by('region', 'asc')->order_by('name', 'asc')->find_all();
+                    $lastRegion = "";
+                    foreach($cities as $city) {
+                        if($city->region != $lastRegion) {
+                            if($lastRegion != "")
+                                echo "</optgroup>";
+                            echo "<optgroup label='".$city->getCountry()."' data-flag='".strtolower($city->getCountry())."'>";
+                            $lastRegion = $city->region;
+                        }
+                        echo '<option value="' . $city->id . '">' . $city->name . '</option>';
+                    }
+                ?>
+                </optgroup>
+            </select>
 		</div>
 		<div class="clearfix"></div>
+		<br />
+		<div class="alert alert-danger">
+			<strong>Uwaga!</strong> Za niewykonanie podjętego zlecenia grozi <b>kara pieniężna</b>. Bierz zlecenia odpowiedzialnie!
+		</div>
 		<div style="margin: 10px auto;">
 			<table style="width: 100%;" class="board">
 				<thead>
@@ -49,7 +81,6 @@
 					<th width="10%">Dystans</th>
 					<th width="10%">Zaplata</th>
 					<th width="5%">Osob</th>
-					<!--<th width="10%" class="hidden-xs"><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="top" title="Kara naliczana za niewykonanie zlecenia">Kara</span></th>-->
 					<th width="20%"><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="top" title="Termin po którym zostanie naliczona kara">Deadline</span></th>
 					<th width="15%"><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="top" title="Przewidywany zysk na locie dla danego samolotu. (Uwaga: nie uwzględnia opłat dodatkowych oraz cen paliwa)">Oplacalnosc</span></th>
 				</thead>
