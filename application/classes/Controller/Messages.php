@@ -56,6 +56,7 @@ class Controller_Messages extends Controller_Template {
 		}
 	}
 
+    // TODO: Move HTML to views
 	private function genReceived() {
 		$this->receivedText = "";
 		foreach ($this->received as $rec) {
@@ -73,6 +74,7 @@ class Controller_Messages extends Controller_Template {
 		}
 	}
 
+    // TODO: Move HTML to views
 	private function genSent() {
 		$this->sentText = "";
 		foreach ($this->sent as $rec) {
@@ -136,8 +138,6 @@ class Controller_Messages extends Controller_Template {
 					$msg2->typ = 1;
 					$msg2->save();
 
-					//DB::insert('messages', array('user', 'sender', 'data', 'title', 'message', 'typ'))->values(array($user->id, $gracz->id, time(), strip_tags($post['title']), strip_tags($post['message']), 2))->execute();
-					//DB::insert('messages', array('user', 'sender', 'data', 'title', 'message', 'typ'))->values(array($gracz->id, $user->id, time(), strip_tags($post['title']), strip_tags($post['message']), 1))->execute();
 					sendMsg('Wiadomość została wysłana.');
 					$this->redirect('poczta');
 				} else {
@@ -197,8 +197,6 @@ class Controller_Messages extends Controller_Template {
 		     ->bind('sender', $sender)
 		     ->bind('message', $msg);
 
-		$message = array();
-
 		$user = Auth::instance()->get_user();
 		if (!$user) {
 			$this->redirect('user/login');
@@ -207,13 +205,15 @@ class Controller_Messages extends Controller_Template {
 		$id = (int) $this->request->param('typ');
 		if (!$id || $id == 0) {
 			sendError('Wystapil blad. Sprobuj ponownie.');
-			return $this->redirect('poczta');
+			$this->redirect('poczta');
+			return false;
 		}
 
 		$msg = ORM::factory("Message", $id);
 		if (!$msg->loaded() || !$msg->user_id == $user->id) {
 			sendError('Wystapil blad. Sprobuj ponownie.');
-			return $this->redirect('poczta');
+			$this->redirect('poczta');
+			return false;
 		}
 		$sender = ORM::factory("User", $msg->sender);
 

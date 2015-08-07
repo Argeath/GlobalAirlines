@@ -15,12 +15,12 @@ class Controller_Sklep extends Controller_Template {
 		     ->bind('naStrone', $naStrone)
 		     ->bind('strona', $strona)
 		     ->bind('offset', $offset)
-		     ->bind('samoloty', $samoloty);
+             ->bind('warning', $warning)
+		     ->bind('planesData', $planesData);
 
 		$user = Auth::instance()->get_user();
-		if (!$user) {
+		if (!$user)
 			$this->redirect('user/login');
-		}
 
 		$action = "index";
 		$this->klasy = (array) Kohana::$config->load('classes');
@@ -51,38 +51,16 @@ class Controller_Sklep extends Controller_Template {
 
 		$planes = ORM::factory("Plane")->where('klasa', '=', $klasa + 1)->and_where('ukryty', '=', 0)->order_by("cena", "ASC")->find_all();
 
-		$samoloty = "";
-
 		$warning = '. Uwaga! Ten parametr odbiega od normy tej klasy samolotów. Może to spowodować podwyższenie kosztów eksloatacji.';
 
+		$planesData = [];
+
 		foreach ($planes as $plane) {
-			$samoloty .= "<tr>
-			<td><img src='" . URL::base(TRUE) . "assets/samoloty/" . $plane->id . ".jpg' class='img-rounded hidden-xs' style='width: 100px;'/><br />" . $plane->producent . " " . $plane->model . "</td>
-			<td>
-				<div class='text-rounded " . (($plane->wyrozZasieg == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip inline' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Zasięg samolotu" . (($plane->wyrozZasieg == 1) ? $warning : '') . "' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-arrows-h'></i> " . $plane->zasieg . " km</div>
-				<div class='text-rounded " . (($plane->wyrozMiejsca == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Miejsca pasażerskie" . (($plane->wyrozMiejsca == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-users'></i> " . $plane->miejsc . "</div>
-				<div class='text-rounded " . (($plane->wyrozSpalanie == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Spalanie silników" . (($plane->wyrozSpalanie == 1) ? $warning : '') . "' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-fire'></i> " . $plane->spalanie . " kg/km</div>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Prędkość maksymalna' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-tachometer'></i> " . $plane->predkosc . " km/h</div>
-			</td>
-			<td>
-				<div class='text-rounded " . (($plane->wyrozPilot == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Ilość wymaganych pilotów" . (($plane->wyrozPilot == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-user'></i> " . $plane->piloci . "</div>
-				<div class='text-rounded " . (($plane->wyrozStewardessa == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Ilość wymaganych stewardess" . (($plane->wyrozStewardessa == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-female'></i> " . $plane->zaloga_dodatkowa . "</div>
-				<div class='text-rounded " . (($plane->wyrozMechanik == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Mnożnik serwisowy" . (($plane->wyrozMechanik == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='glyphicon glyphicon-wrench'></i> x" . $plane->mechanicy . "</div>
-			</td>
-			<td width='10%' class='shopBuyTd'>";
-
-            if($user->getLevel() < $requiredLvl)
-                $samoloty .= "<div class='blockedShop'><i class='fa fa-lock'></i><br />Wymagany poziom: ".$requiredLvl."</div>";
-
-			$samoloty .= "<form method='post'><input type='hidden' name='plane' value='" . $plane->id . "'/>
-					" . Prints::rusureButton(formatCash($plane->cena) . ' ' . WAL, 'action', 'buy_wal', ['btn-primary']) . "
-					" . Prints::rusureButton(formatCash(round(sqrt($plane->cena) / 40) * 20) . ' PP', 'action', 'buy_pkt', ['btn-success']) . "
-				</form>
-			</td>
-			</tr>";
-		}
-		if (empty($samoloty)) {
-			$samoloty = "<tr><td colspan='4'>Brak</td></tr>";
+			$planesData[] = [
+				'plane' => $plane,
+                'level' => $user->getLevel(),
+                'requiredLevel' => $requiredLvl
+			];
 		}
 
 		$post = $this->request->post();
@@ -157,9 +135,8 @@ class Controller_Sklep extends Controller_Template {
 		     ->bind('samoloty', $samoloty);
 
 		$user = Auth::instance()->get_user();
-		if (!$user) {
+		if (!$user)
 			$this->redirect('user/login');
-		}
 
 		$action = "aukcje";
 		$this->klasy = (array) Kohana::$config->load('classes');
@@ -304,6 +281,8 @@ class Controller_Sklep extends Controller_Template {
 
 		$samoloty = "";
 		$ilosc = count($auctions);
+
+        // TODO: Move HTML to view
 
 		foreach ($auctions as $a) {
 			$usr = $a->user;

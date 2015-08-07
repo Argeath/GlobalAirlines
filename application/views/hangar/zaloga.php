@@ -15,14 +15,30 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?=$kadry;?>
+	<?
+		if( ! empty($staffData)) {
+			foreach($staffData as $data) {
+				echo "<tr>
+						<td>" . $data['staff']->name . " (" . $data['staff']->type . ")</td>
+						<td>" . $data['staff']->drawAccidentChanceBar() . "</td>
+						<td>" . $data['staff']->drawExperienceBar() . "</td>
+						<td>" . $data['staff']->drawConditionBar() . "</td>
+						<td>" . Form::open('samoloty/zaloga/' . $planeId) . "<input type='hidden' name='pracId' value='" . $data['staff']->id . "'/>" . Form::submit('opcje', 'Odwołaj', array('class' => "btn btn-primary btn-block")) . "" . Form::close() . "</td>
+					  </tr>";
+			}
+		} else {
+            echo "<tr><td colspan='5'>Brak załogi przypisanej do tego samolotu</td></tr>";
+        }
+	?>
 	</tbody>
 	</table>
 	<div class="box" style="width: 300px; margin: 20px auto;">
 		Przypisz nowego załoganta:<br />
 		<?=Form::open('samoloty/zaloga/' . $planeId);?>
 		<select name="pracId" class="form-control">
-			<?=$zaloga;?>
+			<? foreach($zaloga as $staff) {
+                echo "<option value='" . $staff->id . "'>" . $staff->name . " (" . $staff->type . ")</option>";
+            } ?>
 		</select>
 		<?=Form::submit('opcje', 'Przypisz', array('class' => "btn btn-primary btn-block"));?>
 		<?=Form::close();?>

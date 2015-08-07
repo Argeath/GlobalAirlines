@@ -152,17 +152,6 @@ class Controller_User extends Controller_Template {
 			if ($valid->check()) {
 				$hashed = Auth::instance()->hash_password($post['old_password']);
 				if ($hashed === $user->password) {
-					/*if($post['new_password'] === $post['new2_password'])
-					{
-					if(strlen($post['new_password']) >= 8)
-					{
-					$hash = Auth::instance()->hash_password($post['new_password']);
-					DB::update('users')->set(array('password' => $hash))->where('id', '=', $user->id)->execute();
-					$this->action_logout();
-					} else
-					sendError('Hasło musi mieć conajmniej 8 znaków.');
-					} else
-					sendError('Nowe hasła nie zgadzają się.');*/
 					try
 					{
 						$values = array('password' => $post['new_password'], 'password_confirm' => $post['new2_password']);

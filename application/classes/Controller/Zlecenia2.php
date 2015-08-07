@@ -1,11 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 class Controller_Zlecenia2 extends Controller_Template {
+
 	public function action_index() {
 		$this->template->title = "Realizacja zlecenia - wybór zlecenia";
 
 		$this->template->content = View::factory('biuro/zlecenia')
-		     ->bind('zlecenia', $zleceniaText);
+		     ->bind('ordersData', $ordersData);
 
 		$user = Auth::instance()->get_user();
 		if (!$user) {
@@ -13,7 +14,7 @@ class Controller_Zlecenia2 extends Controller_Template {
 		}
 
 		$zlecenia = $user->orders->where('done', '=', 0)->and_where('punished', '=', 0)->find_all();
-		$zleceniaText = "";
+		$ordersData = [];
 		foreach ($zlecenia as $zl) {
 			$order = $zl->order;
 			$flight = $zl->flight;
@@ -21,22 +22,10 @@ class Controller_Zlecenia2 extends Controller_Template {
 				continue;
 			}
 
-			$zleceniaText .= "<tr>
-				<td>" . Map::getCityName($order->from) . "</td>
-				<td>" . Map::getCityName($order->to) . "</td>
-				<td>" . formatCash($order->cash) . " " . WAL . "</td>
-				<td>" . $order->count . "</td>
-				<td class='hidden-xs'>" . timestampToText($order->deadline) . "</td>
-				<td>";
-			$zleceniaText .= Form::open('zlecenie/plane');
-			$zleceniaText .= "<input type='hidden' name='zlecenie' value='" . $zl->id . "'/>";
-			$zleceniaText .= Form::submit('send', 'Wykonaj', array('class' => "btn btn-primary"));
-
-			$zleceniaText .= "</form></td>
-			</tr>";
-		}
-		if (empty($zleceniaText)) {
-			$zleceniaText = "<tr><td colspan='7'>Brak zleceń</td></tr>";
+            $ordersData[] = [
+                'order' => $order,
+                'zlecenie' => $zl
+            ];
 		}
 	}
 

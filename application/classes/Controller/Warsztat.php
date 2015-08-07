@@ -10,9 +10,7 @@ class Controller_Warsztat extends Controller_Template {
 		
 		$user = Auth::instance()->get_user();
 		if ( ! $user)
-		{
 			$this->redirect('user/login');
-		}
 		
 		$planes = $user->UserPlanes->find_all();
 
@@ -58,9 +56,7 @@ class Controller_Warsztat extends Controller_Template {
 			
 		$user = Auth::instance()->get_user();
 		if ( ! $user)
-		{
 			$this->redirect('user/login');
-		}
 		
 		$cost = 0;
 		$name = "";
@@ -114,9 +110,7 @@ class Controller_Warsztat extends Controller_Template {
 			
 		$user = Auth::instance()->get_user();
 		if ( ! $user)
-		{
 			$this->redirect('user/login');
-		}
 		
 		$planeId = (int)$this->request->param('id');
 		
@@ -125,6 +119,7 @@ class Controller_Warsztat extends Controller_Template {
 			sendError('Wystąpił błąd. Spróbuj ponownie.');
 			$this->redirect('warsztat');
 		}
+
 		$plane = ORM::factory("UserPlane", $planeId);
 		if( ! $plane->loaded() || $user->id != $plane->user_id) {
 			sendError('Błąd. Nie ma takiego samolotu.');

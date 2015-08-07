@@ -5,9 +5,8 @@ class Controller_Kadry extends Controller_Template {
 		$this->template->content = "";
 
 		$user = Auth::instance()->get_user();
-		if (!$user) {
+		if (!$user)
 			$this->redirect('user/login');
-		}
 
 		$this->redirect('kadry/zarzadzaj');
 	}
@@ -66,7 +65,7 @@ class Controller_Kadry extends Controller_Template {
 		     ->bind('plane', $plane)
 		     ->bind('planes', $planes)
 		     ->bind('level', $level)
-		     ->bind('kadry', $kadry);
+		     ->bind('staffData', $staffData);
 
 		$user = Auth::instance()->get_user();
 		if (!$user) {
@@ -111,12 +110,13 @@ class Controller_Kadry extends Controller_Template {
 
 		$planes = $user->UserPlanes->find_all();
 		if ($nieprzypisani) {
-			$q = $user->staff->where('plane_id', 'IS', NULL)->order_by('type', 'ASC')->order_by('experience', 'DESC')->find_all();
+			$staffs = $user->staff->where('plane_id', 'IS', NULL)->order_by('type', 'ASC')->order_by('experience', 'DESC')->find_all();
 		} else {
-			$q = $plane->staff->order_by('type', 'ASC')->order_by('experience', 'DESC')->find_all();
+			$staffs = $plane->staff->order_by('type', 'ASC')->order_by('experience', 'DESC')->find_all();
 		}
+		$staffData = [];
 
-		foreach ($q as $r) {
+		foreach ($staffs as $r) {
 			$plane = $r->UserPlane;
 			$planeText = "";
 			if ($plane->loaded()) {
@@ -127,43 +127,11 @@ class Controller_Kadry extends Controller_Template {
 				$planeText .= "<br />(W powietrzu)";
 			}
 
-			$kadry .= "<tr>
-						<td>" . $r->name . " (" . $r->type . ")<br />" . Map::getCityName($r->position) . "" . $planeText . "</td>
-						<td>" . $r->drawConditionBar() . "</td>
-						<td>" . $r->drawExperienceBar() . "</td>
-						<td>" . $r->drawSatisfactionBar() . "</td>
-						<td>
-							<span class='wage'>" . $r->wage . "</span> " . WAL . " / 100km";
-			if (!$r->isPracBusy()) {
-				$kadry .= "<div id='slider_" . $r->id . "' staffId='" . $r->id . "'></div>
-							<script>
-								$(function() {
-									$('#slider_" . $r->id . "').slider({
-									  value:" . $r->wage . ",
-									  min: " . ($r->wantedWage - 25) . ",
-									  max: " . ($r->wantedWage + 25) . ",
-									  step: 5,
-									  slide: function( event, ui ) {
-										$(this).parent().find('.wage').text(ui.value);
-									  },
-									  stop: function( event, ui ) {
-										var arr = { wage: ui.value };
-										ajaxManager.addReq({
-										   type: 'POST',
-										   url: url_base() + 'ajax/staffWage/' + " . $r->id . ",
-										   data: arr,
-										   success: function(data){}
-										});
-									  }
-									});
-								});
-							</script>";
-			}
-
-			$kadry .= "</td>
-						<td>" . Form::open('kadry/zarzadzaj') . "<input type='hidden' name='pracId' value='" . $r->id . "'/>" . Form::submit('opcje', 'Zwolnij', array('class' => "btn btn-primary btn-block btn-danger")) . "" . Form::close() . "
-						" . Form::open('kadry/lotswobodny') . "<input type='hidden' name='pracId' value='" . $r->id . "'/>" . Form::submit('opcje', 'Lot', array('class' => "btn btn-default btn-block btn-success")) . "" . Form::close() . "</td>
-					   </tr>";
+			$staffData[] = [
+				'planeText' => $planeText,
+				'staff' => $r,
+                'isBusy' => $r->isPracBusy()
+			];
 		}
 		if (empty($kadry)) {
 			$kadry = "<tr><td colspan='6'>Brak przypisanej załogi.</td></tr>";

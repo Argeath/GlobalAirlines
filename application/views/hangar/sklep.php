@@ -28,7 +28,36 @@
 			</tr>
 			</thead>
 			<tbody>
-<?=$samoloty;?>
+			<?
+				if( ! empty($planesData)) {
+					foreach($planesData as $data) {
+						echo "<tr>
+							<td><img src='" . URL::base(TRUE) . "assets/samoloty/" . $data['plane']->id . ".jpg' class='img-rounded hidden-xs' style='width: 100px;'/><br />" . $data['plane']->producent . " " . $data['plane']->model . "</td>
+							<td>
+								<div class='text-rounded " . (($data['plane']->wyrozZasieg == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip inline' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Zasięg samolotu" . (($data['plane']->wyrozZasieg == 1) ? $warning : '') . "' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-arrows-h'></i> " . $data['plane']->zasieg . " km</div>
+								<div class='text-rounded " . (($data['plane']->wyrozMiejsca == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Miejsca pasażerskie" . (($data['plane']->wyrozMiejsca == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-users'></i> " . $data['plane']->miejsc . "</div>
+								<div class='text-rounded " . (($data['plane']->wyrozSpalanie == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Spalanie silników" . (($data['plane']->wyrozSpalanie == 1) ? $warning : '') . "' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-fire'></i> " . $data['plane']->spalanie . " kg/km</div>
+								<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Prędkość maksymalna' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-tachometer'></i> " . $data['plane']->predkosc . " km/h</div>
+							</td>
+							<td>
+								<div class='text-rounded " . (($data['plane']->wyrozPilot == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Ilość wymaganych pilotów" . (($data['plane']->wyrozPilot == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-user'></i> " . $data['plane']->piloci . "</div>
+								<div class='text-rounded " . (($data['plane']->wyrozStewardessa == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Ilość wymaganych stewardess" . (($data['plane']->wyrozStewardessa == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-female'></i> " . $data['plane']->zaloga_dodatkowa . "</div>
+								<div class='text-rounded " . (($data['plane']->wyrozMechanik == 1) ? 'bg-orange' : 'bg-blue') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Mnożnik serwisowy" . (($data['plane']->wyrozMechanik == 1) ? $warning : '') . "' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='glyphicon glyphicon-wrench'></i> x" . $data['plane']->mechanicy . "</div>
+							</td>
+							<td width='10%' class='shopBuyTd'>";
+                        if($data['level'] < $data['requiredLevel'])
+                            echo "<div class='blockedShop'><i class='fa fa-lock'></i><br />Wymagany poziom: ".$data['requiredLevel']."</div>";
+                        echo "<form method='post'><input type='hidden' name='plane' value='" . $data['plane']->id . "'/>
+                                " . Prints::rusureButton(formatCash($data['plane']->cena) . ' ' . WAL, 'action', 'buy_wal', ['btn-primary']) . "
+                                " . Prints::rusureButton(formatCash(round(sqrt($data['plane']->cena) / 40) * 20) . ' PP', 'action', 'buy_pkt', ['btn-success']) . "
+                            </form>
+                        </td>
+                        </tr>";
+					}
+				} else {
+                    echo "<tr><td colspan='4'>Brak</td></tr>";
+                }
+			?>
 			</tbody>
 		</table>
 	</div>

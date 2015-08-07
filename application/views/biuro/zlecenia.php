@@ -14,7 +14,26 @@
 		</tr>
 	</thead>
 	<tbody>
-<?=$zlecenia;?>
+	<?
+	if( ! empty($ordersData)) {
+        foreach($ordersData as $data) {
+            echo "<tr>
+				<td>" . Map::getCityName($data['order']->from) . "</td>
+				<td>" . Map::getCityName($data['order']->to) . "</td>
+				<td>" . formatCash($data['order']->cash) . " " . WAL . "</td>
+				<td>" . $data['order']->count . "</td>
+				<td class='hidden-xs'>" . timestampToText($data['order']->deadline) . "</td>
+				<td>
+				    " . Form::open('zlecenie/plane') . "
+				    <input type='hidden' name='zlecenie' value='" . $data['zlecenie']->id . "'/>
+				    " . Form::submit('send', 'Wykonaj', array('class' => "btn btn-primary"))
+                    . "</form></td>
+			</tr>";
+        }
+    } else {
+        echo "<tr><td colspan='7'>Brak zleceń</td></tr>";
+    }
+	?>
 	</tbody>
 	</table>
 	<br />

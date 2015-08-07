@@ -1,5 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/*
+ * Cały Podgląd będzie przebudowany.
+ */
+
 class Controller_Podglad extends Controller_Template {
 
 	public function action_index() {
@@ -40,8 +44,8 @@ class Controller_Podglad extends Controller_Template {
 		$financials = $this->Journals($user);
 
 		$flights = $user->flights->where('started', '<=', time())->and_where('end', '>=', time())->and_where('checked', '=', 1)->order_by('end', 'ASC')->find_all();
+		$flightsText = "";
 		if ($flights->count() > 0) {
-			$flightsText = "";
 			foreach ($flights as $flight) {
 				$plane = $flight->UserPlane;
 				if (!$plane->loaded()) {

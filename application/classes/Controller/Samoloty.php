@@ -5,7 +5,7 @@ class Controller_Samoloty extends Controller_Template {
 		$this->template->title = "Samoloty";
 
 		$this->template->content = View::factory('hangar/samoloty')
-		     ->bind('planesText', $planesText);
+		     ->bind('planesData', $planesData);
 
 		$user = Auth::instance()->get_user();
 		if (!$user) {
@@ -16,7 +16,7 @@ class Controller_Samoloty extends Controller_Template {
 		$klasy = (array) Kohana::$config->load('classes');
 		$klasyKeys = array_keys($klasy);
 
-		$planesText = "";
+		$planesData = [];
 		foreach ($planes as $plane) {
 			$typ = $plane->getUpgradedModel();
 			$poz = $plane->city->name;
@@ -39,31 +39,17 @@ class Controller_Samoloty extends Controller_Template {
 			$stewardess = $plane->staff->where('type', '=', 'stewardessa')->count_all();
 			$wartosc = $plane->getCost();
 			$klasa = (isset($klasyKeys[$typ->klasa - 1])) ? $klasyKeys[$typ->klasa - 1] : "";
-			$planesText .= "<tr>
-			<td><img src='" . URL::base(TRUE) . "assets/samoloty/" . $plane->plane_id . ".jpg' class='img-rounded hidden-xs' style='width: 150px;'/><br />" . $plane->fullName() . "<br />(" . $poz . ")" . $accidentT . "</td>
-			<td>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Klasa samolotu' style='display:inline-block;width: 160px; margin-bottom: 30px;'>" . $klasa . "</div>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Zasięg samolotu' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-arrows-h'></i> " . $typ->zasieg . " km</div>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Miejsca pasażerskie' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-users'></i> " . $typ->miejsc . "</div>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Spalanie silników' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-fire'></i> " . $typ->spalanie . " kg/km</div>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Prędkość maksymalna' style='display:inline-block;width: 120px; margin-bottom: 30px;'><i class='fa fa-tachometer'></i> " . $typ->predkosc . " km/h</div>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Maksymalna wartość samolotu' style='display:inline-block;width: 120px; margin-bottom: 30px;'>" . WAL . " " . formatCash($wartosc) . "</div>
-			</td>
-			<td>
-				<div class='text-rounded " . (($pilotow == $typ->piloci) ? 'bg-blue' : 'bg-red') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Wymaganych pilotów' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-user'></i> " . $pilotow . " / " . $typ->piloci . "</div>
-				<div class='text-rounded " . (($stewardess == $typ->zaloga_dodatkowa) ? 'bg-blue' : 'bg-red') . " Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Wymaganych stewardess' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-female'></i> " . $stewardess . " / " . $typ->zaloga_dodatkowa . "</div>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Mnożnik serwisowy' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='glyphicon glyphicon-wrench'></i> x" . $typ->mechanicy . "</div>
-				<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Preferowane doświadczenie pilotów' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-graduation-cap'></i> " . ($plane->getPreferStaffExp() + 5) . "%</div>
-			</td>
 
-			<td>" . $plane->drawConditionBar() . "" . $plane->drawAccidentChanceBar() . "Pokonana trasa: " . formatCash($plane->km) . "km<br />Czasu w powietrzu: " . secondsToText($plane->hours) . "</td>
-			<td class='list-group'>
-				" . HTML::anchor('samoloty/lotswobodny/' . $plane->id, Form::submit('opcje', 'Lot swobodny', array('class' => "btn btn-primary btn-block btn-success"))) . "
-				" . HTML::anchor('samoloty/zaloga/' . $plane->id, Form::submit('opcje', 'Załoga', array('class' => "btn btn-primary btn-block"))) . "
-				" . HTML::anchor('samoloty/rejestracja/' . $plane->id, Form::submit('opcje', 'Zmiana rejestracji', array('class' => "btn btn-default btn-block btn-success"))) . "
-				" . HTML::anchor('samoloty/wystaw/' . $plane->id, Form::submit('opcje', 'Wystaw na aukcji', array('class' => "btn btn-default btn-block btn-warning"))) . "
-				" . HTML::anchor('samoloty/sprzedaj/' . $plane->id, Form::submit('opcje', 'Sprzedaj', array('class' => "btn btn-default btn-block btn-danger"))) . "
-			</td></tr>";
+			$planesData[] = [
+				'plane' => $plane,
+				'typ' => $typ,
+				'klasa' => $klasa,
+				'position' => $poz,
+				'pilotow' => $pilotow,
+				'stewardess' => $stewardess,
+				'wartosc' => $wartosc,
+				'accidentText' => $accidentT
+			];
 		}
 
 	}
@@ -357,7 +343,7 @@ class Controller_Samoloty extends Controller_Template {
 		     ->bind('juzPilotow', $juzPilotow)
 		     ->bind('dodatkowej', $dodatkowej)
 		     ->bind('juzDodatkowej', $juzDodatkowej)
-		     ->bind('kadry', $kadry);
+		     ->bind('staffData', $staffData);
 
 		$planeId = (int) $this->request->param('id');
 		$plane = ORM::factory("UserPlane", $planeId);
@@ -413,24 +399,17 @@ class Controller_Samoloty extends Controller_Template {
 		}
 
 		$q = $user->staff->where('plane_id', '=', $planeId)->order_by('type', 'ASC')->find_all();
-		$kadry = "";
+		$staffData = [];
 		foreach ($q as $r) {
-			$kadry .= "<tr>
-						<td>" . $r->name . " (" . $r->type . ")</td>
-						<td>" . $r->drawAccidentChanceBar() . "</td>
-						<td>" . $r->drawExperienceBar() . "</td>
-						<td>" . $r->drawConditionBar() . "</td>
-						<td>" . Form::open('samoloty/zaloga/' . $planeId) . "<input type='hidden' name='pracId' value='" . $r->id . "'/>" . Form::submit('opcje', 'Odwołaj', array('class' => "btn btn-primary btn-block")) . "" . Form::close() . "</td>
-					  </tr>";
-		}
-		if (empty($kadry)) {
-			$kadry = "<tr><td colspan='5'>Brak załogi przypisanej do tego samolotu</td></tr>";
+            $staffData[] = [
+                'staff' => $r
+            ];
 		}
 
 		$w = $user->staff->where('plane_id', 'IS', NULL)->and_where('position', '=', $plane->position)->order_by('type', 'ASC')->find_all();
-		$zaloga = "";
+		$zaloga = [];
 		foreach ($w as $r) {
-			$zaloga .= "<option value='" . $r->id . "'>" . $r->name . " (" . $r->type . ")</option>";
+            $zaloga[] = $r;
 		}
 	}
 };

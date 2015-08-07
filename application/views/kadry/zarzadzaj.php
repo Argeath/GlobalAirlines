@@ -45,7 +45,25 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?=$kadry;?>
+		<? if( ! empty($staffData)) {
+            foreach($staffData as $data) {
+                echo "<tr>
+					<td>" . $data['staff']->name . " (" . $data['staff']->type . ")<br />" . Map::getCityName($data['staff']->position) . "" . $data['planeText'] . "</td>
+					<td>" . $data['staff']->drawConditionBar() . "</td>
+					<td>" . $data['staff']->drawExperienceBar() . "</td>
+					<td>" . $data['staff']->drawSatisfactionBar() . "</td>
+					<td>
+						<span class='wage'>" . $data['staff']->wage . "</span> " . WAL . " / 100km";
+
+                if( ! $data['isBusy'])
+                    echo "<div id='slider_" . $data['staff']->id . "' staffId='" . $data['staff']->id . "'></div>";
+
+                echo "</td>
+						<td>" . Form::open('kadry/zarzadzaj') . "<input type='hidden' name='pracId' value='" . $data['staff']->id . "'/>" . Form::submit('opcje', 'Zwolnij', array('class' => "btn btn-primary btn-block btn-danger")) . "" . Form::close() . "
+						" . Form::open('kadry/lotswobodny') . "<input type='hidden' name='pracId' value='" . $data['staff']->id . "'/>" . Form::submit('opcje', 'Lot', array('class' => "btn btn-default btn-block btn-success")) . "" . Form::close() . "</td>
+					   </tr>";
+            }
+		} ?>
 	</tbody>
 	</table>
 	<? if($planeId > 0)
@@ -67,6 +85,31 @@
 
 <script>
     $(function() {
+        <? if( ! empty($staffData)) {
+            foreach($staffData as $data) {
+                if( ! $data['isBusy']) {
+                    echo "$('#slider_" . $data['staff']->id . "').slider({
+                              value: " . $data['staff']->wage . ",
+                              min: " . ($data['staff']->wantedWage - 25) . ",
+                              max: " . ($data['staff']->wantedWage + 25) . ",
+                              step: 5,
+                              slide: function( event, ui ) {
+                                $(this).parent().find('.wage').text(ui.value);
+                              },
+                              stop: function( event, ui ) {
+                                var arr = { wage: ui.value };
+                                ajaxManager.addReq({
+                                   type: 'POST',
+                                   url: url_base() + 'ajax/staffWage/' + " . $data['staff']->id . ",
+                                   data: arr,
+                                   success: function(data){}
+                                });
+                              }
+                            });";
+                }
+            }
+        } ?>
+
         var n1 = new tutorialElement($('#kadry-podzial'), "Site_Left", "Site_Top", "Podział pracowników na samoloty", "inner", false);
         var n2 = new tutorialElement($('#kadry-zatrudnij'), "Site_Left", "Site_Top", "Zatrudnianie pracowników (Doświadczeni piloci obniżają szansę na wypadek oraz spalanie samolotu)", "inner", false);
         var n3 = new tutorialElement($('#kadry-pracownik'), "Site_Bottom", "Site_Left", "Lista pracowników", "inner", false);
