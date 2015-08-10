@@ -157,14 +157,51 @@
 <?=((isset($profil['premium_points'])) ? formatCash($profil['premium_points']) . ' PP' : '');?>
 						</div>
 						<div class="ttip panel" style="left: -20px; top: 48px;">
-							Poziom: <?=Experience::getLevelByExp($profil['exp']);?> <div id='expbar'><div class='label'><?=$profil['expLabel'];?></div></div><br />
-							<table class="table">
-								<tr><td>Przelecony dystans:</td><td style="width: 40%;"><?=formatCash($profil['km']);?> km</td></tr>
-								<tr><td>Czas w powietrzu:</td><td><?=secondsToText($profil['hours']);?></td></tr>
-								<tr><td>Przewiezonych pasażerów:</td><td><?=formatCash($profil['pasazerow']);?></td></tr>
-								<tr><td>Wykonanych zleceń:</td><td><?=formatCash($profil['zlecen']);?></td></tr>
-								<tr><td>Posiadanych punktów premium:</td><td><?=formatCash($profil['premium_points']);?></td></tr>
-							</table>
+                            <div class="level-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Poziom konta - doświadczenie">
+                                <div class="level-field"><?=Experience::getLevelByExp($profil['exp']);?></div>
+                                <div id='expbar'>
+                                    <div class='label'><?=$profil['expLabel'];?></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Przebyty dystans">
+                                <div class="icon-field"><i class="fa fa-arrows-h"></i></div>
+                                <div class="bar">
+                                    <div class='label'><?=formatCash($profil['km']);?> km</div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Czas spędzony w powietrzu">
+                                <div class="icon-field"><i class="fa fa-cloud-upload"></i></div>
+                                <div class="bar">
+                                    <div class='label'><?=secondsToText($profil['hours']);?></div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+							<div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Przewiezionych pasażerów">
+								<div class="icon-field"><i class="fa fa-users"></i></div>
+
+								<div class="bar">
+									<div class='label'><?=formatCash($profil['pasazerow']);?></div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Wykonanych zleceń">
+								<div class="icon-field"><i class="fa fa-check"></i></div>
+
+								<div class="bar">
+									<div class='label'><?=formatCash($profil['zlecen']);?></div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Posiadanych punktów premium">
+								<div class="icon-field"><i class="fa fa-credit-card"></i></div>
+
+								<div class="bar">
+									<div class='label'><?=formatCash($profil['premium_points']);?></div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
 						</div>
 					</div>
 
@@ -173,7 +210,7 @@
 							<span class="glyphicon glyphicon-warning-sign bootstrap-icon <?=(($nowych_powiadomien > 0) ? 'blink' : '');?>">
 								<div class="ttip panel">
 									<?
-										echo '<div style="margin-bottom: 10px;">';
+										echo '<div style="padding: 10px 0;">';
 										$powiadomienia = ORM::factory("MiniMessage")->where('user_id', '=', $profil['id'])->order_by('data', 'desc')->limit(5)->find_all();
 										foreach($powiadomienia as $powiad)
 										{
