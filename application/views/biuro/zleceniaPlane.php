@@ -19,7 +19,7 @@
 			<td><?=Map::getCityName($order->to)?></td>
 			<td><?=formatCash($order->cash) . " " . WAL?></td>
 			<td><?=$order->count?></td>
-			<td class='hidden-xs'><?=timestampToText($order->deadline)?></td>
+			<td class='hidden-xs'><?=TimeFormat::timestampToText($order->deadline)?></td>
 		</tr>
 		</tbody>
 	</table>
@@ -49,7 +49,7 @@
                     if($placeInQueue < time() + 5)
                         $placeT = Prints::colorBgText('WOLNY', 'green');
                     else
-                        $placeT = Prints::colorBgText('WOLNY OD '.timestampToText($placeInQueue), 'green');
+                        $placeT = Prints::colorBgText('WOLNY OD '.TimeFormat::timestampToText($placeInQueue), 'green');
                 } else
                     $placeT = Prints::colorBgText('ZAJĘTY', 'red');
 

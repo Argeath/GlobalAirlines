@@ -64,7 +64,7 @@ class Controller_Messages extends Controller_Template {
 			$this->receivedText .= '
 				<tr class="poczta_tr clickableRow" wiadId="' . $rec->id . '" href="' . URL::site("poczta/show/" . $rec->id) . '">
 					<td class="non-clickable"><input type="checkbox" name="selected[]" value="' . $rec->id . '"/></td>
-					<td>' . timestampToText($rec->data) . '</td>
+					<td>' . TimeFormat::timestampToText($rec->data) . '</td>
 					<td>' . $gracz->drawButton() . '</td>
 					<td width="50%">' . strip_tags($rec->title) . '</td>
 				</tr>';
@@ -82,7 +82,7 @@ class Controller_Messages extends Controller_Template {
 			$this->sentText .= '
 				<tr class="poczta_tr clickableRow" wiadId="' . $rec->id . '" href="' . URL::site("poczta/show/" . $rec->id) . '">
 					<td class="non-clickable"><input type="checkbox" name="selected[]" value="' . $rec->id . '"/></td>
-					<td>' . timestampToText($rec->data) . '</td>
+					<td>' . TimeFormat::timestampToText($rec->data) . '</td>
 					<td>' . $gracz->drawButton() . '</td>
 					<td width="50%">' . strip_tags($rec->title) . '</td>
 				</tr>';

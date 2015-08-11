@@ -79,7 +79,7 @@ abstract class Kohana_Auth {
 			$dlt = $usr->isBeingDeleted();
 			if($dlt)
 			{
-				sendError('Twoje konto jest w trakcie usuwania. Zostanie usunięte: '.timestampToText($dlt).'. Aby anulować usuwanie skontaktuj się z administratorem.');
+				sendError('Twoje konto jest w trakcie usuwania. Zostanie usunięte: '.TimeFormat::timestampToText($dlt).'. Aby anulować usuwanie skontaktuj się z administratorem.');
 				return $default;
 			}
 		}

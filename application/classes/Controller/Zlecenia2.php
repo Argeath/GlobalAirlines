@@ -258,7 +258,7 @@ class Controller_Zlecenia2 extends Controller_Template {
 		$checkinId = $checkin->id;
 
 		$odprawa = $zlecenie->order->count * 15 * (1 - ($checkin->level * $airportConfig['checkin']['bonus'] / 100));
-		$odprawaT = secondsToText($odprawa);
+		$odprawaT = TimeFormat::secondsToText($odprawa);
 
 		$planowany_start = (int) $post['planowany_start'];
 		$start = $checkin->findPlaceInQueue($odprawa, $planowany_start);
@@ -301,7 +301,7 @@ class Controller_Zlecenia2 extends Controller_Template {
 
 		$czas = ($distance / ($model->predkosc * 0.85)) + (ceil($model->miejsc / 75) / 4); //Dodatkowy czas na lądowanie i startowanie
 		$czas = $czas * 3600;
-		$czasT = secondsToText($czas);
+		$czasT = TimeFormat::secondsToText($czas);
 
 		$bonusOil = $plane->getOilBonus();
 

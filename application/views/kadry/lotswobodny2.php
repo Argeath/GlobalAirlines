@@ -7,7 +7,7 @@
 		<tr><td style="min-width: 200px;">Z:</td> <td style="min-width: 150px;"><?= Map::getCityName($z); ?></td></tr>
 		<tr><td>Do:</td> <td><?= Map::getCityName($dokad); ?></td></tr>
 		<tr><td>Dystans:</td> <td><?= $distance; ?>km</td></tr>
-		<tr><td>Przewidywany czas lotu:</td> <td><?= secondsToText($czas) ?></td></tr>
+		<tr><td>Przewidywany czas lotu:</td> <td><?= TimeFormat::secondsToText($czas) ?></td></tr>
 		<tr><td>Koszt:</td> <td><?= $koszt; ?> <?= WAL ?></td></tr>
 	</table>
 	<input type="hidden" name="dokad" value="<?= $dokad; ?>"/>

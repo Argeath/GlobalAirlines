@@ -18,8 +18,8 @@
 			<td><?= $plane->fullName() ?></td>
 			<td><?= Map::getCityName($flight->from) ?></td>
 			<td><?= Map::getCityName($flight->to) ?></td>
-			<td><?= timestampToText($flight->started) ?></td>
-			<td><?= timestampToText($flight->end) ?></td>
+			<td><?= TimeFormat::timestampToText($flight->started) ?></td>
+			<td><?= TimeFormat::timestampToText($flight->end) ?></td>
 		</tr>
 		</tbody>
 	</table>

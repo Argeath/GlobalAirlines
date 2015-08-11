@@ -51,7 +51,7 @@ class Controller_Admin extends Controller_Template {
 				else
 					$gracz->bannedTo = $time;
 				$gracz->save();
-				sendMsg('Zbanowałeś gracza '.$gracz->username.' do '.timestampToText($gracz->bannedTo, true).'.');
+				sendMsg('Zbanowałeś gracza '.$gracz->username.' do '.TimeFormat::timestampToText($gracz->bannedTo, true).'.');
 			}
 		}
 		$referrer = $this->request->referrer();
@@ -125,7 +125,7 @@ class Controller_Admin extends Controller_Template {
 				else
 					$gracz->mutedTo = $time;
 				$gracz->save();
-				sendMsg('Zmutowałeś gracza '.$gracz->username.' do '.timestampToText($gracz->mutedTo, true).'.');
+				sendMsg('Zmutowałeś gracza '.$gracz->username.' do '.TimeFormat::timestampToText($gracz->mutedTo, true).'.');
 			}
 		}
 		$referrer = $this->request->referrer();

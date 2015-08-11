@@ -89,38 +89,23 @@ class Menu {
 								$badges += $z;
 							}
 						}
-						$blocked = "";
-						if (isset($pparam['blocked'])) {
-							$blocked = printBlocked($profil['exp'], $pparam['blocked']);
-						}
 
 						if (isset($pparam['admin']) && $pparam['admin'] == 1 && isset($profil['admin']) && $profil['admin'] != 1) {
 							continue;
 						}
 
 						if (isset($pparam['url'])) {
-							echo '<li><div>' . HTML::anchor("/" . $pparam['url'], $pname) . $badge . $blocked . '<small>' . $pparam['name'] . '</small></div></li>';
+							echo '<li><div>' . HTML::anchor("/" . $pparam['url'], $pname) . $badge . '<small>' . $pparam['name'] . '</small></div></li>';
 						}
-
-						//echo '<li data-container="body" data-toggle="tooltip" data-placement="top" title="'.$pparam['name'].'">'.HTML::anchor($pparam['url'], $pname).$badge.$blocked.'</li>';
 					}
 				}
 				echo '</ul>';
-				/*if($categoryName=="Wyloguj" && Facebook::instance()->isLogged()) {
-				$categoryName = "Wyloguj z FB";
-				echo '<a href="'.$fb_logoutPath.'">';
-				echo $name.'</a><small class="category-horizontal">'.$categoryName.'</small><div class="rotate category-vertical">'.$categoryName.'</div>';
-				echo '</li>';
-				} else {*/
 				echo '<a href="' . (($categoryUrl != null) ? "/" . $categoryUrl : '#') . '">';
 				echo $name . '</a><small class="category-horizontal">' . $categoryName . '</small><div class="rotate category-vertical">' . $categoryName . '</div>';
 				if ($badges > 0) {
 					echo '<div class="badge badgeDiv">' . $badges . '</div>';
 				}
-				//echo '<a href="'.(($categoryUrl != null) ? $categoryUrl : '#').'">';
-				//echo $name.'<small>'.$categoryName.'</small></a>';
 				echo '</li>';
-				//}
 			}
 		}
 		echo '</ul></nav>';

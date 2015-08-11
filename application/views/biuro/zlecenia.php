@@ -22,7 +22,7 @@
 				<td>" . Map::getCityName($data['order']->to) . "</td>
 				<td>" . formatCash($data['order']->cash) . " " . WAL . "</td>
 				<td>" . $data['order']->count . "</td>
-				<td class='hidden-xs'>" . timestampToText($data['order']->deadline) . "</td>
+				<td class='hidden-xs'>" . TimeFormat::timestampToText($data['order']->deadline) . "</td>
 				<td>
 				    " . Form::open('zlecenie/plane') . "
 				    <input type='hidden' name='zlecenie' value='" . $data['zlecenie']->id . "'/>

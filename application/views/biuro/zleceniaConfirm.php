@@ -10,9 +10,9 @@
 		<tr><td>Pasażerów:</td> <td style="position: relative;"><?=(($miejsc < $pasazerow) ? "<span style='color: red;'>" : "")?> <?=$pasazerow;?><?=(($miejsc < $pasazerow) ? '</span><div class="table-right-element text-red"><i class="glyphicon glyphicon-remove"></i></div>' : '<div class="table-right-element text-green"><i class="glyphicon glyphicon-ok"></i></div>')?></td></tr>
 		<tr><td>Przewidywany czas odprawy:</td> <td><?=$odprawaT?></td></tr>
 		<tr><td>Przewidywany czas lotu:</td> <td><?=$czasT?></td></tr>
-		<tr><td>Przewidywany czas rozpoczęcia odprawy:</td> <td><?=timestampToText($start);?></td></tr>
-		<tr><td>Przewidywany czas startu:</td> <td><?=timestampToText($start + $odprawa);?></td></tr>
-		<tr><td>Przewidywany czas lądowania:</td> <td><?=timestampToText($start + $odprawa + $czas);?></td></tr>
+		<tr><td>Przewidywany czas rozpoczęcia odprawy:</td> <td><?=TimeFormat::timestampToText($start);?></td></tr>
+		<tr><td>Przewidywany czas startu:</td> <td><?=TimeFormat::timestampToText($start + $odprawa);?></td></tr>
+		<tr><td>Przewidywany czas lądowania:</td> <td><?=TimeFormat::timestampToText($start + $odprawa + $czas);?></td></tr>
 		<tr><td>Potrzebne paliwo:</td> <td><?=formatCash($paliwo);?> kg</td></tr>
 		<? if($bazaB) { ?>
 			<tr><td>Paliwo w bazie:</td> <td><?=$bazaOil;?> kg</td></tr>

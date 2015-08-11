@@ -84,7 +84,7 @@ class Prints {
 			}
 
 			$t = "";
-			if ($l > 0) {
+			if ($l > 0 || ! is_numeric($x)) {
 				$t = '<span class="text-rounded" style="background: rgb(15, 163, 15);">+' . $x . $waluta . '</span>';
 			} elseif ($l < 0) {
 				$t = '<span class="text-rounded" style="background: red;">' . $x . $waluta . '</span>';

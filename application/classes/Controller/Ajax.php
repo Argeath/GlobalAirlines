@@ -39,7 +39,7 @@ class Controller_Ajax extends Controller {
 			$zlecenie = $order->order;
 			$arr['from'] = Map::getCityName($zlecenie->from);
 			$arr['to'] = Map::getCityName($zlecenie->to);
-			$arr['deadline'] = timestampToText($zlecenie->deadline);
+			$arr['deadline'] = TimeFormat::timestampToText($zlecenie->deadline);
 			$arr['cash'] = formatCash($zlecenie->cash) . ' ' . WAL;
 			//$arr['class'] = classToName($zlec->class);
 			$arr['done'] = ($order->done == 1) ? 'Tak' : 'Nie';
@@ -58,9 +58,9 @@ class Controller_Ajax extends Controller {
 		}
 		if ($flight) {
 			$arr['flightId'] = $flight->id;
-			$arr['odprawa'] = timestampToText($flight->odprawa);
-			$arr['started'] = timestampToText($flight->started);
-			$arr['end'] = timestampToText($flight->end);
+			$arr['odprawa'] = TimeFormat::timestampToText($flight->odprawa);
+			$arr['started'] = TimeFormat::timestampToText($flight->started);
+			$arr['end'] = TimeFormat::timestampToText($flight->end);
 			$arr['movecancel'] = ((($flight->started - time()) >= 1800) || ($flight->checked == 0));
 		}
 

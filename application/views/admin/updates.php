@@ -24,8 +24,8 @@
 						echo "<td>".eventTypeToName($e['id'])."</td>";
 						echo "<td>".round($sredni)."ms</td>";
 						echo "<td>".$e['ilosc']."</td>";
-						echo "<td>".timestampToText($e['lastTime'])."</td>";
-						echo "<td>".timestampToText($e['startOfWeek'])."</td>";
+						echo "<td>".TimeFormat::timestampToText($e['lastTime'])."</td>";
+						echo "<td>".TimeFormat::timestampToText($e['startOfWeek'])."</td>";
 					}				
 				} else
 					echo "<tr><td colspan='5'>Brak</td></tr>";

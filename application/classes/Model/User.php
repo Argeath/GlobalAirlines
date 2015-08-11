@@ -307,11 +307,11 @@ class Model_User extends Model_Auth_User {
 			}
 
 			if ($zmiana != 0) {
-				$this->operateCash($zmiana, "Przywrócenie stanu konta do dnia: " . timestampToText($date) . ".");
+				$this->operateCash($zmiana, "Przywrócenie stanu konta do dnia: " . TimeFormat::timestampToText($date) . ".");
 			}
 
 			if ($zmianaPkt != 0) {
-				$this->operatePoints($zmianaPkt, "Przywrócenie punktów premium do dnia: " . timestampToText($date) . ".");
+				$this->operatePoints($zmianaPkt, "Przywrócenie punktów premium do dnia: " . TimeFormat::timestampToText($date) . ".");
 			}
 
 			return true;

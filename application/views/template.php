@@ -174,7 +174,7 @@
                             <div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Czas spędzony w powietrzu">
                                 <div class="icon-field"><i class="fa fa-cloud-upload"></i></div>
                                 <div class="bar">
-                                    <div class='label'><?=secondsToText($profil['hours']);?></div>
+                                    <div class='label'><?=TimeFormat::secondsToText($profil['hours']);?></div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -208,14 +208,14 @@
 					<div class="field panel">
 						<div class="left">
 							<span class="glyphicon glyphicon-warning-sign bootstrap-icon <?=(($nowych_powiadomien > 0) ? 'blink' : '');?>">
-								<div class="ttip panel">
+								<div class="wide ttip panel">
 									<?
 										echo '<div style="padding: 10px 0;">';
 										$powiadomienia = ORM::factory("MiniMessage")->where('user_id', '=', $profil['id'])->order_by('data', 'desc')->limit(5)->find_all();
 										foreach($powiadomienia as $powiad)
 										{
 											echo '<div class="ttip-row '.(($powiad->checked==0) ? "actual" : "").'" mid="'.$powiad->id.'" data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-content=\''.$powiad->long.'\'>';
-											echo timestampToText($powiad->data).': '.$powiad->msg;
+											echo TimeFormat::timestampToText($powiad->data).': '.$powiad->msg;
 											echo "</div>";
 										}
 										echo "</div>".HTML::anchor('powiadomienia', 'Zobacz wszystkie', array('class' => 'btn btn-primary btn-block'));
@@ -225,12 +225,12 @@
 						</div>
 						<div class="right">
 							<i class="glyphicon glyphicon-comment bootstrap-icon">
-								<div class="ttip panel">
+								<div class="wide ttip panel">
 									<?
 										echo '<div style="margin-bottom: 10px;">';
 										$messages = ORM::factory("Message")->where('user_id', '=', $profil['id'])->and_where('typ', '=', 1)->order_by('data', 'desc')->limit(5)->find_all();
                                         if($messages->count() == 0)
-                                            echo "<center>Brak wiadomości.</center><br />";
+                                            echo "<div class='text-center'>Brak wiadomości.</div><br />";
 										foreach($messages as $msg)
 										{
 											$sender = ORM::factory("User", $msg->sender_id);
@@ -238,7 +238,7 @@
 											if($sender->loaded())
 												$senderName = $sender->username;
 											echo '<div class="ttip-row">';
-											echo timestampToText($msg->data).' ('.$senderName.'): '.$msg->title;
+											echo TimeFormat::timestampToText($msg->data).' ('.$senderName.'): '.$msg->title;
 											echo "</div>";
 										}
 										echo "</div>".HTML::anchor('poczta', 'Zobacz wszystkie', array('class' => 'btn btn-primary btn-block'));
@@ -266,7 +266,7 @@
 											if( ! $plane->loaded())
 												continue;
 											echo ($first) ? "<b>" : '';
-											echo $plane->rejestracja.": <span class='zegarCountdown' czas='".$f->end."' now='".time()."'>". secondsToText($f->end - time()) ."</span> (".date("H:i", $f->end).")";
+											echo $plane->rejestracja.": <span class='zegarCountdown' czas='".$f->end."' now='".time()."'>". TimeFormat::secondsToText($f->end - time()) ."</span> (".date("H:i", $f->end).")";
 											echo ($first) ? "</b>" : '';
 											echo "<br />";
 											$first = false;

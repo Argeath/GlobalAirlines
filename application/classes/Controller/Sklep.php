@@ -340,7 +340,7 @@ class Controller_Sklep extends Controller_Template {
 				<td>
 					" . $p->drawConditionBar() . "<br />
 					Pokonana trasa: " . formatCash($p->km) . " km<br />
-					Czasu w powietrzu: " . secondsToText($p->hours) . "<br />
+					Czasu w powietrzu: " . TimeFormat::secondsToText($p->hours) . "<br />
 					Maksymalna wartość samolotu: " . formatCash($wartosc) . " " . WAL . "
 				</td>
 
@@ -356,7 +356,7 @@ class Controller_Sklep extends Controller_Template {
 					Koniec: " . $a->getEndDate() . "<br />";
 
 			if ($toEnd > 0) {
-				$samoloty .= "<br /><span class='zegarCountdown text-rounded bg-blue' czas='" . $a->end . "' now='" . time() . "'>" . secondsToText($toEnd) . "</span>";
+				$samoloty .= "<br /><span class='zegarCountdown text-rounded bg-blue' czas='" . $a->end . "' now='" . time() . "'>" . TimeFormat::secondsToText($toEnd) . "</span>";
 			}
 
 			$samoloty .= "</td><td>";

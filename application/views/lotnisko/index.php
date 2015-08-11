@@ -37,7 +37,7 @@
 
 							$typ = $plane->getUpgradedModel();
 
-							$planeHTML = "<img src='".URL::base(TRUE)."assets/samoloty/".$plane->plane_id.".jpg' class='img-rounded hidden-xs' style='width: 100%;'/><br />".$us->drawButton()."<br />".$typ->producent." ".$typ->model."<br />Miejsc: ".$typ->miejsc."<br />Spalanie: ".$typ->spalanie."kg/km<br />Prędkość przelotowa: ".$typ->predkosc."km/h<br />Stan: ".round($plane->stan, 2)."%<br />Pokonana trasa: ".formatCash($plane->km)."km<br />Czasu w powietrzu: ".secondsToText($plane->hours)."";
+							$planeHTML = "<img src='".URL::base(TRUE)."assets/samoloty/".$plane->plane_id.".jpg' class='img-rounded hidden-xs' style='width: 100%;'/><br />".$us->drawButton()."<br />".$typ->producent." ".$typ->model."<br />Miejsc: ".$typ->miejsc."<br />Spalanie: ".$typ->spalanie."kg/km<br />Prędkość przelotowa: ".$typ->predkosc."km/h<br />Stan: ".round($plane->stan, 2)."%<br />Pokonana trasa: ".formatCash($plane->km)."km<br />Czasu w powietrzu: ".TimeFormat::secondsToText($plane->hours)."";
 
 							$event = DB::select()->from('events')->where('id', '=', $departure->event)->execute()->as_array();
 							if(empty($event))
@@ -47,8 +47,8 @@
 								echo '<td><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="bottom" title="'.eventTypeToName($event['type']).'">['.eventTypeToShort($event['type']).']</span></td>';
 								echo '<td><span class="Jpopover" data-container=".main" data-toggle="popover" data-placement="bottom" data-html="true" data-content="'.$planeHTML.'">'.$plane->rejestracja.'</span></td>';
 								echo "<td>".HTML::anchor('airport/index/'.$departure->to, cleanString(Map::getCityName($departure->to), false, " "))."</td>";
-								echo "<td>".timestampToText($departure->odprawa)."</td>";
-								echo "<td class='zegarCountdown' czas='".$departure->odprawa."' now='".time()."'>". secondsToText($departure->odprawa - time()) ."</td>";
+								echo "<td>".TimeFormat::timestampToText($departure->odprawa)."</td>";
+								echo "<td class='zegarCountdown' czas='".$departure->odprawa."' now='".time()."'>". TimeFormat::secondsToText($departure->odprawa - time()) ."</td>";
 							echo "</tr>";
 						}
 
@@ -92,8 +92,8 @@
 								echo '<td><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="bottom" title="'.eventTypeToName($event['type']).'">['.eventTypeToShort($event['type']).']</span></td>';
 								echo '<td><span class="Jpopover" data-container=".main" data-toggle="popover" data-placement="bottom" data-html="true" data-content="'.$planeHTML.'">'.$plane->rejestracja.'</span></td>';
 								echo "<td>".HTML::anchor('airport/index/'.$flight->from, cleanString(Map::getCityName($flight->from), false, " "))."</a></td>";
-								echo "<td>".timestampToText($flight->end)."</td>";
-								echo "<td class='zegarCountdown' czas='".$flight->end."' now='".time()."'>". secondsToText($flight->end - time()) ."</td>";
+								echo "<td>".TimeFormat::timestampToText($flight->end)."</td>";
+								echo "<td class='zegarCountdown' czas='".$flight->end."' now='".time()."'>". TimeFormat::secondsToText($flight->end - time()) ."</td>";
 							echo "</tr>";
 						}
 

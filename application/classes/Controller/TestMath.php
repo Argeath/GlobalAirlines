@@ -204,7 +204,7 @@ class Controller_TestMath extends Controller_Template {
 				$czas = ($distance / ($p->predkosc*0.85)) + (ceil($p->miejsc/75)/4);
 				$phour = $zysk / $czas;
 				$czas = $czas * 3600;
-				$czasT = secondsToText($czas);
+				$czasT = TimeFormat::secondsToText($czas);
 				
 				$order = "";
 				$order .= "Kadry: ".Prints::colorNumber($kadryCost)." ".WAL."<br />";

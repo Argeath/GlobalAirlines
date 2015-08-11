@@ -54,7 +54,7 @@ class Controller_Podglad extends Controller_Template {
 
 				$typ = $plane->getUpgradedModel();
 
-				$planeHTML = "<img src='" . URL::base(TRUE) . "assets/samoloty/" . $plane->plane_id . ".jpg' class='img-rounded hidden-xs' style='width: 150px;'/><br />" . $typ->producent . " " . $typ->model . "<br />Miejsc: " . $typ->miejsc . "<br />Spalanie: " . $typ->spalanie . "kg/km<br />Prędkość przelotowa: " . $typ->predkosc . "km/h<br />Stan: " . round($plane->stan, 2) . "%<br />Pokonana trasa: " . formatCash($plane->km) . "km<br />Czasu w powietrzu: " . secondsToText($plane->hours) . "";
+				$planeHTML = "<img src='" . URL::base(TRUE) . "assets/samoloty/" . $plane->plane_id . ".jpg' class='img-rounded hidden-xs' style='width: 150px;'/><br />" . $typ->producent . " " . $typ->model . "<br />Miejsc: " . $typ->miejsc . "<br />Spalanie: " . $typ->spalanie . "kg/km<br />Prędkość przelotowa: " . $typ->predkosc . "km/h<br />Stan: " . round($plane->stan, 2) . "%<br />Pokonana trasa: " . formatCash($plane->km) . "km<br />Czasu w powietrzu: " . TimeFormat::secondsToText($plane->hours) . "";
 
 				$event = ORM::factory("Event", $flight->event);
 				if (!$event->loaded()) {
@@ -71,8 +71,8 @@ class Controller_Podglad extends Controller_Template {
 				$flightsText .= '<td><span class="Jpopover" data-container=".main" data-toggle="popover" data-placement="bottom" data-html="true" data-content="' . $planeHTML . '">' . $plane->rejestracja . '</span></td>';
 				$flightsText .= '<td><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="bottom" title="' . Map::getCityName($flight->from) . '">' . HTML::anchor("airport/index/" . $flight->from, cleanString(Map::getCityCode($flight->from), false, " ")) . '</a></td>';
 				$flightsText .= '<td><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="bottom" title="' . Map::getCityName($flight->to) . '">' . HTML::anchor("airport/index/" . $flight->to, cleanString(Map::getCityCode($flight->to), false, " ")) . '</td>';
-				$flightsText .= "<td>" . timestampToText($flight->end) . $delayed . "</td>";
-				$flightsText .= "<td class='zegarCountdown' czas='" . $flight->end . "' now='" . time() . "'>" . secondsToText($flight->end - time()) . "</td>";
+				$flightsText .= "<td>" . TimeFormat::timestampToText($flight->end) . $delayed . "</td>";
+				$flightsText .= "<td class='zegarCountdown' czas='" . $flight->end . "' now='" . time() . "'>" . TimeFormat::secondsToText($flight->end - time()) . "</td>";
 				$flightsText .= "</tr>";
 			}
 		} else {
@@ -108,15 +108,15 @@ class Controller_Podglad extends Controller_Template {
 					$delayed = ' <span style="color: red;" class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="bottom" title="Opóźnienie lotu">(' . $departure->delayed . 'M)</span>';
 				}
 
-				$planeHTML = "<img src='" . URL::base(TRUE) . "assets/samoloty/" . $typ->id . ".jpg' class='img-rounded hidden-xs' style='width: 100%;'/><br />" . $typ->fullName() . "<br />Miejsc: " . $typ->miejsc . "<br />Spalanie: " . $typ->spalanie . "kg/km<br />Prędkość przelotowa: " . $typ->predkosc . "km/h<br />Stan: " . round($departure->UserPlane->stan, 2) . "%<br />Pokonana trasa: " . formatCash($departure->UserPlane->km) . "km<br />Czasu w powietrzu: " . secondsToText($departure->UserPlane->hours) . "";
+				$planeHTML = "<img src='" . URL::base(TRUE) . "assets/samoloty/" . $typ->id . ".jpg' class='img-rounded hidden-xs' style='width: 100%;'/><br />" . $typ->fullName() . "<br />Miejsc: " . $typ->miejsc . "<br />Spalanie: " . $typ->spalanie . "kg/km<br />Prędkość przelotowa: " . $typ->predkosc . "km/h<br />Stan: " . round($departure->UserPlane->stan, 2) . "%<br />Pokonana trasa: " . formatCash($departure->UserPlane->km) . "km<br />Czasu w powietrzu: " . TimeFormat::secondsToText($departure->UserPlane->hours) . "";
 
 				$odlotyText .= "<tr>";
 				$odlotyText .= '<td><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="bottom" title="' . eventTypeToName($type) . '">[' . eventTypeToShort($type) . ']</span></td>';
 				$odlotyText .= '<td><span class="Jpopover" data-container=".main" data-toggle="popover" data-placement="bottom" data-html="true" data-content="' . $planeHTML . '">' . $departure->UserPlane->rejestracja . '</span></td>';
 				$odlotyText .= '<td><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="bottom" title="' . Map::getCityName($departure->from) . '">' . HTML::anchor("airport/index/" . $departure->from, cleanString(Map::getCityCode($departure->from), false, " ")) . '</a></td>';
 				$odlotyText .= '<td><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="bottom" title="' . Map::getCityName($departure->to) . '">' . HTML::anchor("airport/index/" . $departure->to, cleanString(Map::getCityCode($departure->to), false, " ")) . '</td>';
-				$odlotyText .= "<td>" . timestampToText($departure->end) . $delayed . "</td>";
-				$odlotyText .= "<td class='zegarCountdown' czas='" . $remainingTime . "' now='" . time() . "'>" . secondsToText($remaining) . "</td>";
+				$odlotyText .= "<td>" . TimeFormat::timestampToText($departure->end) . $delayed . "</td>";
+				$odlotyText .= "<td class='zegarCountdown' czas='" . $remainingTime . "' now='" . time() . "'>" . TimeFormat::secondsToText($remaining) . "</td>";
 				$odlotyText .= "</tr>";
 			}
 		} else {
@@ -131,7 +131,7 @@ class Controller_Podglad extends Controller_Template {
 				$otherText .= "<tr>";
 				//$otherText .= '<td><span class="Jtooltip" data-toggle="tooltip" data-container=".main" data-placement="right" title="'.eventTypeToName($o->type).'">['.eventTypeToShort($o->type).']</span></td>';
 				$otherText .= '<td>' . eventTypeToName($o->type) . '</td>';
-				$otherText .= "<td class='zegarCountdown' czas='" . $o->when . "' now='" . time() . "'>" . secondsToText($o->when - time()) . "</td>";
+				$otherText .= "<td class='zegarCountdown' czas='" . $o->when . "' now='" . time() . "'>" . TimeFormat::secondsToText($o->when - time()) . "</td>";
 				$otherText .= "</tr>";
 			}
 		}

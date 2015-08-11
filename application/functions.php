@@ -28,7 +28,6 @@ function countOnlineUsers()
 {
 	try {
 		global $users_online;
-		//$users_online = DB::select()->from('sessions')->where('last_active', '>=', time()-300)->execute();
 		$users_online = ORM::Factory("User")->where('last_login', '>=', time()-900)->find_all();
 		return $users_online;
 	} catch(Exception $e)
@@ -37,21 +36,6 @@ function countOnlineUsers()
 	}
 	return 0;
 }
-
-function timestampToText($timestamp, $year = false)
-{
-	try {
-		$rok = "";
-		if($year)
-			$rok = ".Y";
-		return date("H:i d.m".$rok, $timestamp);
-	} catch(Exception $e)
-	{
-		errToDb('[Exception]['.__FILE__.']['.__FUNCTION__.'][Line: '.$e->getLine().']['.$e->getMessage().']');
-	}
-	return '';
-}
-
 
 function microtime_float()
 {
@@ -167,106 +151,12 @@ function getStatUnit($stat)
 	return '';
 }
 
-function printBlocked($xp, $obj)
-{
-	try {
-		$menuLvls = Kohana::$config->load('lvls.biura');
-		$lvl = Experience::getLevelByExp($xp);
-		$required = $menuLvls[$obj];
-		if($required > $lvl)
-			return '<div class="blocked"><i class="glyphicon glyphicon-lock"></i> '.$required.' LVL</div>';
-	} catch(Exception $e)
-	{
-		errToDb('[Exception]['.__FILE__.']['.__FUNCTION__.'][Line: '.$e->getLine().']['.$e->getMessage().']');
-	}
-	return '';
-}
-
-function isMenuBlocked($xp, $obj)
-{
-	try {
-		$menuLvls = Kohana::$config->load('lvls.biura');
-		
-		$lvl = Experience::getLevelByExp($xp);
-		$required = $menuLvls[$obj];
-		if($required > $lvl)
-			return true;
-	} catch(Exception $e)
-	{
-		errToDb('[Exception]['.__FUNCTION__.'][Line: '.$e->getLine().'] '.$e->getMessage());
-		return true;
-	}
-	return false;
-	
-}
-
 function shortenString($str, $lb=2)
 {
 	$txt = substr($str, 0, $lb);
 	$txt .= '.';
 	return $txt;
 }
-
-function secondsToText($sec, $maxHours = false, $minMins = false)
-{
-	try {
-		$text = "";
-		if($sec < 60)
-		{
-			$text = $sec."s";
-			return $text;
-		}
-		$min = floor($sec / 60);
-		$sec = $sec % 60;
-		if($min < 60)
-		{
-			$text = $min."m ".$sec."s";
-			return $text;
-		}
-		$hr = floor($min / 60);
-		$min = $min % 60;
-		if( ! $maxHours)
-		{
-            if($hr < 24)
-            {
-                if($minMins)
-                    $text = $hr."h ".$min."m";
-                else
-                    $text = $hr."h ".$min."m ".$sec."s";
-                return $text;
-            }
-            $ds = floor($hr / 24);
-            if($ds > 1)
-                $minMins = true;
-
-            $hr = $hr % 24;
-            if($ds > 9)
-                $text = $ds."d ".$hr."h";
-            else {
-                if ($minMins)
-                    $text = $ds . "d " . $hr . "h " . $min . "m";
-                else
-                    $text = $ds . "d " . $hr . "h " . $min . "m " . $sec . "s";
-            }
-		} else {
-            if($hr > 100)
-                $text = $hr."h";
-            else {
-                if ($minMins)
-                    $text = $hr . "h " . $min . "m";
-                else
-                    $text = $hr . "h " . $min . "m " . $sec . "s";
-            }
-		}
-		return $text;
-	} catch(Exception $e)
-	{
-		errToDb('[Exception]['.__FILE__.']['.__FUNCTION__.'][Line: '.$e->getLine().']['.$e->getMessage().']');
-	}
-	return false;
-}
-
-
 
 function compareByKey($key, $typ='ASC') {
     return function ($a, $b) use ($key, $typ) {

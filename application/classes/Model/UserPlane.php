@@ -827,7 +827,7 @@ class Model_UserPlane extends ORM {
 			}
 
 			$odprawa = $zlecenie->order->count * 15 * (1 - ($checkin->level * $airportConfig['checkin']['bonus'] / 100));
-			$odprawaT = secondsToText($odprawa);
+			$odprawaT = TimeFormat::secondsToText($odprawa);
 
 			$start = $checkin->findPlaceInQueue($odprawa, $timestamp);
 			if (!$start || (($checkin->minCheckin > $odprawa || $checkin->maxCheckin < $odprawa || ($timestamp - time()) > $checkin->reservations) && $checkin->user_id != $this->user->id)) {
