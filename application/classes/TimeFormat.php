@@ -73,4 +73,21 @@ class TimeFormat {
         return false;
     }
 
+    public static function timeDeltaInWords($time) {
+        $elapsed = $time - time();
+
+        if($elapsed > -30 && $elapsed < 30)
+            return 'teraz';
+
+        $prefix = "";
+        $suffix = "";
+
+        if($elapsed < 0)
+            $suffix = " temu";
+        else
+            $prefix = "za ";
+
+        $text = TimeFormat::secondsToText( abs($elapsed) );
+        return $prefix.$text.$suffix;
+    }
 }

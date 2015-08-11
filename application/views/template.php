@@ -210,12 +210,12 @@
 							<span class="glyphicon glyphicon-warning-sign bootstrap-icon <?=(($nowych_powiadomien > 0) ? 'blink' : '');?>">
 								<div class="wide ttip panel">
 									<?
-										echo '<div style="padding: 10px 0;">';
+										echo '<div style="padding-bottom: 10px;">';
 										$powiadomienia = ORM::factory("MiniMessage")->where('user_id', '=', $profil['id'])->order_by('data', 'desc')->limit(5)->find_all();
 										foreach($powiadomienia as $powiad)
 										{
 											echo '<div class="ttip-row '.(($powiad->checked==0) ? "actual" : "").'" mid="'.$powiad->id.'" data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-content=\''.$powiad->long.'\'>';
-											echo TimeFormat::timestampToText($powiad->data).': '.$powiad->msg;
+											echo TimeFormat::timeDeltaInWords($powiad->data).': '.$powiad->msg;
 											echo "</div>";
 										}
 										echo "</div>".HTML::anchor('powiadomienia', 'Zobacz wszystkie', array('class' => 'btn btn-primary btn-block'));
@@ -238,7 +238,7 @@
 											if($sender->loaded())
 												$senderName = $sender->username;
 											echo '<div class="ttip-row">';
-											echo TimeFormat::timestampToText($msg->data).' ('.$senderName.'): '.$msg->title;
+											echo TimeFormat::timeDeltaInWords($msg->data).' ('.$senderName.'): '.$msg->title;
 											echo "</div>";
 										}
 										echo "</div>".HTML::anchor('poczta', 'Zobacz wszystkie', array('class' => 'btn btn-primary btn-block'));

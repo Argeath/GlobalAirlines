@@ -22,6 +22,16 @@ body,
   font-style: normal;
 }
 
+input:focus { outline:none; }
+input::-moz-focus-inner { border:0; }
+a, a:visited, a:focus, a:active, a:hover {
+  outline:0 none !important;
+}
+input[type=checkbox]:focus {
+  -moz-outline-offset: -1px !important;
+  outline: 0 !important;
+}
+
 body {
   background: #444;
   color: #48a770;
