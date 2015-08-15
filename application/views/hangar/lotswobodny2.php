@@ -4,12 +4,12 @@
 	</div>
 	<?= Form::open('samoloty/lotswobodnywyslij/'.$planeId); ?>
 	<table class="table table-striped">
-		<tr><td style="min-width: 200px;">Z:</td> <td style="min-width: 150px;"><?= Map::getCityName($z); ?></td></tr>
-		<tr><td>Do:</td> <td><?= Map::getCityName($dokad); ?></td></tr>
+		<tr><td style="min-width: 200px;">Z:</td> <td style="min-width: 150px;"><?= Helper_Map::getCityName($z); ?></td></tr>
+		<tr><td>Do:</td> <td><?= Helper_Map::getCityName($dokad); ?></td></tr>
 		<tr><td>Dystans:</td> <td><?= $distance; ?>km</td></tr>
 		<tr><td>Zasięg samolotu:</td> <td><? if($zasieg < $distance) echo "<span style='color: red;'>"; echo $zasieg; ?>km<? if($zasieg < $distance) echo "</span>"; ?></td></tr>
-		<tr><td>Przewidywany czas odprawy:</td> <td><?= TimeFormat::secondsToText($odprawa) ?></td></tr>
-		<tr><td>Przewidywany czas lotu:</td> <td><?= TimeFormat::secondsToText($czas) ?></td></tr>
+		<tr><td>Przewidywany czas odprawy:</td> <td><?= Helper_TimeFormat::secondsToText($odprawa) ?></td></tr>
+		<tr><td>Przewidywany czas lotu:</td> <td><?= Helper_TimeFormat::secondsToText($czas) ?></td></tr>
 		<tr style="border-bottom: 1px #FFF solid;"><td>Potrzebne paliwo:</td> <td><?= formatCash($paliwo); ?>kg</td></tr>
 		<tr><td>Stan samolotu:</td> <td><?= $stan; ?>%</td></tr>
 		<tr style="border-bottom: 1px #FFF solid;"><td>Załoga:<br />

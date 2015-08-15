@@ -37,17 +37,17 @@ class Controller_Ajax extends Controller {
 		$order = ORM::factory("UserOrder")->where("flight_id", "=", $flightId)->find();
 		if ($order->loaded()) {
 			$zlecenie = $order->order;
-			$arr['from'] = Map::getCityName($zlecenie->from);
-			$arr['to'] = Map::getCityName($zlecenie->to);
-			$arr['deadline'] = TimeFormat::timestampToText($zlecenie->deadline);
+			$arr['from'] = Helper_Map::getCityName($zlecenie->from);
+			$arr['to'] = Helper_Map::getCityName($zlecenie->to);
+			$arr['deadline'] = Helper_TimeFormat::timestampToText($zlecenie->deadline);
 			$arr['cash'] = formatCash($zlecenie->cash) . ' ' . WAL;
 			//$arr['class'] = classToName($zlec->class);
 			$arr['done'] = ($order->done == 1) ? 'Tak' : 'Nie';
 			//$arr['biuro'] = $zlec->biuro;
 			$arr['count'] = $zlecenie->count;
 		} else {
-			$arr['from'] = Map::getCityName($flight->from);
-			$arr['to'] = Map::getCityName($flight->to);
+			$arr['from'] = Helper_Map::getCityName($flight->from);
+			$arr['to'] = Helper_Map::getCityName($flight->to);
 			$arr['deadline'] = "Lot swobodny";
 			$arr['cash'] = "Lot swobodny";
 			$arr['punish'] = "Lot swobodny";
@@ -58,9 +58,9 @@ class Controller_Ajax extends Controller {
 		}
 		if ($flight) {
 			$arr['flightId'] = $flight->id;
-			$arr['odprawa'] = TimeFormat::timestampToText($flight->odprawa);
-			$arr['started'] = TimeFormat::timestampToText($flight->started);
-			$arr['end'] = TimeFormat::timestampToText($flight->end);
+			$arr['odprawa'] = Helper_TimeFormat::timestampToText($flight->odprawa);
+			$arr['started'] = Helper_TimeFormat::timestampToText($flight->started);
+			$arr['end'] = Helper_TimeFormat::timestampToText($flight->end);
 			$arr['movecancel'] = ((($flight->started - time()) >= 1800) || ($flight->checked == 0));
 		}
 

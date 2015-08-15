@@ -15,11 +15,11 @@
 		</thead>
 		<tbody>
 		<tr>
-			<td><?=Map::getCityName($order->from)?></td>
-			<td><?=Map::getCityName($order->to)?></td>
+			<td><?=Helper_Map::getCityName($order->from)?></td>
+			<td><?=Helper_Map::getCityName($order->to)?></td>
 			<td><?=formatCash($order->cash) . " " . WAL?></td>
 			<td><?=$order->count?></td>
-			<td class='hidden-xs'><?=TimeFormat::timestampToText($order->deadline)?></td>
+			<td class='hidden-xs'><?=Helper_TimeFormat::timestampToText($order->deadline)?></td>
 		</tr>
 		</tbody>
 	</table>
@@ -40,18 +40,18 @@
 				$model = $plane->getUpgradedModel();
 				if($model->miejsc < $order->count)
 					continue;
-                $distance = Map::getDistanceBetween($order->from, $order->to);
+                $distance = Helper_Map::getDistanceBetween($order->from, $order->to);
                 $czas = ($distance / ($model->predkosc*0.85)) + (ceil($model->miejsc/75)/4); //Dodatkowy czas na lądowanie i startowanie
                 $czas = $czas * 3600;
                 $placeInQueue = $plane->getPlaceInQueue($czas);
                 $placeT = "";
                 if($placeInQueue) {
                     if($placeInQueue < time() + 5)
-                        $placeT = Prints::colorBgText('WOLNY', 'green');
+                        $placeT = Helper_Prints::colorBgText('WOLNY', 'green');
                     else
-                        $placeT = Prints::colorBgText('WOLNY OD '.TimeFormat::timestampToText($placeInQueue), 'green');
+                        $placeT = Helper_Prints::colorBgText('WOLNY OD '.Helper_TimeFormat::timestampToText($placeInQueue), 'green');
                 } else
-                    $placeT = Prints::colorBgText('ZAJĘTY', 'red');
+                    $placeT = Helper_Prints::colorBgText('ZAJĘTY', 'red');
 
 				echo "<tr>".Form::open('zlecenie/checkin')."
 					<td width='15%'>".$plane->rejestracja." (".$plane->city->name.")<br /><br />".$placeT."</td>

@@ -93,7 +93,7 @@ class Controller_Map extends Controller_Template {
                       color: '#FF0000'
                     };";
 
-		$path = Map::findPath($from, $to);
+		$path = Helper_Map::findPath($from, $to);
 
 		$citymap = "";
 		$cityCoords = array();

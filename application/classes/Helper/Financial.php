@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Financial extends BasicEnum {
+abstract class Helper_Financial extends Helper_BasicEnum {
     const LotSwobodny = 0;
     const OLotZlecenie = 1;
     const Przeglad = 2;
@@ -25,41 +25,41 @@ abstract class Financial extends BasicEnum {
 	{
 		switch($x)
 		{
-			case Financial::LotSwobodny:
+			case Helper_Financial::LotSwobodny:
 				return "Opłaty za loty swobodne";
-			case Financial::OLotZlecenie:
+			case Helper_Financial::OLotZlecenie:
 				return "Opłaty za loty na zlecenia";
-			case Financial::Przeglad:
+			case Helper_Financial::Przeglad:
 				return "Przeglądy";
-			case Financial::LotSwobodnyPrac:
+			case Helper_Financial::LotSwobodnyPrac:
 				return "Opłaty za loty pracowników";
-			case Financial::LotZlecenie:
+			case Helper_Financial::LotZlecenie:
 				return "Zapłata za zlecenia";
-			case Financial::AukcjaZwrot:
+			case Helper_Financial::AukcjaZwrot:
 				return "Zwroty z aukcji";
-			case Financial::AukcjaSprzedaz:
+			case Helper_Financial::AukcjaSprzedaz:
 				return "Sprzedaż na aukcjach";
-			case Financial::AukcjaZaplata:
+			case Helper_Financial::AukcjaZaplata:
 				return "Kupno na aukcjach";
-			case Financial::Sklep:
+			case Helper_Financial::Sklep:
 				return "Kupno w sklepie";
-			case Financial::SklepSprzedaz:
+			case Helper_Financial::SklepSprzedaz:
 				return "Sprzedaż samolotu";
-			case Financial::LotniskoRozbudowa:
+			case Helper_Financial::LotniskoRozbudowa:
 				return "Rozbudowa biura na lotnisku";
-			case Financial::Paliwo:
+			case Helper_Financial::Paliwo:
 				return "Paliwo w zbiornikach";
-			case Financial::Warsztat:
+			case Helper_Financial::Warsztat:
 				return "Ulepszenia samolotów";
-			case Financial::Dotacja:
+			case Helper_Financial::Dotacja:
 				return "Dotacje od admina";
-			case Financial::Deadline:
+			case Helper_Financial::Deadline:
 				return "Niewykonanie zlecenia";
-			case Financial::LotZwrot:
+			case Helper_Financial::LotZwrot:
 				return "Zwrot opłat za lot";
-            case Financial::LotniskoPunktOdpraw:
+            case Helper_Financial::LotniskoPunktOdpraw:
                 return "Punkty odpraw";
-            case Financial::LotniskoUlepszeniePunktOdpraw:
+            case Helper_Financial::LotniskoUlepszeniePunktOdpraw:
                 return "Ulepszenie punktu odpraw";
 		}
 		return "";

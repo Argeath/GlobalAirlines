@@ -15,11 +15,11 @@
         </thead>
         <tbody>
         <tr>
-            <td><?=Map::getCityName($zlecenie->order->from)?></td>
-            <td><?=Map::getCityName($zlecenie->order->to)?></td>
+            <td><?=Helper_Map::getCityName($zlecenie->order->from)?></td>
+            <td><?=Helper_Map::getCityName($zlecenie->order->to)?></td>
             <td><?=formatCash($zlecenie->order->cash) . " " . WAL?></td>
             <td><?=$zlecenie->order->count?></td>
-            <td class='hidden-xs'><?=TimeFormat::timestampToText($zlecenie->order->deadline)?></td>
+            <td class='hidden-xs'><?=Helper_TimeFormat::timestampToText($zlecenie->order->deadline)?></td>
         </tr>
         </tbody>
     </table>
@@ -45,17 +45,17 @@
                     $placeT = "";
                     if($c['place']) {
                         if($c['place'] < time() + 5)
-                            $placeT = Prints::colorBgText('TERAZ', 'green');
+                            $placeT = Helper_Prints::colorBgText('TERAZ', 'green');
                         else
-                            $placeT = TimeFormat::timestampToText($c['place']);
+                            $placeT = Helper_TimeFormat::timestampToText($c['place']);
                     } else
-                        $placeT = Prints::colorBgText('Brak miejsc', 'red');
+                        $placeT = Helper_Prints::colorBgText('Brak miejsc', 'red');
 
                     echo "<tr>";
                     echo "<td>".$ch->user->drawButton()."</td>";
                     echo "<td>".$c['bonus']."%</td>";
                     echo "<td>".(($ch->user_id == $profil['id']) ? 0 : formatCash($ch->cost))." ".WAL."</td>";
-                    echo "<td>".TimeFormat::secondsToText(round($c['odprawa']))."</td>";
+                    echo "<td>".Helper_TimeFormat::secondsToText(round($c['odprawa']))."</td>";
                     echo "<td>".$placeT."</td>";
                     echo '<td>
                         '.Form::open('zlecenie/confirm').'

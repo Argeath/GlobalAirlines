@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Map {
+class Helper_Map {
 	static function getContinents() {
 		return array('EU', 'AZ', 'AF', 'AN', 'AS', 'AU');
 	}
@@ -20,9 +20,9 @@ class Map {
 	static function countRegionMaxOrders($biuro, $region) {
 		//$zlec = DB::select(array('COUNT(*)', 'zlecen'))->from('zlecenia')->where('region', '=', $region)->execute()->get('zlecen');
 		if (in_array($biuro, array(1, 2, 5, 6))) {
-			$cities = Map::getRegionCities($region);
+			$cities = Helper_Map::getRegionCities($region);
 		} else {
-			$cities = Map::getRegionCities($region, true);
+			$cities = Helper_Map::getRegionCities($region, true);
 		}
 
 		$zlecen = 0;
@@ -46,7 +46,7 @@ class Map {
 			return ORM::factory("City")->cached()->where('rozmiar', '>=', $rozmiar)->order_by('id', 'asc')->distinct(true)->find_all();
 		}
 
-		$continents = Map::getContinents();
+		$continents = Helper_Map::getContinents();
 		if (in_array($region, $continents)) {
 			return ORM::factory("City")->cached()->where('region', 'LIKE', '%-' . $region . '%')->and_where('rozmiar', '>=', $rozmiar)->order_by('id', 'asc')->distinct(true)->find_all();
 		}
@@ -55,27 +55,27 @@ class Map {
 
 	static function getAllRegionCities() {
 		$arr = ['regions' => [], 'continents' => [], 'worldSmall' => [], 'worldBig' => []];
-		$regions = Map::getRegions();
+		$regions = Helper_Map::getRegions();
 		foreach ($regions as $r) {
-			$cities = Map::getRegionCities($r, false);
+			$cities = Helper_Map::getRegionCities($r, false);
 			$arr['regions'][$r] = $cities;
 		}
-		$regions = Map::getContinents();
+		$regions = Helper_Map::getContinents();
 		foreach ($regions as $r) {
-			$cities = Map::getRegionCities($r, false);
+			$cities = Helper_Map::getRegionCities($r, false);
 			$arr['continents'][$r] = $cities;
 		}
-		$cities = Map::getRegionCities('WR', false);
+		$cities = Helper_Map::getRegionCities('WR', false);
 		$arr['worldSmall'] = $cities;
 
-		$cities = Map::getRegionCities('WR', true);
+		$cities = Helper_Map::getRegionCities('WR', true);
 		$arr['worldBig'] = $cities;
 
 		return $arr;
 	}
 
 	static function getBigCities() {
-		return Map::getRegionCities('WR', true);
+		return Helper_Map::getRegionCities('WR', true);
 	}
 	/*
 	//
@@ -178,7 +178,7 @@ class Map {
 			$setek = round($distance / 100) - 1;
 			$path = array();
 			for ($i = 1; $i <= $setek; $i++) {
-				$path[$i] = Map::findCityOnPath($city1, $city2, $i * 100);
+				$path[$i] = Helper_Map::findCityOnPath($city1, $city2, $i * 100);
 			}
 
 			return $path;

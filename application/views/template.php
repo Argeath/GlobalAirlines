@@ -140,7 +140,7 @@
 </script>
 
 <div id="tmp-container" class="tmp-container">
-		<? Menu::show(); ?>
+		<? Helper_Menu::show(); ?>
 
 
 		<div class="tmp-content">
@@ -158,7 +158,7 @@
 						</div>
 						<div class="ttip panel" style="left: -20px; top: 48px;">
                             <div class="level-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Poziom konta - doświadczenie">
-                                <div class="level-field"><?=Experience::getLevelByExp($profil['exp']);?></div>
+                                <div class="level-field"><?=Helper_Experience::getLevelByExp($profil['exp']);?></div>
                                 <div id='expbar'>
                                     <div class='label'><?=$profil['expLabel'];?></div>
                                 </div>
@@ -174,7 +174,7 @@
                             <div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Czas spędzony w powietrzu">
                                 <div class="icon-field"><i class="fa fa-cloud-upload"></i></div>
                                 <div class="bar">
-                                    <div class='label'><?=TimeFormat::secondsToText($profil['hours']);?></div>
+                                    <div class='label'><?=Helper_TimeFormat::secondsToText($profil['hours']);?></div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -215,7 +215,7 @@
 										foreach($powiadomienia as $powiad)
 										{
 											echo '<div class="ttip-row '.(($powiad->checked==0) ? "actual" : "").'" mid="'.$powiad->id.'" data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-content=\''.$powiad->long.'\'>';
-											echo TimeFormat::timeDeltaInWords($powiad->data).': '.$powiad->msg;
+											echo Helper_TimeFormat::timeDeltaInWords($powiad->data).': '.$powiad->msg;
 											echo "</div>";
 										}
 										echo "</div>".HTML::anchor('powiadomienia', 'Zobacz wszystkie', array('class' => 'btn btn-primary btn-block'));
@@ -238,7 +238,7 @@
 											if($sender->loaded())
 												$senderName = $sender->username;
 											echo '<div class="ttip-row">';
-											echo TimeFormat::timeDeltaInWords($msg->data).' ('.$senderName.'): '.$msg->title;
+											echo Helper_TimeFormat::timeDeltaInWords($msg->data).' ('.$senderName.'): '.$msg->title;
 											echo "</div>";
 										}
 										echo "</div>".HTML::anchor('poczta', 'Zobacz wszystkie', array('class' => 'btn btn-primary btn-block'));
@@ -266,7 +266,7 @@
 											if( ! $plane->loaded())
 												continue;
 											echo ($first) ? "<b>" : '';
-											echo $plane->rejestracja.": <span class='zegarCountdown' czas='".$f->end."' now='".time()."'>". TimeFormat::secondsToText($f->end - time()) ."</span> (".date("H:i", $f->end).")";
+											echo $plane->rejestracja.": <span class='zegarCountdown' czas='".$f->end."' now='".time()."'>". Helper_TimeFormat::secondsToText($f->end - time()) ."</span> (".date("H:i", $f->end).")";
 											echo ($first) ? "</b>" : '';
 											echo "<br />";
 											$first = false;
@@ -278,7 +278,7 @@
 						<div class="field panel">
 							<div style="padding: 5px; text-align: center;">
 							<small>Kurs paliwa</small><br />
-							<h4 style="margin-top: 0;"><?=Oil::getOilCost() . ' ' . WAL;?></h4>
+							<h4 style="margin-top: 0;"><?=Helper_Oil::getOilCost() . ' ' . WAL;?></h4>
 							</div>
 						</div>
 					<? } ?>
@@ -288,8 +288,8 @@
 				</div>
                 <div class="main">
                     <div class="mainScrollable">
-                        <? Prints::printMsg(); ?>
-                        <? Prints::printErrors(); ?>
+                        <? Helper_Prints::printMsg(); ?>
+                        <? Helper_Prints::printErrors(); ?>
 <?=((isset($content)) ? $content : '');?>
 						<div id="tutorialLayerInner"></div>
                     </div>

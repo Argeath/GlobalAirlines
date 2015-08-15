@@ -1,13 +1,13 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.');
 
-class Escalation extends Operator {
+class Math_Division extends Math_Operator {
  
-    protected $precidence = 6;
+    protected $precidence = 5;
  
-    public function operate(Stack $stack) {
+    public function operate(Math_Stack $stack) {
         $left = $stack->pop()->operate($stack);
         $right = $stack->pop()->operate($stack);
-        return pow($right, $left);
+        return $right / $left;
     }
  
 }

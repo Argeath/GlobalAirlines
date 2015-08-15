@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class BasicEnum {
+abstract class Helper_BasicEnum {
     private static $constCache = NULL;
 
     private static function getConstants() {

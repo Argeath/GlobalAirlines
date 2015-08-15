@@ -15,7 +15,7 @@
 	</div>
 	<div class="col-md-6 col-xs-12 well">
 		<h2>Aktualna cena paliwa:<br />
-		<b><?= formatCash(Oil::getOilCost(), 2); ?> <?= WAL; ?></b></h2>
+		<b><?= formatCash(Helper_Oil::getOilCost(), 2); ?> <?= WAL; ?></b></h2>
 	</div>
 	<div class="clearfix"></div>
 </div>

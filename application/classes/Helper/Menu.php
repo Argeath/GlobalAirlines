@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Menu {
+class Helper_Menu {
 	static function show() {
 		$user = Auth::instance()->get_user();
 		$logged = false;

@@ -229,7 +229,7 @@ class Controller_Airport extends Controller_Template {
 					if ($user->cash >= $zbiornik_cena_wal) {
 						$lotnisko->cysterny++;
 						$lotnisko->save();
-						$info = array('type' => Financial::LotniskoRozbudowa, 'office_id' => $lotnisko->id);
+						$info = array('type' => Helper_Financial::LotniskoRozbudowa, 'office_id' => $lotnisko->id);
 						$user->operateCash(-$zbiornik_cena_wal, 'Zakup zbiornika paliwa na lotnisku - ' . $lotnisko->getName() . '.', time(), $info);
 						sendMsg('Kupiłeś zbiornik paliwa na lotnisku w mieście ' . $lotnisko->getName() . '.');
 						$this->redirect('airport/office/' . $lotnisko->id);
@@ -241,7 +241,7 @@ class Controller_Airport extends Controller_Template {
 					if ($user->premium_points >= $zbiornik_cena_pkt) {
 						$lotnisko->cysterny++;
 						$lotnisko->save();
-						$info = array('type' => Financial::LotniskoRozbudowa, 'office_id' => $lotnisko->id);
+						$info = array('type' => Helper_Financial::LotniskoRozbudowa, 'office_id' => $lotnisko->id);
 						$user->operatePoints(-$zbiornik_cena_pkt, 'Zakup zbiornika paliwa na lotnisku - ' . $lotnisko->getName() . '.', time(), $info);
 						sendMsg('Kupiłeś zbiornik paliwa na lotnisku w mieście ' . $lotnisko->getName() . '.');
 						$this->redirect('airport/office/' . $lotnisko->id);
@@ -259,7 +259,7 @@ class Controller_Airport extends Controller_Template {
 						$check->city_id = $lotnisko->city_id;
 						$check->save();
 
-						$info = array('type' => Financial::LotniskoRozbudowa, 'office_id' => $lotnisko->id);
+						$info = array('type' => Helper_Financial::LotniskoRozbudowa, 'office_id' => $lotnisko->id);
 						$user->operateCash(-$punktodpraw_cena_wal, 'Zakup punktu odpraw na lotnisku - ' . $lotnisko->getName() . '.', time(), $info);
 						sendMsg('Kupiłeś punkt odpraw na lotnisku w mieście ' . $lotnisko->getName() . '.');
 						$this->redirect('airport/office/' . $lotnisko->id);
@@ -276,7 +276,7 @@ class Controller_Airport extends Controller_Template {
 						$check->city_id = $lotnisko->city_id;
 						$check->save();
 
-						$info = array('type' => Financial::LotniskoRozbudowa, 'office_id' => $lotnisko->id);
+						$info = array('type' => Helper_Financial::LotniskoRozbudowa, 'office_id' => $lotnisko->id);
 						$user->operatePoints(-$punktodpraw_cena_pkt, 'Zakup punktu odpraw na lotnisku - ' . $lotnisko->getName() . '.', time(), $info);
 						sendMsg('Kupiłeś punkt odpraw na lotnisku w mieście ' . $lotnisko->getName() . '.');
 						$this->redirect('airport/office/' . $lotnisko->id);
@@ -300,7 +300,7 @@ class Controller_Airport extends Controller_Template {
 						$check->cash = 0;
 						$check->earned += $cash;
 						$check->save();
-						$info = array('type' => Financial::LotniskoPunktOdpraw, 'office_id' => $lotnisko->id, 'checkin_id' => $check->id);
+						$info = array('type' => Helper_Financial::LotniskoPunktOdpraw, 'office_id' => $lotnisko->id, 'checkin_id' => $check->id);
 						$user->operateCash($cash, 'Zebranie pieniędzy z punktu odpraw na lotnisku - ' . $lotnisko->getName() . '.', time(), $info);
 						sendMsg('Zebrałeś ' . formatCash($cash) . ' ' . WAL . ' z punktu odpraw na lotnisku ' . $lotnisko->getName() . '.');
 						$this->redirect('airport/office/' . $lotnisko->id);
@@ -313,7 +313,7 @@ class Controller_Airport extends Controller_Template {
 						if ($user->cash > $upgradeCost) {
 							$check->level++;
 							$check->save();
-							$info = array('type' => Financial::LotniskoUlepszeniePunktOdpraw, 'office_id' => $lotnisko->id, 'checkin_id' => $check->id);
+							$info = array('type' => Helper_Financial::LotniskoUlepszeniePunktOdpraw, 'office_id' => $lotnisko->id, 'checkin_id' => $check->id);
 							$user->operateCash(-$upgradeCost, 'Ulepszenie punktu odpraw na lotnisku - ' . $lotnisko->getName() . '.', time(), $info);
 							sendMsg('Ulepszyłeś punkt odpraw na lotnisku ' . $lotnisko->getName() . '.');
 							$this->redirect('airport/office/' . $lotnisko->id);

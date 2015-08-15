@@ -5,7 +5,7 @@
 	<table class="table table-striped">
 	<tr>
 		<th>Data</th>
-		<td><?= TimeFormat::timestampToText($message->data, true); ?></td>
+		<td><?= Helper_TimeFormat::timestampToText($message->data, true); ?></td>
 	</tr>
 	<tr>
 		<th>Użytkownicy</th>

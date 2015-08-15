@@ -34,9 +34,9 @@
 				echo "<tr ".(( ($zaznacz > 0 && $lp == $zaznacz) || ($zaznacz == 0 && $lp==$miejsce)) ? 'class="actual"' : '')."><td>".$lp."</td>";
 				$avatar = $u->getAvatar();
 				echo '<td><img src="'.$avatar.'" style="width: 100px; height: 100px;" class="img-thumbnail"/><br />'.$u->drawButton().'</td>';
-				echo '<td>'.Experience::getLevelByExp($u->exp).' poz.</td>';
+				echo '<td>'.Helper_Experience::getLevelByExp($u->exp).' poz.</td>';
 				echo '<td>'.formatCash($u->km, 0).' km</td>';
-				echo '<td>'.TimeFormat::secondsToText($u->hours, true, true).'</td>';
+				echo '<td>'.Helper_TimeFormat::secondsToText($u->hours, true, true).'</td>';
 				echo '<td>'.formatCash($u->pasazerow, 0).'</td>';
 				echo '<td>'.formatCash($u->zlecen, 0).'</td>';
 				echo '<td>'.formatCash($u->niewykonanych, 0).'</td>';

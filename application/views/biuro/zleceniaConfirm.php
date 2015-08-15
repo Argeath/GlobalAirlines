@@ -10,9 +10,9 @@
 		<tr><td>Pasażerów:</td> <td style="position: relative;"><?=(($miejsc < $pasazerow) ? "<span style='color: red;'>" : "")?> <?=$pasazerow;?><?=(($miejsc < $pasazerow) ? '</span><div class="table-right-element text-red"><i class="glyphicon glyphicon-remove"></i></div>' : '<div class="table-right-element text-green"><i class="glyphicon glyphicon-ok"></i></div>')?></td></tr>
 		<tr><td>Przewidywany czas odprawy:</td> <td><?=$odprawaT?></td></tr>
 		<tr><td>Przewidywany czas lotu:</td> <td><?=$czasT?></td></tr>
-		<tr><td>Przewidywany czas rozpoczęcia odprawy:</td> <td><?=TimeFormat::timestampToText($start);?></td></tr>
-		<tr><td>Przewidywany czas startu:</td> <td><?=TimeFormat::timestampToText($start + $odprawa);?></td></tr>
-		<tr><td>Przewidywany czas lądowania:</td> <td><?=TimeFormat::timestampToText($start + $odprawa + $czas);?></td></tr>
+		<tr><td>Przewidywany czas rozpoczęcia odprawy:</td> <td><?=Helper_TimeFormat::timestampToText($start);?></td></tr>
+		<tr><td>Przewidywany czas startu:</td> <td><?=Helper_TimeFormat::timestampToText($start + $odprawa);?></td></tr>
+		<tr><td>Przewidywany czas lądowania:</td> <td><?=Helper_TimeFormat::timestampToText($start + $odprawa + $czas);?></td></tr>
 		<tr><td>Potrzebne paliwo:</td> <td><?=formatCash($paliwo);?> kg</td></tr>
 		<? if($bazaB) { ?>
 			<tr><td>Paliwo w bazie:</td> <td><?=$bazaOil;?> kg</td></tr>
@@ -21,13 +21,13 @@
 		<tr  style="border-top: 3px #C9C9C9 double;"><td>Stan samolotu:</td> <td><?=$stan;?>%</td></tr>
 		<tr style="border-bottom: 3px #C9C9C9 double;"><td colspan="2" data-html="true" data-toggle="tooltip" data-container="body" data-placement="bottom" title="<?=$zalogaT;?>">
 			Załoga:
-			<?=Prints::colorBgText("Pilotów: " . $juzPilotow . "/" . $pilotow, "#428bca");?>
-			<?=Prints::colorBgText("Załogi dodatkowej: " . $juzDodatkowej . "/" . $dodatkowej, "#428bca");?>
+			<?=Helper_Prints::colorBgText("Pilotów: " . $juzPilotow . "/" . $pilotow, "#428bca");?>
+			<?=Helper_Prints::colorBgText("Załogi dodatkowej: " . $juzDodatkowej . "/" . $dodatkowej, "#428bca");?>
 		</td></tr>
 		<tr><td>Honorarium za zlecenie:</td> <td style="color: green;"><?=formatCash($zaplata);?> <?=WAL?></td></tr>
 		<tr data-toggle="collapse" data-target=".costs"><td>Opłaty:</td> <td style="color: red;">-<?=formatCash($kosztP + $kosztO + $kosztZ + $oplaty);?> <?=WAL?></td></tr>
 
-		<tr class="costs collapse out"><td>Cena paliwa:</td> <td><?=formatCash(Oil::getOilCost(), 2);?> <?=WAL?></td></tr>
+		<tr class="costs collapse out"><td>Cena paliwa:</td> <td><?=formatCash(Helper_Oil::getOilCost(), 2);?> <?=WAL?></td></tr>
 		<tr class="costs collapse out"><td>Opłata za paliwo:</td> <td style="color: red;">-<?=formatCash($kosztP);?> <?=WAL?></td></tr>
 		<tr class="costs collapse out"><td>Opłata za punkt odpraw:</td> <td style="color: red;">-<?=formatCash($kosztO);?> <?=WAL?></td></tr>
 		<tr class="costs collapse out"><td>Honorarium dla załogi:</td> <td style="color: red;">-<?=formatCash($kosztZ);?> <?=WAL?></td></tr>
@@ -42,7 +42,7 @@
 	<input type='hidden' name='checkin' value='<?=$checkinId;?>'/>
 	<input type='hidden' name='planowany_start' value='<?=$planowany_start;?>'/>
 	<br />
-	<?=Prints::rusureButton("Wyślij", "send", "send_plane", ['btn-primary']);?>
+	<?=Helper_Prints::rusureButton("Wyślij", "send", "send_plane", ['btn-primary']);?>
 
 	</form>
 </div>

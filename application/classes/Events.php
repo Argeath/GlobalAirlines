@@ -114,7 +114,7 @@ class Events {
 							//Jeżeli mechanik na pokładzie to mniejszy spadek stanu etc
 							$stan = round((rand(1, 5) / 100) * $hours, 2);
 
-							$q->user->sendMiniMessage("Samolot " . $plane->rejestracja . " dotarł do miasta " . Map::getCityName($to), "Samolot " . $plane->fullName() . " dotarł do miasta " . Map::getCityName($to) . ".<br />Spadek stanu samolotu: " . $stan . "%", 1, $flight->end);
+							$q->user->sendMiniMessage("Samolot " . $plane->rejestracja . " dotarł do miasta " . Helper_Map::getCityName($to), "Samolot " . $plane->fullName() . " dotarł do miasta " . Helper_Map::getCityName($to) . ".<br />Spadek stanu samolotu: " . $stan . "%", 1, $flight->end);
 
 							$plane->position = $to;
 							$plane->km += $distance;
@@ -192,11 +192,11 @@ class Events {
 
 							if ($punish) {
 								$punish = $order->cash * 1.2;
-								$msg = "Zapłaciłeś karę - " . formatCash($punish) . " " . WAL . " za zlecenie z miasta " . Map::getCityName($order->from) . " do miasta " . Map::getCityName($order->to) . ".";
+								$msg = "Zapłaciłeś karę - " . formatCash($punish) . " " . WAL . " za zlecenie z miasta " . Helper_Map::getCityName($order->from) . " do miasta " . Helper_Map::getCityName($order->to) . ".";
 								$q->user->sendMiniMessage("Zapłaciłeś karę za niewykonanie zlecenia.", $msg, $order->deadline);
-								$info = array('type' => Financial::Deadline, 'order_id' => $order->id);
+								$info = array('type' => Helper_Financial::Deadline, 'order_id' => $order->id);
 								$q->user->niewykonanych++;
-								$q->user->operateCash(-$punish, 'Kara za niewykonanie zlecenia (' . Map::getCityName($order->from) . ' -> ' . Map::getCityName($order->to) . ').', $q->when, $info);
+								$q->user->operateCash(-$punish, 'Kara za niewykonanie zlecenia (' . Helper_Map::getCityName($order->from) . ' -> ' . Helper_Map::getCityName($order->to) . ').', $q->when, $info);
 								$zlecenie->done = 1;
 								$zlecenie->punished = 1;
 								$zlecenie->save();
@@ -303,8 +303,8 @@ class Events {
 
 										$plane->updateStaffConditionToFuture($q->when);
 
-										$msg = 'Samolot ' . $plane->fullName() . ' dotarł do miasta ' . Map::getCityName($to) . '.<br />Zapłata: ' . formatCash($order->cash) . ' ' . WAL . '<br />Spadek stanu samolotu: ' . $stan . '%<br />Dostałeś ' . $xp . ' punktów doświadczenia.';
-										$q->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' dotarł do miasta ' . Map::getCityName($to), $msg, $flight->end);
+										$msg = 'Samolot ' . $plane->fullName() . ' dotarł do miasta ' . Helper_Map::getCityName($to) . '.<br />Zapłata: ' . formatCash($order->cash) . ' ' . WAL . '<br />Spadek stanu samolotu: ' . $stan . '%<br />Dostałeś ' . $xp . ' punktów doświadczenia.';
+										$q->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' dotarł do miasta ' . Helper_Map::getCityName($to), $msg, $flight->end);
 
 										//DB::update('events')->set(array('done' => 1))->where('type', '=', 3)->and_where('when', '=', $zlecenie->deadline)->and_where('user', '=', $q->user->id)->execute();
 
@@ -320,8 +320,8 @@ class Events {
 
 										$q->user->km += $distance;
 										$q->user->hours += $timeInAir;
-										$info = array('type' => Financial::LotZlecenie, 'plane_id' => $plane->id, 'order_id' => $order->id);
-										$q->user->operateCash($order->cash, 'Zapłata za zlecenie (' . Map::getCityName($order->from) . ' -> ' . Map::getCityName($order->to) . ') wykonane samolotem - ' . $plane->fullName() . '.', $q->when, $info);
+										$info = array('type' => Helper_Financial::LotZlecenie, 'plane_id' => $plane->id, 'order_id' => $order->id);
+										$q->user->operateCash($order->cash, 'Zapłata za zlecenie (' . Helper_Map::getCityName($order->from) . ' -> ' . Helper_Map::getCityName($order->to) . ') wykonane samolotem - ' . $plane->fullName() . '.', $q->when, $info);
 
 										$q->user->pasazerow += $order->count;
 										$q->user->zlecen++;
@@ -391,7 +391,7 @@ class Events {
 					} elseif ($q->type == 8)//Obliczanie ceny paliwa
 					{
 						$check_start = microtime_float();
-						$new = Oil::calculateOilCost();
+						$new = Helper_Oil::calculateOilCost();
 
 						$mysqldate = date("Y-m-d H:i:s", $q->when);
 						$duplicateOil = DB::select()->from('oil')->where('data', '=', $mysqldate)->execute()->as_array();
@@ -453,7 +453,7 @@ class Events {
 								$order = $zlecenie->order;
 								$flight = $q->user->flights->where('id', '=', $zlecenie->flight_id)->find();
 								if ($flight->loaded() && $flight->user_id == $q->user->id) {
-									if ($plane->isBusy($q->when, $zlecenie->flight_id) == Busy::NotBusy && $plane->position == $order->from) {
+									if ($plane->isBusy($q->when, $zlecenie->flight_id) == Helper_Busy::NotBusy && $plane->position == $order->from) {
 										$accidentChance = $plane->getAccidentChance() * 100;
 										$rand = rand(0, 10000);
 										if ($rand <= $accidentChance) {
@@ -487,7 +487,7 @@ class Events {
 											}
 
 											$flight->cancel();
-											$q->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' nie wystartował.', 'Samolot ' . $plane->fullName() . ' nie wystartował z ' . Map::getCityName($order->from) . ' do ' . Map::getCityName($order->to) . '. ' . $err, $q->when);
+											$q->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' nie wystartował.', 'Samolot ' . $plane->fullName() . ' nie wystartował z ' . Helper_Map::getCityName($order->from) . ' do ' . Helper_Map::getCityName($order->to) . '. ' . $err, $q->when);
 										} else {
 											//$delay = ($flight->delayed == 0) ? 1 : $flight->delayed;
 											//if($delay > 5)
@@ -533,7 +533,7 @@ class Events {
 						$flight = $q->parameters->where('key', '=', 'flight')->find()->value;
 
 						$plane = $q->user->UserPlanes->where('id', '=', $planeId)->find();
-						if ($plane->loaded() && $plane->isBusy() == Busy::NotBusy && $plane->position == $from) {
+						if ($plane->loaded() && $plane->isBusy() == Helper_Busy::NotBusy && $plane->position == $from) {
 							$newEvent = ORM::factory("Event");
 							$newEvent->user_id = $q->user->id;
 							$newEvent->when = $q->when + $odprawa;
@@ -550,7 +550,7 @@ class Events {
 							$paramValues[] = '(' . $event_id . ', "to", ' . round($to) . ')';
 							$paramValues[] = '(' . $event_id . ', "from", ' . round($from) . ')';
 						} elseif ($plane->loaded()) {
-							$q->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' nie wystartował.', 'Samolot ' . $plane->fullName() . ' nie wystartował podczas lotu z ' . Map::getCityName($order->from) . ' do ' . Map::getCityName($order->to) . ', ponieważ nie stawił się na miejsce startu.', 1, $q->when);
+							$q->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' nie wystartował.', 'Samolot ' . $plane->fullName() . ' nie wystartował podczas lotu z ' . Helper_Map::getCityName($order->from) . ' do ' . Helper_Map::getCityName($order->to) . ', ponieważ nie stawił się na miejsce startu.', 1, $q->when);
 						} else {
 							errToDB("[User: " . $q->user->id . "] [Event: " . $q->id . "] [Type: " . $q->type . "] [EventLoop: 1]");
 						}
@@ -637,8 +637,8 @@ class Events {
 							} elseif ($typ['when'] == 2) {
 								$czasLotu = $flight->end - $flight->started;
 								$czasAwarii = $accident->time - $flight->started;
-								$przelecial = round($czasAwarii / $czasLotu * Map::getDistanceBetween($flight->from, $flight->to));
-								$city = Map::findCityOnPath($flight->from, $flight->to, $przelecial);
+								$przelecial = round($czasAwarii / $czasLotu * Helper_Map::getDistanceBetween($flight->from, $flight->to));
+								$city = Helper_Map::findCityOnPath($flight->from, $flight->to, $przelecial);
 								if (!$city) {
 									// TODO: Crash
 								} else {
@@ -723,16 +723,7 @@ class Events {
 							$needOneMore = true;
 						}
 					}
-					/*$lastStaff = ORM::factory("Event")->where('type', '=', 13)->order_by('when', 'DESC')->find();
-				if ($lastStaff->loaded()) {
-				if ($lastStaff->when < time() - 950) {
-				$newEvent = ORM::factory("Event");
-				$newEvent->when = $lastStaff->when + 900;
-				$newEvent->type = 13;
-				$newEvent->save();
-				$needOneMore = true;
-				}
-				}*/
+					unset($lastOil);
 				}
 			} while ($needOneMore);
 

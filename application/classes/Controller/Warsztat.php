@@ -21,7 +21,7 @@ class Controller_Warsztat extends Controller_Template {
 			$poz = $plane->city->name;
 			$disabled = array();
 			$disabledT = array();
-			if($plane->isBusy() != Busy::NotBusy)
+			if($plane->isBusy() != Helper_Busy::NotBusy)
 			{
 				$disabled = array('disabled' => 'disabled');
 				$disabledT = array('class' => 'disabled');
@@ -77,7 +77,7 @@ class Controller_Warsztat extends Controller_Template {
 			$this->redirect('warsztat');
 		}
 		
-		if( $plane->isBusy() != Busy::NotBusy)
+		if( $plane->isBusy() != Helper_Busy::NotBusy)
 		{
 			sendError('Samolot jest aktualnie w użyciu.');
 			$this->redirect('warsztat');
@@ -126,7 +126,7 @@ class Controller_Warsztat extends Controller_Template {
 			$this->redirect('warsztat');
 		}
 		
-		if( $plane->isBusy() != Busy::NotBusy)
+		if( $plane->isBusy() != Helper_Busy::NotBusy)
 		{
 			sendError('Samolot jest aktualnie w użyciu.');
 			$this->redirect('warsztat');
@@ -153,7 +153,7 @@ class Controller_Warsztat extends Controller_Template {
 				{
                     $cost = round($model->klasa * 2000 * pow(1.4, $ul + 1));
                     if($user->cash >= $cost) {
-                        $info = array('plane_id' => $plane->id, 'type' => Financial::Warsztat);
+                        $info = array('plane_id' => $plane->id, 'type' => Helper_Financial::Warsztat);
                         $user->operateCash(-$cost, 'Ulepszenie samolotu - ' . $plane->rejestracja . '.', time(), $info);
                         $upgraded[$category][$element]++;
                         $plane->upgrades = json_encode($upgraded);
@@ -167,7 +167,7 @@ class Controller_Warsztat extends Controller_Template {
 				{
                     $cost = round($model->klasa * 2 * pow(1.3, $ul + 1));
                     if($user->premium_points >= $cost) {
-                        $info = array('plane_id' => $plane->id, 'type' => Financial::Warsztat);
+                        $info = array('plane_id' => $plane->id, 'type' => Helper_Financial::Warsztat);
                         $user->operatePoints(-$cost, 'Ulepszenie samolotu - ' . $plane->rejestracja . '.', time(), $info);
                         $upgraded[$category][$element]++;
                         $plane->upgrades = json_encode($upgraded);

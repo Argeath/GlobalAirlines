@@ -28,7 +28,7 @@
 							<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Preferowane doświadczenie pilotów' style='display:inline-block;width: 70px; margin-bottom: 30px;'><i class='fa fa-graduation-cap'></i> " . ($data['plane']->getPreferStaffExp() + 5) . "%</div>
 						</td>
 			
-						<td>" . $data['plane']->drawConditionBar() . "" . $data['plane']->drawAccidentChanceBar() . "Pokonana trasa: " . formatCash($data['plane']->km) . "km<br />Czasu w powietrzu: " . TimeFormat::secondsToText($data['plane']->hours) . "</td>
+						<td>" . $data['plane']->drawConditionBar() . "" . $data['plane']->drawAccidentChanceBar() . "Pokonana trasa: " . formatCash($data['plane']->km) . "km<br />Czasu w powietrzu: " . Helper_TimeFormat::secondsToText($data['plane']->hours) . "</td>
 						<td class='list-group'>
 							" . HTML::anchor('samoloty/lotswobodny/' . $data['plane']->id, Form::submit('opcje', 'Lot swobodny', array('class' => "btn btn-primary btn-block btn-success"))) . "
 							" . HTML::anchor('samoloty/zaloga/' . $data['plane']->id, Form::submit('opcje', 'Załoga', array('class' => "btn btn-primary btn-block"))) . "

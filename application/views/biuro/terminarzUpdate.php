@@ -16,10 +16,10 @@
 		<tbody>
 		<tr>
 			<td><?= $plane->fullName() ?></td>
-			<td><?= Map::getCityName($flight->from) ?></td>
-			<td><?= Map::getCityName($flight->to) ?></td>
-			<td><?= TimeFormat::timestampToText($flight->started) ?></td>
-			<td><?= TimeFormat::timestampToText($flight->end) ?></td>
+			<td><?= Helper_Map::getCityName($flight->from) ?></td>
+			<td><?= Helper_Map::getCityName($flight->to) ?></td>
+			<td><?= Helper_TimeFormat::timestampToText($flight->started) ?></td>
+			<td><?= Helper_TimeFormat::timestampToText($flight->end) ?></td>
 		</tr>
 		</tbody>
 	</table>

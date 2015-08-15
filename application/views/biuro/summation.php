@@ -52,9 +52,9 @@
 			<tbody>
 				<? foreach($dane as $k => $d) {
 					echo "<tr>";
-					echo "<td>".Financial::getText($k)."</td>";
-					echo "<td>".(($d > 0) ? Prints::colorNumber($d)." ".WAL : "")."</td>";
-					echo "<td>".(($d < 0) ? Prints::colorNumber($d)." ".WAL : "")."</td>";
+					echo "<td>".Helper_Financial::getText($k)."</td>";
+					echo "<td>".(($d > 0) ? Helper_Prints::colorNumber($d)." ".WAL : "")."</td>";
+					echo "<td>".(($d < 0) ? Helper_Prints::colorNumber($d)." ".WAL : "")."</td>";
 					echo "</tr>";
 				} 
 				if( empty($dane))
@@ -64,7 +64,7 @@
 				<tr style="border-top: 2px solid #BBB;" id="podsumowanie-razem">
 					<td>Razem</td>
 					<td colspan="2">
-						<?= Prints::colorNumber($razem)." ".WAL; ?>
+						<?= Helper_Prints::colorNumber($razem)." ".WAL; ?>
 					</td>
 				</tr>
 			</tbody>

@@ -8,6 +8,6 @@
 	<?=Form::hidden('csrf', Security::token())?>
 	<?=Form::password('password', NULL, array('class' => "form-control", 'placeholder' => "Hasło"));?>
 	<br />
-	<?=Prints::rusureButton("Usuń konto", 'delete', '', ['btn-danger']);?>
+	<?=Helper_Prints::rusureButton("Usuń konto", 'delete', '', ['btn-danger']);?>
 	<?=Form::close();?>
 </div>

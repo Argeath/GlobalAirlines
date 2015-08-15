@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Stack {
+class Math_Stack {
  
     protected $data = array();
  

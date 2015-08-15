@@ -1,11 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Prints {
+class Helper_Prints {
 	static function printErrors() {
 		try {
 			$msgs = Session::instance()->get('errs');
 			if (!$msgs) {
-				return;
+				return false;
 			}
 
 			foreach ($msgs as $k => $msg) {
@@ -28,7 +28,7 @@ class Prints {
 		try {
 			$msgs = Session::instance()->get('msgs');
 			if (!$msgs) {
-				return;
+				return false;
 			}
 
 			foreach ($msgs as $k => $msg) {

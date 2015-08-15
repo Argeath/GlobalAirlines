@@ -47,11 +47,11 @@ abstract class Auth extends Kohana_Auth {
 		if ($usr) {
 			$dlt = $usr->isBeingDeleted();
 			if ($dlt) {
-				sendError('Twoje konto jest w trakcie usuwania. Zostanie usunięte: ' . TimeFormat::timestampToText($dlt) . '. Aby anulować usuwanie skontaktuj się z administratorem.');
+				sendError('Twoje konto jest w trakcie usuwania. Zostanie usunięte: ' . Helper_TimeFormat::timestampToText($dlt) . '. Aby anulować usuwanie skontaktuj się z administratorem.');
 				return $default;
 			}
 			if ($usr->bannedTo > time()) {
-				sendError('Twoje konto jest zbanowane do ' . TimeFormat::timestampToText($usr->bannedTo, true) . '.');
+				sendError('Twoje konto jest zbanowane do ' . Helper_TimeFormat::timestampToText($usr->bannedTo, true) . '.');
 				return $default;
 			}
 			if ($usr->last_login <= time() - 900) {

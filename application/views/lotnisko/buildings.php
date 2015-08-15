@@ -33,9 +33,9 @@
         if($ch->public == 1)
         {
             echo "Cena (za 1 min odprawy): ". formatCash($ch->cost)." ".WAL."<br />";
-            echo "Maksymalny czas rezerwacji: ". TimeFormat::secondsToText($ch->reservations, true, true)."<br />";
-            echo "Maksymalny czas odprawy: ". TimeFormat::secondsToText($ch->maxCheckin, true, true)."<br />";
-            echo "Minimalny czas odprawy: ". TimeFormat::secondsToText($ch->minCheckin, true, true)."<br />";
+            echo "Maksymalny czas rezerwacji: ". Helper_TimeFormat::secondsToText($ch->reservations, true, true)."<br />";
+            echo "Maksymalny czas odprawy: ". Helper_TimeFormat::secondsToText($ch->maxCheckin, true, true)."<br />";
+            echo "Minimalny czas odprawy: ". Helper_TimeFormat::secondsToText($ch->minCheckin, true, true)."<br />";
             echo "Pieniądze do zebrania: ". formatCash($ch->cash)." ".WAL."<br />";
             echo "Pieniądze zebrane: ". formatCash($ch->earned)." ".WAL."<br />";
         }

@@ -85,17 +85,17 @@ class Controller_Zlecenia extends Controller_Template {
 		$showAll = $user->wszystkie_zlecenia;
 
 		$this->template->is_zlecenie = true;
-		$continents = Map::getContinents();
+		$continents = Helper_Map::getContinents();
 		if ($showAll == 0) {
 			$this->regions = $user->getActiveRegions();
 		} else {
-			$this->regions = Map::getRegions();
+			$this->regions = Helper_Map::getRegions();
 		}
 
 		if ($showAll == 0) {
 			$this->contiregions = $user->getActiveContiRegions();
 		} else {
-			$this->contiregions = Map::getContinents();
+			$this->contiregions = Helper_Map::getContinents();
 		}
 
 		if ($showAll == 0) {

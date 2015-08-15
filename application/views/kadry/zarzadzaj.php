@@ -48,7 +48,7 @@
 		<? if( ! empty($staffData)) {
             foreach($staffData as $data) {
                 echo "<tr>
-					<td>" . $data['staff']->name . " (" . $data['staff']->type . ")<br />" . Map::getCityName($data['staff']->position) . "" . $data['planeText'] . "</td>
+					<td>" . $data['staff']->name . " (" . $data['staff']->type . ")<br />" . Helper_Map::getCityName($data['staff']->position) . "" . $data['planeText'] . "</td>
 					<td>" . $data['staff']->drawConditionBar() . "</td>
 					<td>" . $data['staff']->drawExperienceBar() . "</td>
 					<td>" . $data['staff']->drawSatisfactionBar() . "</td>

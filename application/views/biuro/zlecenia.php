@@ -18,11 +18,11 @@
 	if( ! empty($ordersData)) {
         foreach($ordersData as $data) {
             echo "<tr>
-				<td>" . Map::getCityName($data['order']->from) . "</td>
-				<td>" . Map::getCityName($data['order']->to) . "</td>
+				<td>" . Helper_Map::getCityName($data['order']->from) . "</td>
+				<td>" . Helper_Map::getCityName($data['order']->to) . "</td>
 				<td>" . formatCash($data['order']->cash) . " " . WAL . "</td>
 				<td>" . $data['order']->count . "</td>
-				<td class='hidden-xs'>" . TimeFormat::timestampToText($data['order']->deadline) . "</td>
+				<td class='hidden-xs'>" . Helper_TimeFormat::timestampToText($data['order']->deadline) . "</td>
 				<td>
 				    " . Form::open('zlecenie/plane') . "
 				    <input type='hidden' name='zlecenie' value='" . $data['zlecenie']->id . "'/>

@@ -63,7 +63,7 @@
 						<tr><td>Zlecenie zaliczone: </td><td id="zlecenie_done"></td></tr>
 						<tr><td><button id="moveButton" name="option" value="move" class="btn btn-block btn-warning"><i class="glyphicon glyphicon-backward"></i> Przesuń <i class="glyphicon glyphicon-forward"></i></button></td>
 						<td>
-						<?=Prints::rusureButton('<i class="glyphicon glyphicon-remove"></i> Odwołaj', 'option', 'cancel', ['btn-danger']);?>
+						<?=Helper_Prints::rusureButton('<i class="glyphicon glyphicon-remove"></i> Odwołaj', 'option', 'cancel', ['btn-danger']);?>
 						</td></tr>
 					</table>
 					</form>

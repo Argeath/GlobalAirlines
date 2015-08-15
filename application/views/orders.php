@@ -17,7 +17,7 @@
                             continue;
                         $poz = " (".$p->city->name.")";
                         $busy = $p->isBusy();
-                        $busyT = ($busy == Busy::NotBusy) ? $poz : " (".Busy::getText($busy).")";
+                        $busyT = ($busy == Helper_Busy::NotBusy) ? $poz : " (".Helper_Busy::getText($busy).")";
                         echo '<option id="plane_'.$p->id.'" value="'.$p->id.'" spalanie="'.$plane->spalanie.'" zasieg="'.$plane->zasieg.'" miejsc="'.$plane->miejsc.'" mnoznik="'.$p->getMultiplier().'" predkosc="'.$plane->predkosc.'">'.$p->rejestracja.''.$busyT.'</option>';
                     }
                 ?>

@@ -20,13 +20,13 @@ class Controller_Orders extends Controller_Template {
 		if ($showAll == 0) {
 			$regions = $user->getActiveRegions();
 		} else {
-			$regions = Map::getRegions();
+			$regions = Helper_Map::getRegions();
 		}
 
 		if ($showAll == 0) {
 			$contiregions = $user->getActiveContiRegions();
 		} else {
-			$contiregions = Map::getContinents();
+			$contiregions = Helper_Map::getContinents();
 		}
 
 		if ($showAll == 0) {

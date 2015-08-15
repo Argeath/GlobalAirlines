@@ -1,10 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Parenthesis extends TerminalExpression {
+class Math_Parenthesis extends Math_TerminalExpression {
  
     protected $precidence = 7;
  
-    public function operate(Stack $stack) {
+    public function operate(Math_Stack $stack) {
     }
  
     public function getPrecidence() {

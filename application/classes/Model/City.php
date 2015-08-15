@@ -50,7 +50,7 @@ class Model_City extends ORM {
 				return false;
 			}
 
-			$d = Distance::haversineGreatCircleDistance($this->coordX, $this->coordY, $second->coordX, $second->coordY);
+			$d = Helper_Distance::haversineGreatCircleDistance($this->coordX, $this->coordY, $second->coordX, $second->coordY);
 			return round($d / 1000);
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');

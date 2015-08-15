@@ -34,7 +34,7 @@ class Controller_Generate extends Controller {
 			$this->classesConfigKeys = array_keys($this->classesConfig);
 			$this->statsCount = 0;
 
-			$this->regionCities = Map::getAllRegionCities();
+			$this->regionCities = Helper_Map::getAllRegionCities();
 
 			$start = $setting->value;
 

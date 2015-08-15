@@ -1,9 +1,9 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Bot {
+class Helper_Bot {
 	private $user;
 
-	function Bot($user) {
+	function Helper_Bot($user) {
 		$this->user = $user;
 	}
 
@@ -66,7 +66,7 @@ class Bot {
 					$wartosc /= $za_stan;
 					$wartosc = round($wartosc);
 
-					$info = array('type' => Financial::SklepSprzedaz, 'plane_id' => $plane->id);
+					$info = array('type' => Helper_Financial::SklepSprzedaz, 'plane_id' => $plane->id);
 					$u->operateCash($wartosc, 'Sprzedaż samolotu - ' . $plane->fullName() . '.', $when, $info);
 
 					$plane->user_id = 0;
@@ -122,7 +122,7 @@ class Bot {
 			$zlecenia = [];
 
 			foreach ($orders as $o) {
-				$dist = Map::getDistanceBetween($o->from, $o->to);
+				$dist = Helper_Map::getDistanceBetween($o->from, $o->to);
 
 				if ($model->zasieg >= $dist) {
 					$zlecenia[] = $o;
@@ -251,7 +251,7 @@ class Bot {
 		$p->plane_id = $plane->id;
 		$p->position = $u->base->city->id;
 		$p->save();
-		$info = array('type' => Financial::Sklep, 'plane_id' => $p->id);
+		$info = array('type' => Helper_Financial::Sklep, 'plane_id' => $p->id);
 		$u->operateCash(-$plane->cena, 'Zakup samolotu - ' . $plane->producent . ' ' . $plane->model . '.', $when, $info);
 		sendMsg("Kupiłeś " . $plane->producent . " " . $plane->model . " za " . formatCash($plane->cena) . " " . WAL . ".");
 	}

@@ -199,7 +199,7 @@ class Controller_Kadry extends Controller_Template {
 
 					}
 					if ($zalog->lotSwobodnyZaloga($dokad, $planeId)) {
-						sendMsg('Pracownik wyruszył do miasta ' . Map::getCityName($dokad) . '.');
+						sendMsg('Pracownik wyruszył do miasta ' . Helper_Map::getCityName($dokad) . '.');
 					} else {
 						sendError('Wystąpił błąd. Spróbuj ponownie.');
 					}

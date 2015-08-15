@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Busy extends BasicEnum {
+abstract class Helper_Busy extends Helper_BasicEnum {
 	const NotBusy = 0;
 	const InAir = 1;
 	const OnAuction = 2;
@@ -9,18 +9,17 @@ abstract class Busy extends BasicEnum {
 
 	static function getText($x) {
 		switch ($x) {
-			case Busy::NotBusy:
+			case Helper_Busy::NotBusy:
 				return "Wolny";
-			case Busy::InAir:
+			case Helper_Busy::InAir:
 				return "W powietrzu";
-			case Busy::OnAuction:
+			case Helper_Busy::OnAuction:
 				return "Na aukcji";
-			case Busy::Accident:
+			case Helper_Busy::Accident:
 				return "Awaria";
-			case Busy::Unidentified:
+			case Helper_Busy::Unidentified:
 			default:
 				return "Zajęty";
 		}
-		return "";
 	}
 }

@@ -48,8 +48,8 @@
                         if($data['level'] < $data['requiredLevel'])
                             echo "<div class='blockedShop'><i class='fa fa-lock'></i><br />Wymagany poziom: ".$data['requiredLevel']."</div>";
                         echo "<form method='post'><input type='hidden' name='plane' value='" . $data['plane']->id . "'/>
-                                " . Prints::rusureButton(formatCash($data['plane']->cena) . ' ' . WAL, 'action', 'buy_wal', ['btn-primary']) . "
-                                " . Prints::rusureButton(formatCash(round(sqrt($data['plane']->cena) / 40) * 20) . ' PP', 'action', 'buy_pkt', ['btn-success']) . "
+                                " . Helper_Prints::rusureButton(formatCash($data['plane']->cena) . ' ' . WAL, 'action', 'buy_wal', ['btn-primary']) . "
+                                " . Helper_Prints::rusureButton(formatCash(round(sqrt($data['plane']->cena) / 40) * 20) . ' PP', 'action', 'buy_pkt', ['btn-success']) . "
                             </form>
                         </td>
                         </tr>";

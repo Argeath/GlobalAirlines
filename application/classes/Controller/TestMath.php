@@ -181,7 +181,7 @@ class Controller_TestMath extends Controller_Template {
 				$kadryCost = -round(($distance/100)*$staffCost);
 				$paliwoCost = -round($spalanieS*$distance);
 				try {
-					$math = new Math();
+					$math = new Math_Math();
 					$math->registerVariable('D', $distance);
 					$math->registerVariable('P', $a->count);
 					$math->registerVariable('M', $p->miejsc);
@@ -204,14 +204,14 @@ class Controller_TestMath extends Controller_Template {
 				$czas = ($distance / ($p->predkosc*0.85)) + (ceil($p->miejsc/75)/4);
 				$phour = $zysk / $czas;
 				$czas = $czas * 3600;
-				$czasT = TimeFormat::secondsToText($czas);
+				$czasT = Helper_TimeFormat::secondsToText($czas);
 				
 				$order = "";
-				$order .= "Kadry: ".Prints::colorNumber($kadryCost)." ".WAL."<br />";
-				$order .= "Oil: ".Prints::colorNumber($paliwoCost)." ".WAL."<br />";
-				$order .= "Dod.: ".Prints::colorNumber($dodatkowe)." ".WAL."<br />";
-				$order .= "Zl.: ".Prints::colorNumber($a->cash)." ".WAL."<br /><br />";
-				$order .= Prints::colorBgNumber($zysk);
+				$order .= "Kadry: ".Helper_Prints::colorNumber($kadryCost)." ".WAL."<br />";
+				$order .= "Oil: ".Helper_Prints::colorNumber($paliwoCost)." ".WAL."<br />";
+				$order .= "Dod.: ".Helper_Prints::colorNumber($dodatkowe)." ".WAL."<br />";
+				$order .= "Zl.: ".Helper_Prints::colorNumber($a->cash)." ".WAL."<br /><br />";
+				$order .= Helper_Prints::colorBgNumber($zysk);
 				$order .= "<br /><br />".$czasT;
 				$order .= "<br />".round($phour)." /h";
 				
@@ -246,13 +246,13 @@ class Controller_TestMath extends Controller_Template {
 			switch($r) {
 				case 1:
 				case 2:
-					$regions = Map::getRegions();
+					$regions = Helper_Map::getRegions();
 					break;
 				case 3:
 				case 4:
 				case 5:
 				case 6:
-					$regions = Map::getContinents();
+					$regions = Helper_Map::getContinents();
 					break;
 				case 7:
 				case 8:
@@ -299,7 +299,7 @@ class Controller_TestMath extends Controller_Template {
 			{
 				$zlecen = 0;
 				$region = &$regions[$key[$reg]];
-				$cities = Map::getRegionCities($region, $onlyBig);
+				$cities = Helper_Map::getRegionCities($region, $onlyBig);
 				$miast = $cities->count() - 1;
 				for($ci = 0; $ci <= $miast; $ci++)
 				{
@@ -367,7 +367,7 @@ class Controller_TestMath extends Controller_Template {
 							
 								
 							try {
-							$math = new Math();
+							$math = new Math_Math();
 							$klasaS = $k + 1;
 							$math->registerVariable('D', $dystans);
 							$math->registerVariable('P', $miejsc);

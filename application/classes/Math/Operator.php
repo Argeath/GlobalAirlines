@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class Operator extends TerminalExpression {
+abstract class Math_Operator extends Math_TerminalExpression {
  
     protected $precidence = 0;
     protected $leftAssoc = true;

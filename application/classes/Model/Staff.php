@@ -63,7 +63,7 @@ class Model_Staff extends ORM {
 	public function getExperience() // 0% - 100%
 	{
 		try {
-			$l = Experience::getLevelByExp($this->experience);
+			$l = Helper_Experience::getLevelByExp($this->experience);
 			return ($l <= 100) ? $l : 100;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
@@ -471,8 +471,8 @@ class Model_Staff extends ORM {
 			Events::insertEventParams($params);
 			unset($params);
 
-			$info = array('type' => Financial::LotSwobodnyPrac, 'staff_id' => $this->id);
-			$this->user->operateCash(-$koszt, 'Lot swobodny (' . $this->city->name . ' -> ' . Map::getCityName($to) . ') pracownika - ' . $this->name . '.', time(), $info);
+			$info = array('type' => Helper_Financial::LotSwobodnyPrac, 'staff_id' => $this->id);
+			$this->user->operateCash(-$koszt, 'Lot swobodny (' . $this->city->name . ' -> ' . Helper_Map::getCityName($to) . ') pracownika - ' . $this->name . '.', time(), $info);
 
 			return true;
 		} catch (Exception $e) {

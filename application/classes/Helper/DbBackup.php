@@ -6,7 +6,7 @@
  * @author      Sudeste on <github.com/sudeste>
  * @version     1.0.2
  */
-class DbBackup{
+class Helper_DbBackup {
 
     // Mysqldump Options
 	protected $opt = array();
@@ -26,10 +26,11 @@ class DbBackup{
 	 *
 	 * @param string $path para salvar o arquivo
 	 * @param string $group_db do config database
+     * @return Helper_DbBackup instance
 	 */
 	public static function factory($path, $group_db = 'default') {
 
-		return new DbBackup($path, $group_db);
+		return new Helper_DbBackup($path, $group_db);
 	}
 	
 	

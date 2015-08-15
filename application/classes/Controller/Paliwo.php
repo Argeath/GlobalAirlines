@@ -25,7 +25,7 @@ class Controller_Paliwo extends Controller_Template {
 			{
 				$bazaId = (int)$post['bazaId'];
 				$ilosc = (int)$post['ilosc'];
-				$koszt = Oil::getOilCost($ilosc);
+				$koszt = Helper_Oil::getOilCost($ilosc);
 				
 				if($bazaId > 0 && $ilosc > 0)
 				{
@@ -42,8 +42,8 @@ class Controller_Paliwo extends Controller_Template {
 						{
 							$baza->oil += $ilosc;
 							$baza->save();
-							Oil::updateOilDemand($ilosc);
-							$info = array('type' => Financial::Paliwo, 'office_id' => $baza->id);
+							Helper_Oil::updateOilDemand($ilosc);
+							$info = array('type' => Helper_Financial::Paliwo, 'office_id' => $baza->id);
 							$user->operateCash(-$koszt, 'Zakup '.formatCash($ilosc).'l paliwa na lotnisku - '.$baza->getName().'.', time(), $info);
 							sendMsg('Kupileś '.$ilosc.' litrów paliwa do bazy w mieście '.$baza->getName().'.');
 							$this->redirect('paliwo');
@@ -56,7 +56,7 @@ class Controller_Paliwo extends Controller_Template {
 			}
 		}
 
-		$ceny = Oil::getOilLastCosts();
+		$ceny = Helper_Oil::getOilLastCosts();
 		$cenyA = array();
 		$cenyT = "";
 		foreach($ceny as $cena)
@@ -75,7 +75,7 @@ class Controller_Paliwo extends Controller_Template {
 		$bazyT = "";
 		foreach($bazy as $baza)
 		{
-			$wartosc = Oil::getOilCost($baza->oil);
+			$wartosc = Helper_Oil::getOilCost($baza->oil);
 			$bazyT .= "<tr><td>".$baza->city->name."</td><td>".formatCash($baza->oil, 2)." / ".formatCash($baza->cysterny*$tank['volume']) ." l</td><td>".formatCash($wartosc, 0, true)." ".WAL."</td><td>".HTML::anchor('paliwo/kup/'.$baza->id, 'Kup', array('class' => "btn btn-primary btn-block"))."</td></tr>";
 			$razemP += $baza->oil;
 			$razemW += $wartosc;

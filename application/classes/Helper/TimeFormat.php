@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class TimeFormat {
+class Helper_TimeFormat {
     public static function timestampToText($timestamp, $year = false)
     {
         try {
@@ -87,7 +87,7 @@ class TimeFormat {
         else
             $prefix = "za ";
 
-        $text = TimeFormat::secondsToText( abs($elapsed) );
+        $text = Helper_TimeFormat::secondsToText( abs($elapsed) );
         return $prefix.$text.$suffix;
     }
 }

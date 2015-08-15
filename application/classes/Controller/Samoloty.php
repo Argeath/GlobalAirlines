@@ -22,14 +22,14 @@ class Controller_Samoloty extends Controller_Template {
 			$poz = $plane->city->name;
 			$busy = $plane->isBusy();
 			$accidentT = "";
-			if ($busy != Busy::NotBusy) {
-				$poz = Busy::getText($busy);
+			if ($busy != Helper_Busy::NotBusy) {
+				$poz = Helper_Busy::getText($busy);
 			}
 
-			if ($busy == Busy::Accident) {
+			if ($busy == Helper_Busy::Accident) {
 				$accident = ORM::factory("Accident")->where('plane_id', '=', $plane->id)->order_by('time', 'DESC')->find();
 				if (!$accident->loaded()) {
-					$busy = Busy::NotBusy;
+					$busy = Helper_Busy::NotBusy;
 				}
 
 				$accidentTime = round((time() - ($accident->delay + $accident->time)) / 1800) * 2;
@@ -114,7 +114,7 @@ class Controller_Samoloty extends Controller_Template {
 				return sendError('Nie może do samolotu być przypisana żadna załoga.');
 			}
 
-			if ($plane->isBusy() != Busy::NotBusy) {
+			if ($plane->isBusy() != Helper_Busy::NotBusy) {
 				return sendError('Samolot jest lub będzie używany.');
 			}
 
@@ -175,11 +175,11 @@ class Controller_Samoloty extends Controller_Template {
 				return sendError('Nie może do samolotu być przypisana żadna załoga.');
 			}
 
-			if ($plane->isBusy() != Busy::NotBusy) {
+			if ($plane->isBusy() != Helper_Busy::NotBusy) {
 				return sendError('Samolot jest lub będzie używany.');
 			}
 
-			$info = array('type' => Financial::SklepSprzedaz, 'plane_id' => $plane->id);
+			$info = array('type' => Helper_Financial::SklepSprzedaz, 'plane_id' => $plane->id);
 			$user->operateCash($wartosc, 'Sprzedaż samolotu - ' . $plane->fullName() . '.', time(), $info);
 			$plane->user_id = 0;
 			$plane->save();
@@ -264,7 +264,7 @@ class Controller_Samoloty extends Controller_Template {
 
 			$paliwo = $paliwowym * 1.2;
 
-			$kosztP = Oil::getOilCost($paliwo);
+			$kosztP = Helper_Oil::getOilCost($paliwo);
 			$kosztZ = $plane->getZalogaCost($czas);
 
 			$koszt = $kosztP + $kosztZ;

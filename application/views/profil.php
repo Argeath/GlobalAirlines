@@ -35,7 +35,7 @@
 			<? foreach($planes as $p) {
 				echo "<tr>";
 				echo "<td><img src='".URL::base(TRUE)."assets/samoloty/".$p->plane_id.".jpg' class='img-rounded hidden-xs' style='width: 70px;'/><br />".$p->fullName()."</td>";
-				echo "<td>Pokonana trasa: ".formatCash($p->km)."km<br />Czasu w powietrzu: ".TimeFormat::secondsToText($p->hours)."<br />Maksymalna wartość samolotu: ".formatCash($p->getCost())." ".WAL."</td>";
+				echo "<td>Pokonana trasa: ".formatCash($p->km)."km<br />Czasu w powietrzu: ".Helper_TimeFormat::secondsToText($p->hours)."<br />Maksymalna wartość samolotu: ".formatCash($p->getCost())." ".WAL."</td>";
 				echo "</tr>";
 			} ?>
 		</table>

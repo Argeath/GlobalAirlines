@@ -32,10 +32,10 @@
 	<div class="col-sm-6 col-xs-12 well">
 		<h2>
 			Aktualna cena paliwa<br />
-			<b><?= formatCash(Oil::getOilCost(), 2); ?> <?= WAL; ?></b>
+			<b><?= formatCash(Helper_Oil::getOilCost(), 2); ?> <?= WAL; ?></b>
 			<? if($profil['admin'])
 				{
-					Oil::debugOil();
+					Helper_Oil::debugOil();
 				}
 			?>
 		</h2>

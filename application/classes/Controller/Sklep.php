@@ -77,7 +77,7 @@ class Controller_Sklep extends Controller_Template {
                             $p->plane_id = $plane->id;
                             $p->position = $user->base->city->id;
                             $p->save();
-                            $info = array('type' => Financial::Sklep, 'plane_id' => $p->id);
+                            $info = array('type' => Helper_Financial::Sklep, 'plane_id' => $p->id);
                             $user->operateCash(-$plane->cena, 'Zakup samolotu - ' . $plane->producent . ' ' . $plane->model . '.', time(), $info);
                             sendMsg("Kupiłeś " . $plane->producent . " " . $plane->model . " za " . formatCash($plane->cena) . " " . WAL . ".");
                             $this->redirect('samoloty/rejestracja/' . $p->id);
@@ -103,7 +103,7 @@ class Controller_Sklep extends Controller_Template {
                             $p->plane_id = $plane->id;
                             $p->position = $user->base->city->id;
                             $p->save();
-                            $info = array('type' => Financial::Sklep, 'plane_id' => $p->id);
+                            $info = array('type' => Helper_Financial::Sklep, 'plane_id' => $p->id);
                             $user->operatePoints(-$cena, 'Zakup samolotu - ' . $plane->producent . ' ' . $plane->model . '.', time(), $info);
                             sendMsg("Kupiłeś " . $plane->producent . " " . $plane->model . " za " . formatCash($cena) . " PP.");
                             $this->redirect('samoloty/rejestracja/' . $p->id);
@@ -169,7 +169,7 @@ class Controller_Sklep extends Controller_Template {
 
 							if ($price >= $minim) {
 								if ($user->cash >= $price) {
-									$info = array('type' => Financial::AukcjaZaplata, 'auction_id' => $auction->id);
+									$info = array('type' => Helper_Financial::AukcjaZaplata, 'auction_id' => $auction->id);
 									$user->operateCash(-$price, 'Licytacja samolotu - ' . $plane->fullName(false) . '.');
 
 									$post = ORM::factory('AuctionPost');
@@ -180,7 +180,7 @@ class Controller_Sklep extends Controller_Template {
 									sendMsg('Zalicytowaleś.');
 
 									if ($highest) {
-										$info = array('type' => Financial::AukcjaZwrot, 'auction_id' => $auction->id);
+										$info = array('type' => Helper_Financial::AukcjaZwrot, 'auction_id' => $auction->id);
 										$highest->user->operateCash($post->price, 'Zwrot z niewygranej aukcji.', time(), $info);
 										$long = "Zostałeś przelicytowany na aukcji (" . $plane->fullName(false) . "). Twoje pieniądze wracają do ciebie.";
 										$highest->user->sendMiniMessage("Zostałeś przelicytowany.", $long);
@@ -220,7 +220,7 @@ class Controller_Sklep extends Controller_Template {
 
 							$highest = $auction->getHighestBid();
 							if ($highest) {
-								$info = array('type' => Financial::AukcjaZwrot, 'auction_id' => $auction->id);
+								$info = array('type' => Helper_Financial::AukcjaZwrot, 'auction_id' => $auction->id);
 								$post->user->operateCash($highest->price, 'Zwrot z anulowanej aukcji.', time(), $info);
 							}
 						}
@@ -340,7 +340,7 @@ class Controller_Sklep extends Controller_Template {
 				<td>
 					" . $p->drawConditionBar() . "<br />
 					Pokonana trasa: " . formatCash($p->km) . " km<br />
-					Czasu w powietrzu: " . TimeFormat::secondsToText($p->hours) . "<br />
+					Czasu w powietrzu: " . Helper_TimeFormat::secondsToText($p->hours) . "<br />
 					Maksymalna wartość samolotu: " . formatCash($wartosc) . " " . WAL . "
 				</td>
 
@@ -356,7 +356,7 @@ class Controller_Sklep extends Controller_Template {
 					Koniec: " . $a->getEndDate() . "<br />";
 
 			if ($toEnd > 0) {
-				$samoloty .= "<br /><span class='zegarCountdown text-rounded bg-blue' czas='" . $a->end . "' now='" . time() . "'>" . TimeFormat::secondsToText($toEnd) . "</span>";
+				$samoloty .= "<br /><span class='zegarCountdown text-rounded bg-blue' czas='" . $a->end . "' now='" . time() . "'>" . Helper_TimeFormat::secondsToText($toEnd) . "</span>";
 			}
 
 			$samoloty .= "</td><td>";

@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Math {
+class Math_Math {
  
     protected $variables = array();
  
@@ -11,11 +11,11 @@ class Math {
  
     public function parse($string) {
         $tokens = $this->tokenize($string);
-        $output = new Stack();
-        $operators = new Stack();
+        $output = new Math_Stack();
+        $operators = new Math_Stack();
         foreach ($tokens as $token) {
             $token = $this->extractVariables($token);
-            $expression = TerminalExpression::factory($token);
+            $expression = Math_TerminalExpression::factory($token);
             if ($expression->isOperator()) {
                 $this->parseOperator($expression, $output, $operators);
             } elseif ($expression->isParenthesis()) {
@@ -37,11 +37,11 @@ class Math {
         $this->variables[$name] = $value;
     }
  
-    public function run(Stack $stack) {
+    public function run(Math_Stack $stack) {
         while (($operator = $stack->pop()) && $operator->isOperator()) {
             $value = $operator->operate($stack);
             if (!is_null($value)) {
-                $stack->push(TerminalExpression::factory($value));
+                $stack->push(Math_TerminalExpression::factory($value));
             }
         }
         return $operator ? $operator->render() : $this->render($stack);
@@ -55,7 +55,7 @@ class Math {
         return $token;
     }
  
-    protected function render(Stack $stack) {
+    protected function render(Math_Stack $stack) {
         $output = '';
         while (($el = $stack->pop())) {
             $output .= $el->render();
@@ -66,7 +66,7 @@ class Math {
         throw new RuntimeException('Could not render output');
     }
  
-    protected function parseParenthesis(TerminalExpression $expression, Stack $output, Stack $operators) {
+    protected function parseParenthesis(TerminalExpression $expression, Math_Stack $output, Math_Stack $operators) {
         if ($expression->isOpen()) {
             $operators->push($expression);
         } else {
@@ -85,7 +85,7 @@ class Math {
         }
     }
  
-    protected function parseOperator(TerminalExpression $expression, Stack $output, Stack $operators) {
+    protected function parseOperator(TerminalExpression $expression, Math_Stack $output, Math_Stack $operators) {
         $end = $operators->poke();
         if (!$end) {
             $operators->push($expression);

@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Experience {
+class Helper_Experience {
 	static function getNeededExp($L)
 	{
 		$a=0;
@@ -24,9 +24,9 @@ class Experience {
 
 	static function getPercentOfLevel($xp)
 	{
-		$lvl = Experience::getLevelByExp($xp);
-		$previous = Experience::getNeededExp($lvl);
-		$next = Experience::getNeededExp($lvl+1);
+		$lvl = Helper_Experience::getLevelByExp($xp);
+		$previous = Helper_Experience::getNeededExp($lvl);
+		$next = Helper_Experience::getNeededExp($lvl+1);
 		$next -= $previous;
 		$xp -= $previous;
 		$per = round(($xp / $next)*100);
@@ -35,9 +35,9 @@ class Experience {
 
 	static function getExpLabel($xp)
 	{
-		$lvl = Experience::getLevelByExp($xp);
-		$previous = Experience::getNeededExp($lvl);
-		$next = Experience::getNeededExp($lvl+1);
+		$lvl = Helper_Experience::getLevelByExp($xp);
+		$previous = Helper_Experience::getNeededExp($lvl);
+		$next = Helper_Experience::getNeededExp($lvl+1);
 		$next -= $previous;
 		$xp -= $previous;
 		return $xp.' / '.$next;

@@ -97,12 +97,12 @@ class Model_User extends Model_Auth_User {
 			$newEvent->save();
 		}
 
-		$bot = new Bot($this);
+		$bot = new Helper_Bot($this);
 		$bot->doNextAction($when);
 	}
 
 	public function getLevel() {
-		return Experience::getLevelByExp($this->exp);
+		return Helper_Experience::getLevelByExp($this->exp);
 	}
 
 	public function addExperience($xp, $when = false) {
@@ -307,11 +307,11 @@ class Model_User extends Model_Auth_User {
 			}
 
 			if ($zmiana != 0) {
-				$this->operateCash($zmiana, "Przywrócenie stanu konta do dnia: " . TimeFormat::timestampToText($date) . ".");
+				$this->operateCash($zmiana, "Przywrócenie stanu konta do dnia: " . Helper_TimeFormat::timestampToText($date) . ".");
 			}
 
 			if ($zmianaPkt != 0) {
-				$this->operatePoints($zmianaPkt, "Przywrócenie punktów premium do dnia: " . TimeFormat::timestampToText($date) . ".");
+				$this->operatePoints($zmianaPkt, "Przywrócenie punktów premium do dnia: " . Helper_TimeFormat::timestampToText($date) . ".");
 			}
 
 			return true;
@@ -364,8 +364,8 @@ class Model_User extends Model_Auth_User {
 			$profil['pasazerow'] = $this->pasazerow;
 			$profil['zlecen'] = $this->zlecen;
 			$profil['exp'] = $this->exp;
-			$profil['expPercent'] = Experience::getPercentOfLevel($this->exp);
-			$profil['expLabel'] = Experience::getExpLabel($this->exp);
+			$profil['expPercent'] = Helper_Experience::getPercentOfLevel($this->exp);
+			$profil['expLabel'] = Helper_Experience::getExpLabel($this->exp);
 			$profil['premium_points'] = $this->premium_points;
 			$profil['admin'] = $this->isAdmin();
 			$profil['token'] = $this->token;

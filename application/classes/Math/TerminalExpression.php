@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-abstract class TerminalExpression {
+abstract class Math_TerminalExpression {
  
     protected $value = '';
  
@@ -9,27 +9,27 @@ abstract class TerminalExpression {
     }
  
     public static function factory($value) {
-        if (is_object($value) && $value instanceof TerminalExpression) {
+        if (is_object($value) && $value instanceof Math_TerminalExpression) {
             return $value;
         } elseif (is_numeric($value)) {
-            return new Number($value);
+            return new Math_Number($value);
         } elseif ($value == '+') {
-            return new Addition($value);
+            return new Math_Addition($value);
         } elseif ($value == '-') {
-            return new Subtraction($value);
+            return new Math_Subtraction($value);
         } elseif ($value == '*') {
-            return new Multiplication($value);
+            return new Math_Multiplication($value);
         } elseif ($value == '/') {
-            return new Division($value);
+            return new Math_Division($value);
         } elseif ($value == '^') {
-            return new Escalation($value);
+            return new Math_Escalation($value);
         } elseif (in_array($value, array('(', ')'))) {
-            return new Parenthesis($value);
+            return new Math_Parenthesis($value);
         }
         throw new Exception('Undefined Value ' . $value);
     }
  
-    abstract public function operate(Stack $stack);
+    abstract public function operate(Math_Stack $stack);
  
     public function isOperator() {
         return false;

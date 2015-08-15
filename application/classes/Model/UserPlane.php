@@ -574,33 +574,33 @@ class Model_UserPlane extends ORM {
 
 			$plane = $this->flights->where('started', '<=', $timestamp)->and_where('end', '>', $timestamp)->and_where('id', '!=', $flight)->and_where('checked', '=', 1)->and_where('canceled', '=', 0)->count_all();
 			if ($plane > 0) {
-				return Busy::InAir;
+				return Helper_Busy::InAir;
 			}
 
 			$auctions = ORM::factory("Auction")->where('plane_id', '=', $this->id)->and_where('end', '>=', time())->count_all();
 			if ($auctions != 0) {
-				return Busy::OnAuction;
+				return Helper_Busy::OnAuction;
 			}
 
 			$accident = ORM::factory("Accident")->where('plane_id', '=', $this->id)->order_by('time', 'DESC')->limit(1)->find();
 			if ($accident->time + $accident->delay > $timestamp) {
-				return Busy::Accident;
+				return Helper_Busy::Accident;
 			}
 
 			$params = ORM::factory("EventParameter")->where('key', '=', 'plane')->and_where('value', '=', $this->id)->find_all();
 			if ($params->count() == 0) {
-				return Busy::NotBusy;
+				return Helper_Busy::NotBusy;
 			}
 
 			foreach ($params as $param) {
 				if ($param->event->when > $timestamp && $param->event->done == 0 && $param->event->type != 10 && $param->event->type != 11) {
-					return Busy::Unidentified;
+					return Helper_Busy::Unidentified;
 				}
 			}
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
 		}
-		return Busy::NotBusy;
+		return Helper_Busy::NotBusy;
 	}
 
 	public function drawConditionBar() {
@@ -653,7 +653,7 @@ class Model_UserPlane extends ORM {
 				return sendError('Błąd. Zły typ samolotu.');
 			}
 
-			if ($this->isBusy() != Busy::NotBusy) {
+			if ($this->isBusy() != Helper_Busy::NotBusy) {
 				return sendError('Błąd. Samolot jest aktualnie używany.');
 			}
 
@@ -673,7 +673,7 @@ class Model_UserPlane extends ORM {
 			$newParam->value = $this->id;
 			$newParam->save();
 
-			$info = array('plane_id' => $this->id, 'type' => Financial::Przeglad);
+			$info = array('plane_id' => $this->id, 'type' => Helper_Financial::Przeglad);
 			$this->user->operateCash(-$cost, 'Przegląd generalny samolotu - ' . $this->fullName() . '.', time(), $info);
 			return true;
 		} catch (Exception $e) {
@@ -696,8 +696,8 @@ class Model_UserPlane extends ORM {
 				return false;
 			}
 			$busy = $this->isBusy($start);
-			if ($busy != Busy::NotBusy) {
-				sendError("Samolot jest lub będzie zajęty - " . Busy::getText($busy) . ".");
+			if ($busy != Helper_Busy::NotBusy) {
+				sendError("Samolot jest lub będzie zajęty - " . Helper_Busy::getText($busy) . ".");
 				return false;
 			}
 
@@ -737,7 +737,7 @@ class Model_UserPlane extends ORM {
 
 			$paliwo = $paliwowym * 1.2;
 
-			$kosztP = Oil::getOilCost($paliwo);
+			$kosztP = Helper_Oil::getOilCost($paliwo);
 			$kosztZ = $this->getZalogaCost($distance);
 
 			$koszt = $kosztP + $kosztZ;
@@ -778,8 +778,8 @@ class Model_UserPlane extends ORM {
 			Events::insertEventParams($params);
 			unset($params);
 
-			$info = array('plane_id' => $this->id, 'type' => Financial::LotSwobodny);
-			$this->user->operateCash(-$koszt, 'Opłaty lotu swobodny (' . Map::getCityName($from) . ' -> ' . Map::getCityName($to) . ') wykonywanego samolotem - ' . $this->fullName() . '.', $start, $info);
+			$info = array('plane_id' => $this->id, 'type' => Helper_Financial::LotSwobodny);
+			$this->user->operateCash(-$koszt, 'Opłaty lotu swobodny (' . Helper_Map::getCityName($from) . ' -> ' . Helper_Map::getCityName($to) . ') wykonywanego samolotem - ' . $this->fullName() . '.', $start, $info);
 			return true;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
@@ -802,8 +802,8 @@ class Model_UserPlane extends ORM {
 			}
 
 			$busy = $this->isBusy($timestamp);
-			if ($busy != Busy::NotBusy) {
-				sendError("Samolot jest lub będzie zajęty - " . Busy::getText($busy) . ".");
+			if ($busy != Helper_Busy::NotBusy) {
+				sendError("Samolot jest lub będzie zajęty - " . Helper_Busy::getText($busy) . ".");
 				return false;
 			}
 
@@ -827,7 +827,7 @@ class Model_UserPlane extends ORM {
 			}
 
 			$odprawa = $zlecenie->order->count * 15 * (1 - ($checkin->level * $airportConfig['checkin']['bonus'] / 100));
-			$odprawaT = TimeFormat::secondsToText($odprawa);
+			$odprawaT = Helper_TimeFormat::secondsToText($odprawa);
 
 			$start = $checkin->findPlaceInQueue($odprawa, $timestamp);
 			if (!$start || (($checkin->minCheckin > $odprawa || $checkin->maxCheckin < $odprawa || ($timestamp - time()) > $checkin->reservations) && $checkin->user_id != $this->user->id)) {
@@ -907,12 +907,12 @@ class Model_UserPlane extends ORM {
 				} else {
 					$paliwoZBazy = $bazaOil;
 				}
-				$kosztP = Oil::getOilCost($paliwo - $paliwoZBazy);
+				$kosztP = Helper_Oil::getOilCost($paliwo - $paliwoZBazy);
 			} else {
-				$kosztP = Oil::getOilCost($paliwo);
+				$kosztP = Helper_Oil::getOilCost($paliwo);
 			}
 
-			Oil::updateOilDemand($paliwo - $paliwoZBazy);
+			Helper_Oil::updateOilDemand($paliwo - $paliwoZBazy);
 			$kosztZ = $this->getZalogaCost($distance);
 
 			$oplaty = 0;
@@ -960,8 +960,8 @@ class Model_UserPlane extends ORM {
 				return false;
 			}
 
-			$info = array('plane_id' => $this->id, 'type' => Financial::OLotZlecenie, 'order_id' => $zlecenie->id);
-			$this->user->operateCash(-$koszt, 'Opłaty lotu na zlecenie (' . Map::getCityName($zlecenie->order->from) . ' -> ' . Map::getCityName($zlecenie->order->to) . ') wykonywanego samolotem - ' . $this->fullName() . '.', time(), $info);
+			$info = array('plane_id' => $this->id, 'type' => Helper_Financial::OLotZlecenie, 'order_id' => $zlecenie->id);
+			$this->user->operateCash(-$koszt, 'Opłaty lotu na zlecenie (' . Helper_Map::getCityName($zlecenie->order->from) . ' -> ' . Helper_Map::getCityName($zlecenie->order->to) . ') wykonywanego samolotem - ' . $this->fullName() . '.', time(), $info);
 
 			$newEvent = ORM::factory("Event");
 			$newEvent->user_id = $this->user_id;
@@ -981,7 +981,7 @@ class Model_UserPlane extends ORM {
 			$flight->end = $timestamp + $odprawa + $czas;
 			$flight->event = $event_id;
 			$costs = $oplaty * $znizka;
-			$costs += Oil::getOilCost($paliwoZBazy);
+			$costs += Helper_Oil::getOilCost($paliwoZBazy);
 			$costs += $kosztZ;
 			$costs += $kosztP;
 			$flight->costs = $costs;

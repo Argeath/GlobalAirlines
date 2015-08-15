@@ -22,7 +22,7 @@ class Model_Flight extends ORM {
 			$plane = $this->UserPlane;
 
 			$costs = $this->costs * 0.75;
-			$info = array('type' => Financial::LotZwrot, 'plane_id' => $plane->id, 'order_id' => (($zlecenie->loaded()) ? $zlecenie->id : NULL));
+			$info = array('type' => Helper_Financial::LotZwrot, 'plane_id' => $plane->id, 'order_id' => (($zlecenie->loaded()) ? $zlecenie->id : NULL));
 			$this->user->operateCash($costs, 'Zwrot kosztów lotu.', $when, $info);
 
 			if ($zlecenie->loaded()) {
