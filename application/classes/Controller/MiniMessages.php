@@ -36,10 +36,9 @@ class Controller_MiniMessages extends Controller_Template {
 			$checked++;
 		}
 
-		global $nowych_powiadomien;
-		$nowych_powiadomien -= $checked;
-		if ($nowych_powiadomien < 0) {
-			$nowych_powiadomien = 0;
+		GlobalVars::$nowych_powiadomien -= $checked;
+		if (GlobalVars::$nowych_powiadomien < 0) {
+			GlobalVars::$nowych_powiadomien = 0;
 		}
 	}
 }

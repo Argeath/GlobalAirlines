@@ -22,7 +22,7 @@ class Controller_Generate extends Controller {
 		try {
 			$this->startTime = $_SERVER['REQUEST_TIME'];
 
-			$this->cities = GlobalArrays::getCities();
+			$this->cities = GlobalVars::getCities();
 			$citiesCount = $this->cities->count();
 			$setting = ORM::Factory("Setting")->where('key', '=', 'last_city')->find();
 

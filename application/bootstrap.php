@@ -116,6 +116,7 @@ Kohana::init(array(
  * Attach the file write to logging. Multiple writers are supported.
  */
 Kohana::$log->attach(new Log_File(APPPATH . 'logs'));
+Log::$write_on_add = true;
 
 /**
  * Attach a file reader to config. Multiple readers are supported.
@@ -139,8 +140,7 @@ Kohana::modules(array(
 	'sitemap' => MODPATH . 'sitemap', // Sitemap
 	'mysqli' => MODPATH . 'mysqli',
 ));
-
-include_once 'init.php';
+include 'init.php';
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
@@ -318,6 +318,12 @@ Route::set('zlecenia', '(zlecenia(/<biuropodrozy>(/<klasa>(/<action>(/<id>)))))'
 Route::set('ajaxy', '(ajax(/<action>(/<id>(/<param>(/<param2>)))))')
 	->defaults(array(
 		'controller' => 'ajax',
+		'action' => 'index',
+	));
+
+Route::set('events', '(eventManager/events(/<action>(/<id>)))')
+	->defaults(array(
+		'controller' => 'events',
 		'action' => 'index',
 	));
 

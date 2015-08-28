@@ -27,9 +27,8 @@ function optimizeDB()
 function countOnlineUsers()
 {
 	try {
-		global $users_online;
-		$users_online = ORM::Factory("User")->where('last_login', '>=', time()-900)->find_all();
-		return $users_online;
+		GlobalVars::$users_online = ORM::Factory("User")->where('last_login', '>=', time()-900)->find_all();
+		return GlobalVars::$users_online;
 	} catch(Exception $e)
 	{
 		errToDb('[Exception]['.__FILE__.']['.__FUNCTION__.'][Line: '.$e->getLine().']['.$e->getMessage().']');

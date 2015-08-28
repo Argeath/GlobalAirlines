@@ -461,15 +461,14 @@ class Model_Staff extends ORM {
 			$event_id = $newEvent->id;
 
 			//Parametry
-			$params = array();
-			$params[] = '(' . $event_id . ', "pracId", ' . $this->id . ')';
-			$params[] = '(' . $event_id . ', "to", ' . $to . ')';
+			$eventManager = new Events_EventManager();
+			$eventManager->addParam($event_id, 'pracId', $this->id);
+			$eventManager->addParam($event_id, 'to', $to);
 			if ($plane && (int) $plane > 0) {
-				$params[] = '(' . $event_id . ', "plane", ' . $plane . ')';
+				$eventManager->addParam($event_id, 'plane', $plane);
 			}
 
-			Events::insertEventParams($params);
-			unset($params);
+			$eventManager->commitParams();
 
 			$info = array('type' => Helper_Financial::LotSwobodnyPrac, 'staff_id' => $this->id);
 			$this->user->operateCash(-$koszt, 'Lot swobodny (' . $this->city->name . ' -> ' . Helper_Map::getCityName($to) . ') pracownika - ' . $this->name . '.', time(), $info);

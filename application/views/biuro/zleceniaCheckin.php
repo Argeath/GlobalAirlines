@@ -54,7 +54,7 @@
                     echo "<tr>";
                     echo "<td>".$ch->user->drawButton()."</td>";
                     echo "<td>".$c['bonus']."%</td>";
-                    echo "<td>".(($ch->user_id == $profil['id']) ? 0 : formatCash($ch->cost))." ".WAL."</td>";
+                    echo "<td>".(($ch->user_id == GlobalVars::$profil['id']) ? 0 : formatCash($ch->cost))." ".WAL."</td>";
                     echo "<td>".Helper_TimeFormat::secondsToText(round($c['odprawa']))."</td>";
                     echo "<td>".$placeT."</td>";
                     echo '<td>

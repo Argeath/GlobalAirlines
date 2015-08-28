@@ -33,7 +33,7 @@
 		<h2>
 			Aktualna cena paliwa<br />
 			<b><?= formatCash(Helper_Oil::getOilCost(), 2); ?> <?= WAL; ?></b>
-			<? if($profil['admin'])
+			<? if(GlobalVars::$profil['admin'])
 				{
 					Helper_Oil::debugOil();
 				}

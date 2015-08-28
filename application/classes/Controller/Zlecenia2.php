@@ -432,6 +432,7 @@ class Controller_Zlecenia2 extends Controller_Template {
 
 		$zlecenieId = $zlecenie->id;
 
+		/** @var $plane Model_UserPlane */
 		$plane = ORM::factory("UserPlane", (int) $post['plane']);
 		if (!$plane->loaded() || $plane->user_id != $user->id) {
 			sendError('Nie znaleziono takiego samolotu.');
@@ -457,9 +458,8 @@ class Controller_Zlecenia2 extends Controller_Template {
 
 		if ($plane->lotZlecenie($zlecenieId, $czas, $bazaPaliwo, $checkinId)) {
 			sendMsg('Wysłano');
-			global $menu_zlecen;
-			if ($menu_zlecen > 0) {
-				$menu_zlecen--;
+			if (GlobalVars::$menu_zlecen > 0) {
+				GlobalVars::$menu_zlecen--;
 			}
 		} else {
 			sendError('Wystąpił błąd. Spróbuj ponownie.');

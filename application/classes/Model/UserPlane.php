@@ -169,9 +169,9 @@ class Model_UserPlane extends ORM {
 			$event->when = $time;
 			$event->save();
 
-			$params = array();
-			$params[] = '(' . $event->id . ', "accident", ' . $accident->id . ')';
-			Events::insertEventParams($params);
+            $eventManager = new Events_EventManager();
+            $eventManager->addParam($event->id, 'accident', $accident->id);
+            $eventManager->commitParams();
 
 			return $accident;
 		} catch (Exception $e) {
@@ -766,17 +766,17 @@ class Model_UserPlane extends ORM {
 
 			$flightId = $flight->id;
 
-			$params = array();
-			$params[] = '(' . $event_id . ', "distance", ' . round($distance) . ')';
-			$params[] = '(' . $event_id . ', "czas", ' . round($czas) . ')';
-			$params[] = '(' . $event_id . ', "plane", ' . round($this->id) . ')';
-			$params[] = '(' . $event_id . ', "to", ' . round($to) . ')';
-			$params[] = '(' . $event_id . ', "from", ' . round($from) . ')';
-			$params[] = '(' . $event_id . ', "paliwo", ' . round($paliwo) . ')';
-			$params[] = '(' . $event_id . ', "odprawa", ' . round($odprawa) . ')';
-			$params[] = '(' . $event_id . ', "flight", ' . round($flightId) . ')';
-			Events::insertEventParams($params);
-			unset($params);
+
+            $eventManager = new Events_EventManager();
+            $eventManager->addParam($event_id, 'distance', $distance);
+            $eventManager->addParam($event_id, 'czas', $czas);
+            $eventManager->addParam($event_id, 'plane', $this->id);
+            $eventManager->addParam($event_id, 'to', $to);
+            $eventManager->addParam($event_id, 'from', $from);
+            $eventManager->addParam($event_id, 'paliwo', $paliwo);
+            $eventManager->addParam($event_id, 'odprawa', $odprawa);
+            $eventManager->addParam($event_id, 'flight', $flightId);
+            $eventManager->commitParams();
 
 			$info = array('plane_id' => $this->id, 'type' => Helper_Financial::LotSwobodny);
 			$this->user->operateCash(-$koszt, 'Opłaty lotu swobodny (' . Helper_Map::getCityName($from) . ' -> ' . Helper_Map::getCityName($to) . ') wykonywanego samolotem - ' . $this->fullName() . '.', $start, $info);
@@ -992,16 +992,16 @@ class Model_UserPlane extends ORM {
 			$zlecenie->flight_id = $flightId;
 			$zlecenie->save();
 
-			$params = array();
-			$params[] = '(' . $event_id . ', "distance", ' . round($distance) . ')';
-			$params[] = '(' . $event_id . ', "czas", ' . round($czas) . ')';
-			$params[] = '(' . $event_id . ', "plane", ' . round($this->id) . ')';
-			$params[] = '(' . $event_id . ', "zlecenie", ' . round($zlecenieId) . ')';
-			$params[] = '(' . $event_id . ', "paliwo", ' . round($paliwo) . ')';
-			$params[] = '(' . $event_id . ', "to", ' . round($to->id) . ')';
-			$params[] = '(' . $event_id . ', "odprawa", ' . round($odprawa) . ')';
-			Events::insertEventParams($params);
-			unset($params);
+			$eventManager = new Events_EventManager();
+			$eventManager->addParam($event_id, 'distance', $distance);
+			$eventManager->addParam($event_id, 'czas', $czas);
+			$eventManager->addParam($event_id, 'plane', $this->id);
+			$eventManager->addParam($event_id, 'zlecenie', $zlecenieId);
+			$eventManager->addParam($event_id, 'paliwo', $paliwo);
+			$eventManager->addParam($event_id, 'to', $to->id);
+			$eventManager->addParam($event_id, 'odprawa', $odprawa);
+
+			$eventManager->commitParams();
 
 			if ($baza->loaded()) {
 				$baza->oil -= $paliwoZBazy;

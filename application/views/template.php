@@ -146,35 +146,35 @@
 		<div class="tmp-content">
 			<div class="tmp-content-inner">
 				<div class="top-panel" onselectstart="return false" onselect="return false">
-					<? if($logged) {
+					<? if(GlobalVars::$logged) {
 						$userHTML = '';
 					?>
 					<div class="field panel">
-						<div class="left hidden-xs"><img src="<?php echo URL::base(TRUE);?>uploads/<?=((isset($profil['avatar'])) ? $profil['avatar'] : '');?>.jpg" class="avatar"/></div>
+						<div class="left hidden-xs"><img src="<?php echo URL::base(TRUE);?>uploads/<?=((isset(GlobalVars::$profil['avatar'])) ? GlobalVars::$profil['avatar'] : '');?>.jpg" class="avatar"/></div>
 						<div class="right">
-							<b><?=((isset($profil['username'])) ? $profil['username'] : '');?></b><br />
-<?=((isset($profil['cash'])) ? formatCash($profil['cash']) . ' ' . WAL : '');?><br />
-<?=((isset($profil['premium_points'])) ? formatCash($profil['premium_points']) . ' PP' : '');?>
+							<b><?=((isset(GlobalVars::$profil['username'])) ? GlobalVars::$profil['username'] : '');?></b><br />
+							<?=((isset(GlobalVars::$profil['cash'])) ? formatCash(GlobalVars::$profil['cash']) . ' ' . WAL : '');?><br />
+							<?=((isset(GlobalVars::$profil['premium_points'])) ? formatCash(GlobalVars::$profil['premium_points']) . ' PP' : '');?>
 						</div>
 						<div class="ttip panel" style="left: -20px; top: 48px;">
                             <div class="level-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Poziom konta - doświadczenie">
-                                <div class="level-field"><?=Helper_Experience::getLevelByExp($profil['exp']);?></div>
+                                <div class="level-field"><?=Helper_Experience::getLevelByExp(GlobalVars::$profil['exp']);?></div>
                                 <div id='expbar'>
-                                    <div class='label'><?=$profil['expLabel'];?></div>
+                                    <div class='label'><?=GlobalVars::$profil['expLabel'];?></div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Przebyty dystans">
                                 <div class="icon-field"><i class="fa fa-arrows-h"></i></div>
                                 <div class="bar">
-                                    <div class='label'><?=formatCash($profil['km']);?> km</div>
+                                    <div class='label'><?=formatCash(GlobalVars::$profil['km']);?> km</div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Czas spędzony w powietrzu">
                                 <div class="icon-field"><i class="fa fa-cloud-upload"></i></div>
                                 <div class="bar">
-                                    <div class='label'><?=Helper_TimeFormat::secondsToText($profil['hours']);?></div>
+                                    <div class='label'><?=Helper_TimeFormat::secondsToText(GlobalVars::$profil['hours']);?></div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -182,7 +182,7 @@
 								<div class="icon-field"><i class="fa fa-users"></i></div>
 
 								<div class="bar">
-									<div class='label'><?=formatCash($profil['pasazerow']);?></div>
+									<div class='label'><?=formatCash(GlobalVars::$profil['pasazerow']);?></div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -190,7 +190,7 @@
 								<div class="icon-field"><i class="fa fa-check"></i></div>
 
 								<div class="bar">
-									<div class='label'><?=formatCash($profil['zlecen']);?></div>
+									<div class='label'><?=formatCash(GlobalVars::$profil['zlecen']);?></div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -198,7 +198,7 @@
 								<div class="icon-field"><i class="fa fa-credit-card"></i></div>
 
 								<div class="bar">
-									<div class='label'><?=formatCash($profil['premium_points']);?></div>
+									<div class='label'><?=formatCash(GlobalVars::$profil['premium_points']);?></div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -207,11 +207,11 @@
 
 					<div class="field panel">
 						<div class="left">
-							<span class="glyphicon glyphicon-warning-sign bootstrap-icon <?=(($nowych_powiadomien > 0) ? 'blink' : '');?>">
+							<span class="glyphicon glyphicon-warning-sign bootstrap-icon <?=((GlobalVars::$nowych_powiadomien > 0) ? 'blink' : '');?>">
 								<div class="wide ttip panel">
 									<?
 										echo '<div style="padding-bottom: 10px;">';
-										$powiadomienia = ORM::factory("MiniMessage")->where('user_id', '=', $profil['id'])->order_by('data', 'desc')->limit(5)->find_all();
+										$powiadomienia = ORM::factory("MiniMessage")->where('user_id', '=', GlobalVars::$profil['id'])->order_by('data', 'desc')->limit(5)->find_all();
 										foreach($powiadomienia as $powiad)
 										{
 											echo '<div class="ttip-row '.(($powiad->checked==0) ? "actual" : "").'" mid="'.$powiad->id.'" data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-content=\''.$powiad->long.'\'>';
@@ -228,7 +228,7 @@
 								<div class="wide ttip panel">
 									<?
 										echo '<div style="margin-bottom: 10px;">';
-										$messages = ORM::factory("Message")->where('user_id', '=', $profil['id'])->and_where('typ', '=', 1)->order_by('data', 'desc')->limit(5)->find_all();
+										$messages = ORM::factory("Message")->where('user_id', '=', GlobalVars::$profil['id'])->and_where('typ', '=', 1)->order_by('data', 'desc')->limit(5)->find_all();
                                         if($messages->count() == 0)
                                             echo "<div class='text-center'>Brak wiadomości.</div><br />";
 										foreach($messages as $msg)
@@ -251,7 +251,7 @@
 						</div>
 					</div>
 					<?
-						$flights = ORM::factory("Flight")->where('started', '<=', time())->and_where('user_id', '=', $profil['id'])->and_where('end', '>=', time())->and_where('canceled', '=', 0)->order_by('end', 'ASC')->limit(3)->find_all();
+						$flights = ORM::factory("Flight")->where('started', '<=', time())->and_where('user_id', '=', GlobalVars::$profil['id'])->and_where('end', '>=', time())->and_where('canceled', '=', 0)->order_by('end', 'ASC')->limit(3)->find_all();
 						if($flights->count() > 0) { ?>
 							<div class="field panel hidden-xs">
 								<div class="left">
@@ -294,7 +294,7 @@
 						<div id="tutorialLayerInner"></div>
                     </div>
                 </div>
-				<? if($logged) { ?>
+				<? if(GlobalVars::$logged) { ?>
 				<div class="tmp-chat hidden-xs">
 					<div class="bottom-icon" id="tmp-chat-trigger">
 						<div class="icon"></div>
@@ -306,7 +306,7 @@
 						</div>
 						<div class="channel">LOCAL <p id="chat-status" class="glyphicon glyphicon-remove red"></p></div>
 						<div class="right">
-							<? if($logged && $profil['admin']) { ?><button id="tmp-admin-trigger" class="btn btn-primary btn-xs">ADMIN <i class="glyphicon glyphicon-chevron-left"></i></button><? } ?>
+							<? if(GlobalVars::$logged && GlobalVars::$profil['admin']) { ?><button id="tmp-admin-trigger" class="btn btn-primary btn-xs">ADMIN <i class="glyphicon glyphicon-chevron-left"></i></button><? } ?>
 						</div>
 					</div>
 					<div class="body">
@@ -316,7 +316,7 @@
 							</table>
 						</div>
 					</div>
-					<? if($logged && $profil['admin']) { ?>
+					<? if(GlobalVars::$logged && GlobalVars::$profil['admin']) { ?>
 					<div id="tmp-admin" class="tmp-admin">
 						<div id="admin-zbanuj" class="btn btn-primary">
 							Zbanuj gracza
@@ -344,21 +344,21 @@
 		</div>
 </div>
 <div id="tutorialLayer"></div>
-<div id="userToken" token="<?=(isset($profil) && isset($profil['token'])) ? $profil['token'] : ""?>"></div>
+<div id="userToken" token="<?=(isset(GlobalVars::$profil) && isset(GlobalVars::$profil['token'])) ? GlobalVars::$profil['token'] : ""?>"></div>
 <?=(isset($modals)) ? $modals : '';?>
 <?php //echo View::factory('profiler/stats') ?>
-<? if($logged) { ?>
+<? if(GlobalVars::$logged) { ?>
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script type="text/javascript" src="<?php echo URL::base(TRUE);?>bower_components/sails.io.js/sails.io.js"></script>
 <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/chat.js"></script>
-<? if($logged && $profil['admin']) { ?> <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/admin.js"></script><? } ?>
+<? if(GlobalVars::$logged && GlobalVars::$profil['admin']) { ?> <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/admin.js"></script><? } ?>
 <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.datetimepicker.js"></script>
 <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/tutorial.js"></script>
 
 <? } ?>
 
 <script type="text/javascript">
-	<? if($logged) { ?>
+	<? if(GlobalVars::$logged) { ?>
 		io.sails.url = 'http://ws.planes.vipserv.org';
 	<? } ?>
     $(function () {
@@ -418,7 +418,7 @@
 			$(window).resize();
 			setTimeout(function() { $("#tmp-container").removeClass("no-transition"); }, 1000);
 		}
-		<? if($logged && $profil['admin']) { ?>
+		<? if(GlobalVars::$logged and GlobalVars::$profil['admin']) { ?>
 		if($.cookie('adminOpen') == 1)
 		{
 			$("#tmp-container").addClass("tmp-admin-open");
@@ -435,7 +435,7 @@
 			else
 				$.cookie('chatOpen', 1, { expires: 31, path: '/' });
 		});
-		<? if($logged && $profil['admin']) { ?>
+		<? if(GlobalVars::$logged and GlobalVars::$profil['admin']) { ?>
 		$("#tmp-admin-trigger").on('click', function(ev) {
 			ev.preventDefault();
 			$("#tmp-container").toggleClass("tmp-admin-open");
@@ -471,10 +471,10 @@
 		$(".Jtooltip").tooltip();
 		$("[data-toggle='tooltip']").tooltip();
 		$(".Jpopover").popover();
-		<? if($logged) { ?>
+		<? if(GlobalVars::$logged) { ?>
 		//Expbar
 		$( "#expbar" ).progressbar({
-			value: <?=$profil['expPercent'];?>
+			value: <?=GlobalVars::$profil['expPercent'];?>
 		}).find( ".ui-progressbar-value" ).css({
 		  "margin": '0px'
         });
@@ -552,7 +552,7 @@ $(function() {
 <script>
 	$("#fb_login").click(function( event ) {
 		event.preventDefault();
-		window.location = "<?=$fb_loginPath;?>";
+		window.location = "<?= GlobalVars::$fb_loginPath; ?>";
 	});
 </script>
 </body>

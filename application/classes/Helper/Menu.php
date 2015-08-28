@@ -3,14 +3,14 @@
 class Helper_Menu {
 	static function show() {
 		$user = Auth::instance()->get_user();
-		$logged = false;
+		GlobalVars::$logged = false;
 		if ($user) {
-			$logged = true;
-			$menu_zlecen = $user->menuZlecen();
-			$nowych_powiadomien = $user->nowychPowiadomien();
-			$nowych_kontaktow = $user->nowychKontaktow();
-			$nowych_wiadomosci = $user->nowychWiadomosci();
-			$bazy = $user->bazy();
+			GlobalVars::$logged = true;
+			GlobalVars::$menu_zlecen = $user->menuZlecen();
+			GlobalVars::$nowych_powiadomien = $user->nowychPowiadomien();
+			GlobalVars::$nowych_kontaktow = $user->nowychKontaktow();
+			GlobalVars::$nowych_wiadomosci = $user->nowychWiadomosci();
+			GlobalVars::$bazy = $user->bazy();
 		}
 
 		$secure_connection = false;
@@ -30,7 +30,7 @@ class Helper_Menu {
             <ul>';
 
 		$menus = Kohana::$config->load('menu');
-		if ($logged) {
+		if (GlobalVars::$logged) {
 			$menus = $menus['login'];
 		} else {
 			$menus = $menus['logout'];
@@ -53,7 +53,7 @@ class Helper_Menu {
 					if (is_array($pparam)) {
 						if (isset($pparam['function'])) {
 							if ($pparam['function'] == 'bazy') {
-								foreach ($bazy as $b) {
+								foreach (GlobalVars::$bazy as $b) {
 									echo '<li><div>' . HTML::anchor('airport/office/' . $b->id, $b->city->code) . '<small>' . $b->city->name . '</small></div></li>';
 								}
 							} elseif ($pparam['function'] == 'find_city') {
@@ -83,14 +83,14 @@ class Helper_Menu {
 						}
 						$badge = "";
 						if (isset($pparam['badge'])) {
-							$z = ${$pparam['badge']};
+							$z = GlobalVars::${$pparam['badge']};
 							if (isset($z) && (int) $z > 0) {
 								$badge = '<div class="badge badgeDiv">' . $z . '</div>';
 								$badges += $z;
 							}
 						}
 
-						if (isset($pparam['admin']) && $pparam['admin'] == 1 && isset($profil['admin']) && $profil['admin'] != 1) {
+						if (isset($pparam['admin']) && $pparam['admin'] == 1 && isset(GlobalVars::$profil['admin']) && GlobalVars::$profil['admin'] != 1) {
 							continue;
 						}
 

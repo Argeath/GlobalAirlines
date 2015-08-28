@@ -66,14 +66,14 @@ class Controller_Paliwo extends Controller_Template {
 			$cenyA[] = "['".$mysqldate."', ".$cena['cena']."]";
 		}
 		$cenyT = implode(",", $cenyA);
-		
-		
-		global $bazy;
-		$bazy = $user->bazy->find_all();
+
+
+		GlobalVars::$bazy = $user->bazy->find_all();
 		$razemP = $razemW = 0;
-		
+
+		// TODO: Move to View
 		$bazyT = "";
-		foreach($bazy as $baza)
+		foreach(GlobalVars::$bazy as $baza)
 		{
 			$wartosc = Helper_Oil::getOilCost($baza->oil);
 			$bazyT .= "<tr><td>".$baza->city->name."</td><td>".formatCash($baza->oil, 2)." / ".formatCash($baza->cysterny*$tank['volume']) ." l</td><td>".formatCash($wartosc, 0, true)." ".WAL."</td><td>".HTML::anchor('paliwo/kup/'.$baza->id, 'Kup', array('class' => "btn btn-primary btn-block"))."</td></tr>";

@@ -15,7 +15,7 @@
 		</thead>
 		<tbody>
 			<? if(isset($financials) && ! empty($financials)) {
-					$grubszaKasa = pow($profil['cash'], 0.75);
+					$grubszaKasa = pow(GlobalVars::$profil['cash'], 0.75);
 					foreach($financials as $f) {
 						$grubsza = "";
 						if($f['change'] > $grubszaKasa || $f['change'] < -$grubszaKasa)

@@ -344,14 +344,13 @@ class Model_User extends Model_Auth_User {
 	}
 
 	public function bazy() {
-		global $bazy;
-		$bazy = $this->bazy->find_all();
-		return $bazy;
+        GlobalVars::$bazy = $this->bazy->find_all();
+		return GlobalVars::$bazy;
 	}
 
 	public function profil() {
 		try {
-			global $profil;
+			$profil = [];
 			$profil['id'] = $this->id;
 			$profil['nick'] = $this->username;
 			$profil['username'] = $this->username;
@@ -369,6 +368,7 @@ class Model_User extends Model_Auth_User {
 			$profil['premium_points'] = $this->premium_points;
 			$profil['admin'] = $this->isAdmin();
 			$profil['token'] = $this->token;
+            GlobalVars::$profil = $profil;
 			return true;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
@@ -378,10 +378,8 @@ class Model_User extends Model_Auth_User {
 
 	public function nowychWiadomosci() {
 		try {
-			global $nowych_wiadomosci;
 			$wiadomosci = $this->messages->where('checked', '=', 0)->and_where('deleted', '=', 0)->and_where('saved', '=', 0)->and_where('typ', '=', 1)->count_all();
-			//$wiadomosci = DB::select()->from('messages')->where('user', '=', $user)->and_where('checked', '=', 0)->and_where('deleted', '=', 0)->and_where('saved', '=', 0)->and_where('typ', '=', 1)->execute()->count();
-			$nowych_wiadomosci = $wiadomosci;
+			GlobalVars::$nowych_wiadomosci = $wiadomosci;
 			return $wiadomosci;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
@@ -391,9 +389,8 @@ class Model_User extends Model_Auth_User {
 
 	public function nowychPowiadomien() {
 		try {
-			global $nowych_powiadomien;
 			$powiadomien = $this->miniMessages->where('checked', '=', 0)->count_all();
-			$nowych_powiadomien = $powiadomien;
+			GlobalVars::$nowych_powiadomien = $powiadomien;
 			return $powiadomien;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
@@ -403,9 +400,8 @@ class Model_User extends Model_Auth_User {
 
 	public function nowychKontaktow() {
 		try {
-			global $nowych_kontaktow;
 			$kontaktow = ORM::factory("Contact")->where('accepted', '=', 0)->and_where('user2_id', '=', $this->id)->count_all();
-			$nowych_kontaktow = $kontaktow;
+			GlobalVars::$nowych_kontaktow = $kontaktow;
 			return $kontaktow;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
@@ -415,7 +411,6 @@ class Model_User extends Model_Auth_User {
 
 	public function menuZlecen() {
 		try {
-			global $menu_zlecen;
 			$ile = 0;
 			$zlecenia = $this->orders->where('done', '=', 0)->and_where('punished', '=', 0)->find_all();
 			foreach ($zlecenia as $zl) {
@@ -426,7 +421,7 @@ class Model_User extends Model_Auth_User {
 
 				$ile++;
 			}
-			$menu_zlecen = $ile;
+			GlobalVars::$menu_zlecen = $ile;
 			return $ile;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');

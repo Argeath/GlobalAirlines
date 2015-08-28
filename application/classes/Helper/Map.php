@@ -6,7 +6,7 @@ class Helper_Map {
 	}
 
 	static function getRegions() {
-		$query = GlobalArrays::getCities();
+		$query = GlobalVars::getCities();
 		$regions = array();
 		foreach ($query as $city) {
 			$region = $city->region;
@@ -135,7 +135,7 @@ class Helper_Map {
 			}
 
 			$distance = $city1->countDistanceTo($city2);
-			$cities = GlobalArrays::getCities();
+			$cities = GlobalVars::getCities();
 			$city1Distances = $city1->getCitiesInRange($cities, $dist - 100, $dist + 100);
 
 			if (empty($city1Distances)) {
