@@ -1,6 +1,6 @@
-<? $detect = new MobileDetect; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+<html>
+<? $detect = new MobileDetect; ?>
 <head>
 	<title>Global AirLines Simulator - <?=((isset($title)) ? $title : '');?></title>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -47,6 +47,11 @@
 
 	  ga('create', 'UA-12606596-4', 'auto');
 	  ga('send', 'pageview');
+	  <? if(GlobalVars::$logged) {
+	  	echo "ga('set','&uid', ".GlobalVars::$profil['id'].");";
+	  } else {
+	    echo 'abc';
+	  } ?>
 
 	</script>
 
@@ -55,7 +60,6 @@
 	</script>
 </head>
 <body>
-
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];

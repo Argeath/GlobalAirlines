@@ -3,7 +3,6 @@
 class Controller_User extends Controller_Template {
 
 	public function action_index() {
-		$this->template->title = "Powitanie";
 		$ref = (int) $this->request->param('ref');
 		if ($ref > 0) {
 			Session::instance()->bind('ref', $ref);
@@ -18,6 +17,64 @@ class Controller_User extends Controller_Template {
 		}
 
 		$this->redirect('podglad');
+	}
+
+	public function action_created() {
+		$this->template->title = "Konto zostało założone";
+
+		$this->template->content = View::factory('user/created');
+		$user = Auth::instance()->get_user();
+		if (!$user) {
+			$this->redirect('user/login');
+		}
+
+		if($user->activation_hash == NULL)  {
+			$this->redirect('podglad');
+		}
+	}
+
+	public function action_resendActivation() {
+		$this->template->title = "";
+		$this->template->content = "";
+
+		$user = Auth::instance()->get_user();
+		if (!$user) {
+			$this->redirect('user/login');
+		}
+
+		if($user->activation_hash == NULL)  {
+			$this->redirect('podglad');
+		}
+
+        $email = new Helper_ActivationMail($user);
+        $email->send();
+
+        sendMsg("Email z linkiem aktywacyjnym został ponownie wysłany.");
+        $this->redirect('user/created');
+	}
+
+	public function action_activate() {
+		$this->template->title = "";
+		$this->template->content = "";
+
+		$user = Auth::instance()->get_user();
+		if (!$user) {
+			$this->redirect('user/login');
+		}
+
+		if($user->activation_hash == NULL)  {
+			$this->redirect('podglad');
+		}
+
+		$hash = $this->request->param('id');
+
+		if($user->activation_hash === $hash) {
+			$user->activation_hash = null;
+			$user->save();
+		}
+
+        sendMsg("Konto zostało aktywowane.");
+        $this->redirect('podglad');
 	}
 
 	public function action_create() {
@@ -58,6 +115,9 @@ class Controller_User extends Controller_Template {
 					// Grant user login role
 					$user->add('roles', ORM::factory('role', array('name' => 'login')));
 
+                    $user->activation_hash = hash('sha256', $user->email.'-'.time());
+                    $user->save();
+
 					$ref = Session::instance()->get('ref');
 					if ($ref && (int) $ref > 0) {
 						$referrer = ORM::Factory("User", $ref);
@@ -73,6 +133,9 @@ class Controller_User extends Controller_Template {
 							$contact->save();
 						}
 					}
+
+					$email = new Helper_ActivationMail($user);
+					$email->send();
 
 					// Reset values so form is not sticky
 					$_POST = array();
@@ -110,7 +173,11 @@ class Controller_User extends Controller_Template {
 				$user = Auth::instance()->login($this->request->post('username'), $this->request->post('password'), $remember);
 				// If successful, redirect user
 				if ($user) {
-					$this->redirect('user/index');
+                    $user = Auth::instance()->get_user();
+                    if($user->activation_hash != NULL)
+                        $this->redirect('user/created');
+                    else
+					    $this->redirect('user/index');
 				} else {
 					$message = 'Niepoprawny login lub hasło.';
 				}

@@ -4,7 +4,7 @@
 	</div>
 	Wybór miejsca siedziby - pierwszej(głównej) bazy. W głównej bazie będziesz zatrudniał załogę.
 	<?=Form::open('firstBase', array('class' => "form_300"));?>
-	<select name="baza" class="selectpickerflag">
+	<select name="baza" class="selectpickerflag" style="width: 100%;">
 		<?
 		foreach($cities as $city)
 		{

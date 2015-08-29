@@ -49,6 +49,12 @@ try {
                         'controller' => 'firstLogin',
                         'action' => 'index' ));
 
+            if ($user->activation_hash != NULL)
+                Route::set('unactivated', '<catcher>', array('catcher' => '.*'))
+                    ->defaults(array(
+                        'controller' => 'user',
+                        'action' => 'created' ));
+
             if ($user->id == null) {
                 Auth::instance()->logout();
                 FB::instance()->destroySession();
