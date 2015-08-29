@@ -105,7 +105,7 @@ class Helper_Menu {
 				if ($badges > 0) {
 					echo '<div class="badge badgeDiv">' . $badges . '</div>';
 				}
-				echo '<div class="clearfix"></div></li>';
+				echo '</li>';
 			}
 		}
 		echo '</ul></nav>';
