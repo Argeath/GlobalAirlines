@@ -76,22 +76,16 @@
 		Terminarz nie jest dostępny w tej rozdzielczości ekranu.
 	</div>
 </div>
-<link rel="stylesheet" media="screen" type="text/css" href="<?=URL::base(TRUE);?>assets/colorpicker/css/colorpicker.css" />
-<script type="text/javascript" src="<?=URL::base(TRUE);?>assets/colorpicker/js/colorpicker.js"></script>
+<link rel="stylesheet" href="<?=URL::base(TRUE);?>bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" />
+<script type="text/javascript" src="<?=URL::base(TRUE);?>bower_components/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
 <script type='text/javascript'>
+
 function getContrastYIQ(hexcolor){
 	var r = parseInt(hexcolor.substr(0,2),16);
 	var g = parseInt(hexcolor.substr(2,2),16);
 	var b = parseInt(hexcolor.substr(4,2),16);
 	var yiq = ((r*299)+(g*587)+(b*114))/1000;
 	return (yiq >= 128) ? 'black' : 'white';
-}
-function rgb2hex(rgb){
- rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
- return (rgb && rgb.length === 4) ? '#' +
-  ('0' + parseInt(rgb[1],10).toString(16)).slice(-2) +
-  ('0' + parseInt(rgb[2],10).toString(16)).slice(-2) +
-  ('0' + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
 }
 
 $(function() {
@@ -121,30 +115,30 @@ $(function() {
 	});
 
 	$('.suwakZlecenie').hide();
-	$('.colorpick').ColorPicker({
-		onSubmit: function(hsb, hex, rgb, el) {
-			var planeId = $(el).parent().parent().parent().attr('planeId');
-			$(el).parent().parent().children().first().children().css('background-color', '#'+hex);
-			var textcolor = getContrastYIQ(hex);
-			$(el).parent().parent().children().first().children().css('color', textcolor);
-			$(el).css('background-color', '#'+hex);
-			$('.suwakZlecenie').each(function() {
-				if($(this).attr('planeId') == planeId)
-				{
-					$(this).css('background-color', '#'+hex);
-				}
-			});
-			$(el).ColorPickerHide();
 
-			var url = url_base()+'ajax/planeColor/' + planeId + '/' + hex;
+    $('.colorpick').colorpicker({
+        color: $(this).css('background-color')
+    }).on('changeColor.colorpicker', function(event) {
+        var hex = event.color.toHex();
 
-			$.ajax(url);
-		},
-		onBeforeShow: function () {
-			var color = rgb2hex($(this).css('background-color'));
-			$(this).ColorPickerSetColor(color);
-		}
-	});
+        var planeId = $(el).parent().parent().parent().attr('planeId');
+        $(el).parent().parent().children().first().children().css('background-color', '#'+hex);
+        var textcolor = getContrastYIQ(hex);
+        $(el).parent().parent().children().first().children().css('color', textcolor);
+        $(el).css('background-color', '#'+hex);
+        $('.suwakZlecenie').each(function() {
+            if($(this).attr('planeId') == planeId)
+            {
+                $(this).css('background-color', '#'+hex);
+            }
+        });
+
+        var url = url_base()+'ajax/planeColor/' + planeId + '/' + hex;
+
+        $.ajax(url);
+
+    });
+
 	$('.plane_sort').click(function() {
 		var planeId = $(this).parent().parent().parent().parent().attr('planeId');
 		var thisCheck = $(this).is(':checked');

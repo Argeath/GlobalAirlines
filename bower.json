@@ -1,0 +1,31 @@
+{
+  "name": "GlobalAirlinesSimulator",
+  "version": "1.0.0",
+  "main": "index.php",
+  "authors": [
+    "Dominik Kinal"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "system",
+    "modules"
+  ],
+  "dependencies": {
+    "animate.css": "~3.4.0",
+    "bootstrap": "3.3.5",
+    "components-font-awesome": "4.4.0",
+    "datetimepicker": "~2.4.5",
+    "jquery": "2.1.4",
+    "jquery-placeholder": "~2.1.2",
+    "jquery-ui": "1.11.4",
+    "jquery.cookie": "~1.4.1",
+    "jquery.transit": "~0.9.12",
+    "mjolnic-bootstrap-colorpicker": "~2.3.0",
+    "perfect-scrollbar": "~0.6.5",
+    "select2": "~4.0.0",
+    "tock": "~1.0.8"
+  }
+}

@@ -1,43 +1,46 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
-<? $detect = new MobileDetect; ?>
 <head>
-	<title>Global AirLines Simulator - <?=((isset($title)) ? $title : '');?></title>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<? $detect = new MobileDetect; ?>
+	<title>Global AirLines Simulator - <?=((isset($title)) ? $title : '') ?></title>
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=1024, initial-scale=0.5, maximum-scale=2, user-scalable=yes">
 	<meta name="description" content="Global AirLines Simulator - gra przeglądarkowa, polegająca na symulowaniu swojej własnej linii lotniczej. Wysyłaj samoloty, zarabiaj na zleceniach, zostań najbogatszy!" />
+
 	<meta name="og:description" content="Gra przeglądarkowa, polegająca na symulowaniu swojej własnej linii lotniczej. Wysyłaj samoloty, zarabiaj na zleceniach, zostań najbogatszy!" />
 	<meta name="og:site_name" content="Global Airlines Simulator" />
 	<meta name="fb:app_id" content="587990371267671" />
 	<meta property="og:image" itemprop="image" content="http://serwer1418595.home.pl/assets/logo-airlines2.png" />
+
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
 
 	<meta name="keywords" content="Airlines Simulator, Lotnictwo, AirLines, Air, Lanes, Samoloty, linie lotnicze, gra przeglądarkowa" />
-	<link rel="canonical" href="<?php echo URL::base(TRUE);?>"/>
-	<link rel="Shortcut icon" href="<?php echo URL::base(TRUE);?>assets/fav.ico" />
+	<link rel="canonical" href="<?= URL::base(TRUE) ?>"/>
+	<link rel="Shortcut icon" href="<?= URL::base(TRUE) ?>assets/fav.ico" />
 
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/newstyle.css" />
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<?= URL::base(TRUE) ?>assets/css/newstyle.css" />
+	<link rel="stylesheet" href="<?= URL::base(TRUE) ?>bower_components/components-font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="<?= URL::base(TRUE) ?>bower_components/bootstrap/dist/css/bootstrap.min.css" />
 
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css" />
-	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/jquery.datetimepicker.css" />
-	<link rel="stylesheet" href="<?php echo URL::base(TRUE);?>assets/css/animate.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+	<link rel="stylesheet" href="<?= URL::base(TRUE) ?>bower_components/jquery-ui/themes/ui-darkness/jquery-ui.min.css" />
+	<link rel="stylesheet" href="<?= URL::base(TRUE) ?>bower_components/datetimepicker/jquery.datetimepicker.css" />
+	<link rel="stylesheet" href="<?= URL::base(TRUE) ?>bower_components/animate.css/animate.min.css" />
+    <link rel="stylesheet" href="<?= URL::base(TRUE) ?>bower_components/select2/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="<?= URL::base(TRUE) ?>bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" />
 
 
-	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-	<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.transit.min.js"></script>
-	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.complete-placeholder.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery/dist/jquery.min.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery-ui/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery.transit/jquery.transit.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery-placeholder/jquery.complete-placeholder.min.js"></script>
 
-	<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.cookie.js"></script>
-	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.nicescroll.js"></script>
-	<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/tock.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery-cookie/jquery.cookie.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/perfect-scrollbar/js/min/perfect-scrollbar.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/tock/tock.min.js"></script>
+    <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/select2/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/datetimepicker/jquery.datetimepicker.js"></script>
 
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -56,7 +59,7 @@
 	</script>
 
 	<script type="text/javascript">
-		function url_base() { return "<?php echo URL::base(TRUE);?>"; }
+		function url_base() { return "<?= URL::base(TRUE) ?>"; }
 	</script>
 </head>
 <body>
@@ -154,31 +157,31 @@
 						$userHTML = '';
 					?>
 					<div class="field panel">
-						<div class="left hidden-xs"><img src="<?php echo URL::base(TRUE);?>uploads/<?=((isset(GlobalVars::$profil['avatar'])) ? GlobalVars::$profil['avatar'] : '');?>.jpg" class="avatar"/></div>
+						<div class="left hidden-xs"><img src="<?= URL::base(TRUE) ?>uploads/<?=((isset(GlobalVars::$profil['avatar'])) ? GlobalVars::$profil['avatar'] : '') ?>.jpg" class="avatar"/></div>
 						<div class="right">
-							<b><?=((isset(GlobalVars::$profil['username'])) ? GlobalVars::$profil['username'] : '');?></b><br />
-							<?=((isset(GlobalVars::$profil['cash'])) ? formatCash(GlobalVars::$profil['cash']) . ' ' . WAL : '');?><br />
-							<?=((isset(GlobalVars::$profil['premium_points'])) ? formatCash(GlobalVars::$profil['premium_points']) . ' PP' : '');?>
+							<b><?=((isset(GlobalVars::$profil['username'])) ? GlobalVars::$profil['username'] : '') ?></b><br />
+							<?=((isset(GlobalVars::$profil['cash'])) ? formatCash(GlobalVars::$profil['cash']) . ' ' . WAL : '') ?><br />
+							<?=((isset(GlobalVars::$profil['premium_points'])) ? formatCash(GlobalVars::$profil['premium_points']) . ' PP' : '') ?>
 						</div>
 						<div class="ttip panel" style="left: -20px; top: 48px;">
                             <div class="level-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Poziom konta - doświadczenie">
-                                <div class="level-field"><?=Helper_Experience::getLevelByExp(GlobalVars::$profil['exp']);?></div>
+                                <div class="level-field"><?=Helper_Experience::getLevelByExp(GlobalVars::$profil['exp']) ?></div>
                                 <div id='expbar'>
-                                    <div class='label'><?=GlobalVars::$profil['expLabel'];?></div>
+                                    <div class='label'><?=GlobalVars::$profil['expLabel'] ?></div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Przebyty dystans">
                                 <div class="icon-field"><i class="fa fa-arrows-h"></i></div>
                                 <div class="bar">
-                                    <div class='label'><?=formatCash(GlobalVars::$profil['km']);?> km</div>
+                                    <div class='label'><?=formatCash(GlobalVars::$profil['km']) ?> km</div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="user-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Czas spędzony w powietrzu">
                                 <div class="icon-field"><i class="fa fa-cloud-upload"></i></div>
                                 <div class="bar">
-                                    <div class='label'><?=Helper_TimeFormat::secondsToText(GlobalVars::$profil['hours']);?></div>
+                                    <div class='label'><?=Helper_TimeFormat::secondsToText(GlobalVars::$profil['hours']) ?></div>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -186,7 +189,7 @@
 								<div class="icon-field"><i class="fa fa-users"></i></div>
 
 								<div class="bar">
-									<div class='label'><?=formatCash(GlobalVars::$profil['pasazerow']);?></div>
+									<div class='label'><?=formatCash(GlobalVars::$profil['pasazerow']) ?></div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -194,7 +197,7 @@
 								<div class="icon-field"><i class="fa fa-check"></i></div>
 
 								<div class="bar">
-									<div class='label'><?=formatCash(GlobalVars::$profil['zlecen']);?></div>
+									<div class='label'><?=formatCash(GlobalVars::$profil['zlecen']) ?></div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -202,7 +205,7 @@
 								<div class="icon-field"><i class="fa fa-credit-card"></i></div>
 
 								<div class="bar">
-									<div class='label'><?=formatCash(GlobalVars::$profil['premium_points']);?></div>
+									<div class='label'><?=formatCash(GlobalVars::$profil['premium_points']) ?></div>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -211,7 +214,7 @@
 
 					<div class="field panel">
 						<div class="left">
-							<span class="glyphicon glyphicon-warning-sign bootstrap-icon <?=((GlobalVars::$nowych_powiadomien > 0) ? 'blink' : '');?>">
+							<span class="glyphicon glyphicon-warning-sign bootstrap-icon <?=((GlobalVars::$nowych_powiadomien > 0) ? 'blink' : '') ?>">
 								<div class="wide ttip panel">
 									<?
 										echo '<div style="padding-bottom: 10px;">';
@@ -282,7 +285,7 @@
 						<div class="field panel">
 							<div style="padding: 5px; text-align: center;">
 							<small>Kurs paliwa</small><br />
-							<h4 style="margin-top: 0;"><?=Helper_Oil::getOilCost() . ' ' . WAL;?></h4>
+							<h4 style="margin-top: 0;"><?=Helper_Oil::getOilCost() . ' ' . WAL ?></h4>
 							</div>
 						</div>
 					<? } ?>
@@ -294,7 +297,7 @@
                     <div class="mainScrollable">
                         <? Helper_Prints::printMsg(); ?>
                         <? Helper_Prints::printErrors(); ?>
-<?=((isset($content)) ? $content : '');?>
+<?=((isset($content)) ? $content : '') ?>
 						<div id="tutorialLayerInner"></div>
                     </div>
                 </div>
@@ -339,7 +342,7 @@
 </div>
 <?=HTML::anchor("admin/updates", '<div class="btn btn-primary">
 							Czasy updatów
-						</div>');?>
+						</div>') ?>
 </div>
 					<? } ?>
 				</div>
@@ -349,15 +352,14 @@
 </div>
 <div id="tutorialLayer"></div>
 <div id="userToken" token="<?=(isset(GlobalVars::$profil) && isset(GlobalVars::$profil['token'])) ? GlobalVars::$profil['token'] : ""?>"></div>
-<?=(isset($modals)) ? $modals : '';?>
+<?=(isset($modals)) ? $modals : '' ?>
 <?php //echo View::factory('profiler/stats') ?>
 <? if(GlobalVars::$logged) { ?>
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>bower_components/sails.io.js/sails.io.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/chat.js"></script>
-<? if(GlobalVars::$logged && GlobalVars::$profil['admin']) { ?> <script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/admin.js"></script><? } ?>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/jquery.datetimepicker.js"></script>
-<script type="text/javascript" src="<?php echo URL::base(TRUE);?>assets/js/tutorial.js"></script>
+<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/sails.io.js/sails.io.js"></script>
+<script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/chat.js"></script>
+<? if(GlobalVars::$logged && GlobalVars::$profil['admin']) { ?> <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/admin.js"></script><? } ?>
+<script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/tutorial.js"></script>
 
 <? } ?>
 
@@ -478,7 +480,7 @@
 		<? if(GlobalVars::$logged) { ?>
 		//Expbar
 		$( "#expbar" ).progressbar({
-			value: <?=GlobalVars::$profil['expPercent'];?>
+			value: <?=GlobalVars::$profil['expPercent'] ?>
 		}).find( ".ui-progressbar-value" ).css({
 		  "margin": '0px'
         });
