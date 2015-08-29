@@ -4,7 +4,7 @@
 	<? $detect = new MobileDetect; ?>
 	<title>Global AirLines Simulator - <?=((isset($title)) ? $title : '') ?></title>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=1024, initial-scale=0.5, maximum-scale=2, user-scalable=yes">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes">
 	<meta name="description" content="Global AirLines Simulator - gra przeglądarkowa, polegająca na symulowaniu swojej własnej linii lotniczej. Wysyłaj samoloty, zarabiaj na zleceniach, zostań najbogatszy!" />
 
 	<meta name="og:description" content="Gra przeglądarkowa, polegająca na symulowaniu swojej własnej linii lotniczej. Wysyłaj samoloty, zarabiaj na zleceniach, zostań najbogatszy!" />
