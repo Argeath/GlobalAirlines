@@ -374,7 +374,12 @@
 
         $('.mainScrollable').perfectScrollbar().trigger('mouseenter').trigger('mouseover').trigger('hover');
 
-        $(".scrollable").perfectScrollbar();
+        $(".scrollable").perfectScrollbar({
+            wheelPropagation: true
+        });
+        $(".new-menu").perfectScrollbar({
+            wheelPropagation: true
+        });
 
         function scaleMenu() {
             if($(window).height() < 610) {
