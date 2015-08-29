@@ -37,7 +37,7 @@
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery.cookie/jquery.cookie.js"></script>
-	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/perfect-scrollbar/js/min/perfect-scrollbar.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/perfect-scrollbar/js/min/perfect-scrollbar.jquery.min.js"></script>
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/tock/tock.min.js"></script>
     <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/select2/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/datetimepicker/jquery.datetimepicker.js"></script>
@@ -374,7 +374,8 @@
             .mouseout(function() { $(this).removeClass('animated tada'); });
 
 
-        $('.mainScrollable').perfectScrollbar().trigger('mouseenter').trigger('mouseover').trigger('hover');
+        $('.mainScrollable').perfectScrollbar();
+        $('.mainScrollable').trigger('mouseenter').trigger('mouseover').trigger('hover');
 
 
         function scaleMenu() {
@@ -427,6 +428,8 @@
 
 		$("#tmp-chat-trigger").on('click', function(ev) {
 			ev.preventDefault();
+            alert('click');
+
 			$("#tmp-container").toggleClass("tmp-chat-open");
 			setTimeout(function() { $(window).resize(); }, 1000);
 			if($.cookie('chatOpen') == 1)
