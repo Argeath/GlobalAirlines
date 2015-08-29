@@ -360,7 +360,7 @@
 
 <script type="text/javascript">
 	<? if(GlobalVars::$logged) { ?>
-		io.sails.url = 'http://ws.planes.vipserv.org';
+		//io.sails.url = 'http://ws.planes.vipserv.org';
 	<? } ?>
     $(function () {
 
