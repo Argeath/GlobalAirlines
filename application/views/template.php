@@ -372,8 +372,10 @@
             .mouseout(function() { $(this).removeClass('animated tada'); });
 
 
-        $('.mainScrollable').perfectScrollbar();
-        $('.mainScrollable').trigger('mouseenter').trigger('mouseover').trigger('hover');
+        $('.mainScrollable').perfectScrollbar().trigger('mouseenter').trigger('mouseover').trigger('hover');
+
+        $(".board").perfectScrollbar();
+        $(".table").perfectScrollbar();
 
 
         function scaleMenu() {

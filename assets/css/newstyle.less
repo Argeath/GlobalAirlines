@@ -101,6 +101,10 @@ tr.collapse.in {
   -webkit-box-shadow: 7px 7px 10px 0px rgba(43, 43, 43, 0.4);
   -moz-box-shadow:    7px 7px 10px 0px rgba(43, 43, 43, 0.4);
   box-shadow:         7px 7px 10px 0px rgba(43, 43, 43, 0.4);
+
+  @media (max-width: 1024px) {
+    padding-left: 5px;
+  }
   
   &>.panel {
     background: rgba(255, 255, 255, 0.65);
@@ -111,8 +115,13 @@ tr.collapse.in {
     position: relative;
     float: left;
     height: 100%;
+    margin-bottom: 5px;
     margin-right: 20px;
     font-family: 'Open Sans', sans-serif;
+
+    @media (max-width: 1024px) {
+      margin-right: 5px;
+    }
 
     &:hover > .ttip {
       display: block;
@@ -744,6 +753,11 @@ tr.collapse.in {
   padding: 10px;
   border-radius: 5px;
   border-spacing: 15px;
+
+  @media (max-width: 1024px) {
+    min-width: 500px;
+    overflow-x: auto;
+  }
 
   .title {
     border-bottom: 2px dotted #888;
@@ -1588,6 +1602,11 @@ tr.collapse.in {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+@media (max-width: 1024px) {
+  .table {
+    overflow-x: auto;
+  }
 }
 
 .text-green {
