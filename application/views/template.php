@@ -378,7 +378,8 @@
             wheelPropagation: true
         });
         $(".new-menu").perfectScrollbar({
-            wheelPropagation: true
+            wheelPropagation: true,
+            suppressScrollX: true
         });
 
         function scaleMenu() {
