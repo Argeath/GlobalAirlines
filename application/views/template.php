@@ -374,9 +374,7 @@
 
         $('.mainScrollable').perfectScrollbar().trigger('mouseenter').trigger('mouseover').trigger('hover');
 
-        $(".board").perfectScrollbar();
-        $(".table").perfectScrollbar();
-
+        $(".scrollable").perfectScrollbar();
 
         function scaleMenu() {
             if($(window).height() < 610) {

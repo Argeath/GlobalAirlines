@@ -743,6 +743,17 @@ tr.collapse.in {
   transition: all 0.3s;
 }
 
+@media (max-width: 1024px) {
+  .table {
+    overflow-x: auto;
+  }
+}
+
+.scrollable {
+  width: 100%;
+  overflow-x: scroll;
+}
+
 .board {
   font-family: "Digital-7", Calibri;
   font-size: 17px;
@@ -756,7 +767,6 @@ tr.collapse.in {
 
   @media (max-width: 1024px) {
     min-width: 500px;
-    overflow-x: auto;
   }
 
   .title {
@@ -1602,11 +1612,6 @@ tr.collapse.in {
   position: absolute;
   right: 10px;
   top: 10px;
-}
-@media (max-width: 1024px) {
-  .table {
-    overflow-x: auto;
-  }
 }
 
 .text-green {
