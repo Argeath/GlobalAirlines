@@ -24,6 +24,6 @@
 </div>
 		<div class="clearfix"></div>
 		<br />
-<?=HTML::anchor('user/login', '<button class="btn btn-small btn-default"><i class="glyphicon glyphicon-backward"></i> Wróć</button>');?>
+<?=HTML::anchor('user/login', '<i class="glyphicon glyphicon-backward"></i> Wróć', ['class' => "btn btn-small btn-default"]);?>
 	</div>
 </div>

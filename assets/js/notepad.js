@@ -28,11 +28,12 @@ $(function () {
         };
         this.update = function () {
             changeStatus('loading');
+            var that = this;
             $.getJSON(url_base() + 'ajax/getNote/' + this.id, function (data) {
                 changeStatus('done');
-                this.id = data.id;
-                this.name = data.name;
-                this.text = data.text;
+                that.id = data.id;
+                that.name = data.name;
+                that.text = data.text;
             });
         };
         this.save = function () {

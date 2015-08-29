@@ -30,11 +30,11 @@
 			
 						<td>" . $data['plane']->drawConditionBar() . "" . $data['plane']->drawAccidentChanceBar() . "Pokonana trasa: " . formatCash($data['plane']->km) . "km<br />Czasu w powietrzu: " . Helper_TimeFormat::secondsToText($data['plane']->hours) . "</td>
 						<td class='list-group'>
-							" . HTML::anchor('samoloty/lotswobodny/' . $data['plane']->id, Form::submit('opcje', 'Lot swobodny', array('class' => "btn btn-primary btn-block btn-success"))) . "
-							" . HTML::anchor('samoloty/zaloga/' . $data['plane']->id, Form::submit('opcje', 'Załoga', array('class' => "btn btn-primary btn-block"))) . "
-							" . HTML::anchor('samoloty/rejestracja/' . $data['plane']->id, Form::submit('opcje', 'Zmiana rejestracji', array('class' => "btn btn-default btn-block btn-success"))) . "
-							" . HTML::anchor('samoloty/wystaw/' . $data['plane']->id, Form::submit('opcje', 'Wystaw na aukcji', array('class' => "btn btn-default btn-block btn-warning"))) . "
-							" . HTML::anchor('samoloty/sprzedaj/' . $data['plane']->id, Form::submit('opcje', 'Sprzedaj', array('class' => "btn btn-default btn-block btn-danger"))) . "
+							" . HTML::anchor('samoloty/lotswobodny/' . $data['plane']->id, 'Lot swobodny', array('class' => "btn btn-primary btn-block btn-success")) . "
+							" . HTML::anchor('samoloty/zaloga/' . $data['plane']->id, 'Załoga', array('class' => "btn btn-primary btn-block")) . "
+							" . HTML::anchor('samoloty/rejestracja/' . $data['plane']->id, 'Zmiana rejestracji', array('class' => "btn btn-default btn-block btn-success")) . "
+							" . HTML::anchor('samoloty/wystaw/' . $data['plane']->id, 'Wystaw na aukcji', array('class' => "btn btn-default btn-block btn-warning")) . "
+							" . HTML::anchor('samoloty/sprzedaj/' . $data['plane']->id, 'Sprzedaj', array('class' => "btn btn-default btn-block btn-danger")) . "
 						</td></tr>";
 				}
 			} else {

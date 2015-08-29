@@ -336,9 +336,7 @@
                             <div id="admin-kasa" class="btn btn-primary">
                                 Daj graczowi <?=WAL?>
                             </div>
-                            <?=HTML::anchor("admin/updates", '<div class="btn btn-primary">
-                                Czasy updatów
-                            </div>') ?>
+                            <?=HTML::anchor("admin/updates", 'Czasy updatów', ['class' => 'btn btn-primary']) ?>
                         </div>
 					<? } ?>
 				</div>

@@ -9,7 +9,7 @@
         </div>
         <div class="clearfix"></div>
         <br />
-        <?=HTML::anchor('user/resendActivation', '<button class="btn btn-small btn-warning">Wyślij ponownie link aktywacyjny</button>');?><br /><br />
-        <?=HTML::anchor('user/logout', '<button class="btn btn-small btn-default"><i class="glyphicon glyphicon-backward"></i> Wróć</button>');?>
+        <?=HTML::anchor('user/resendActivation', 'Wyślij ponownie link aktywacyjny', ['class' => "btn btn-small btn-warning"]);?><br /><br />
+        <?=HTML::anchor('user/logout', '<i class="glyphicon glyphicon-backward"></i> Wróć', ['class' => "btn btn-small btn-default"]);?>
     </div>
 </div>
