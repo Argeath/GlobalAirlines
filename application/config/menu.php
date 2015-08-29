@@ -9,8 +9,7 @@ return array(
 			'<i class="glyphicon glyphicon-briefcase"></i>' => array('name' => 'Kadry', 'url' => 'kadry'),
 			'<i class="fa fa-calendar"></i>' => array('name' => 'Terminarz', 'url' => 'terminarz'),
 			'<i class="fa fa-university"></i>' => array('name' => 'Finanse', 'url' => 'journal'),
-			'<i class="fa fa-map-marker"></i>' => array('name' => 'Mapa', 'url' => 'map'),
-			'<i class="glyphicon glyphicon-warning-sign"></i>' => array('name' => 'Powiadomienia', 'url' => 'powiadomienia', 'badge' => 'nowych_powiadomien'),
+			'<i class="fa fa-map-marker"></i>' => array('name' => 'Mapa', 'url' => 'map')
 		),
 
 		'<i class="glyphicon glyphicon-list-alt"></i>' => ['name' => 'Zlecenia', 'url' => 'orders'],
@@ -30,7 +29,6 @@ return array(
 			'<i class="fa fa-envelope"></i>' => array('name' => 'Poczta', 'url' => 'poczta', 'badge' => 'nowych_wiadomosci'),
 			'<i class="fa fa-share-alt"></i>' => array('name' => 'Poleceni', 'url' => 'referrals'),
 			'<i class="glyphicon glyphicon-user"></i>' => array('name' => 'Profil', 'url' => 'profil'),
-			'<i class="glyphicon glyphicon-thumbs-up"></i>' => array('name' => 'Osiągnięcia', 'url' => 'Podglad'), //TODO
 			'<i class="glyphicon glyphicon-wrench"></i>' => array('name' => 'Hasło', 'url' => 'user/changePassword'),
 			'<i class="glyphicon glyphicon-user"></i>' => array('name' => 'Avatar', 'url' => 'user/avatar'),
 			'<i class="glyphicon glyphicon-remove"></i>' => array('name' => 'Usuń konto', 'url' => 'user/deleteAccount'),
