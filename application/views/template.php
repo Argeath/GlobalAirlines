@@ -29,14 +29,14 @@
     <link rel="stylesheet" href="<?= URL::base(TRUE) ?>bower_components/perfect-scrollbar/css/perfect-scrollbar.min.css" />
 
 
-	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery/dist/jquery.min.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery-ui/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery.transit/jquery.transit.js"></script>
-	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery-placeholder/jquery.complete-placeholder.min.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
 
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery-cookie/jquery.cookie.js"></script>
+	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/jquery.cookie/jquery.cookie.js"></script>
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/perfect-scrollbar/js/min/perfect-scrollbar.min.js"></script>
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/tock/tock.min.js"></script>
     <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/select2/dist/js/select2.min.js"></script>
