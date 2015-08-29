@@ -349,9 +349,9 @@
 <?=(isset($modals)) ? $modals : '' ?>
 <?php //echo View::factory('profiler/stats') ?>
 <? if(GlobalVars::$logged) { ?>
-    <script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
+    <!--<script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
     <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/sails.io.js/sails.io.js"></script>
-    <!--<script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/chat.js"></script> -->
+    <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/chat.js"></script> -->
     <? if(GlobalVars::$profil['admin']) { ?>
         <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/admin.js"></script>
     <? } ?>
