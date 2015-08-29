@@ -78,7 +78,7 @@ $(function () {
             this.tab = li;
         };
         this.activate = function () {
-            content.prop("disabled", false).val(this.text);
+            content.prop("readonly", false).val(this.text);
             $('.notepad .tabs .active').removeClass('active');
             this.tab.addClass('active');
             active = this;
@@ -127,7 +127,7 @@ $(function () {
         });
     }
 
-    content.prop("disabled", true);
+    content.prop("readonly", true);
     getNotes();
 
     content.on('blur', function () {
