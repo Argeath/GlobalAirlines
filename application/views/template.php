@@ -428,7 +428,6 @@
 
 		$("#tmp-chat-trigger").on('click', function(ev) {
 			ev.preventDefault();
-            alert('click');
 
 			$("#tmp-container").toggleClass("tmp-chat-open");
 			setTimeout(function() { $(window).resize(); }, 1000);
