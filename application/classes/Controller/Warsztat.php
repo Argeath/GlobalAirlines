@@ -24,7 +24,7 @@ class Controller_Warsztat extends Controller_Template {
 			if($plane->isBusy() != Helper_Busy::NotBusy)
 			{
 				$disabled = array('disabled' => 'disabled');
-				$disabledT = array('class' => 'disabled');
+				$disabledT = 'disabled';
 			}
 			$upgradow = $plane->getUpgradesCount();
 			if($upgradow == 0)
