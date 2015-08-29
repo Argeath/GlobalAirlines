@@ -377,10 +377,6 @@
         $(".scrollable").perfectScrollbar({
             wheelPropagation: true
         });
-        $(".new-menu").perfectScrollbar({
-            wheelPropagation: true,
-            suppressScrollX: true
-        });
 
         function scaleMenu() {
             if($(window).height() < 610) {
