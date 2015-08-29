@@ -15,6 +15,7 @@ class Controller_Samoloty extends Controller_Template {
 		$planes = $user->UserPlanes->order_by('rejestracja', 'ASC')->find_all();
 		$klasy = (array) Kohana::$config->load('classes');
 		$klasyKeys = array_keys($klasy);
+		$klasyKeys = array_keys($klasy);
 
 		$planesData = [];
 		foreach ($planes as $plane) {
