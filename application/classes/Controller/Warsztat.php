@@ -19,11 +19,11 @@ class Controller_Warsztat extends Controller_Template {
 		{
 			$typ = $plane->plane;
 			$poz = $plane->city->name;
-			$disabled = array();
-			$disabledT = array();
+			$disabled = [];
+			$disabledT = "";
 			if($plane->isBusy() != Helper_Busy::NotBusy)
 			{
-				$disabled = array('disabled' => 'disabled');
+				$disabled = ['disabled' => 'disabled'];
 				$disabledT = 'disabled';
 			}
 			$upgradow = $plane->getUpgradesCount();
