@@ -20,7 +20,7 @@ $(function() {
 				source: function( request, response ) {
 				  $.getJSON(url_base()+"ajax/searchUser/"+request.term, response );
 				},
-				minLength: 2,
+				minLength: 2
 			});
 		
 		form.append('<button class="btn btn-primary btn-block">Zbanuj</button>');
@@ -57,7 +57,7 @@ $(function() {
 				source: function( request, response ) {
 				  $.getJSON(url_base()+"ajax/searchUser/"+request.term, response );
 				},
-				minLength: 2,
+				minLength: 2
 			});
 		
 		form.append('<button class="btn btn-primary btn-block">Odbanuj</button>');
@@ -102,7 +102,7 @@ $(function() {
 				source: function( request, response ) {
 				  $.getJSON(url_base()+"ajax/searchUser/"+request.term, response );
 				},
-				minLength: 2,
+				minLength: 2
 			});
 		
 		form.append('<button class="btn btn-primary btn-block">Zmutuj</button>');
@@ -139,7 +139,7 @@ $(function() {
 				source: function( request, response ) {
 				  $.getJSON(url_base()+"ajax/searchUser/"+request.term, response );
 				},
-				minLength: 2,
+				minLength: 2
 			});
 		
 		form.append('<button class="btn btn-primary btn-block">Odmutuj</button>');
@@ -177,7 +177,7 @@ $(function() {
 				source: function( request, response ) {
 				  $.getJSON(url_base()+"ajax/searchUser/"+request.term, response );
 				},
-				minLength: 2,
+				minLength: 2
 			});
 		
 		form.append('<button class="btn btn-primary btn-block">Daj graczowi <i class="glyphicon glyphicon-usd"></i></button>');

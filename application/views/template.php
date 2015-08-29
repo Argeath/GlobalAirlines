@@ -84,13 +84,9 @@
 
         this.txt = txt;
 
-        this.blink = false;
-        if (blink)
-            this.blink = true;
+        this.blink = (blink);
 
-		this.tutorial = false;
-		if(tutorial)
-			this.tutorial = true;
+		this.tutorial = (tutorial);
 
         this.type = type;
         this.typeMini = typeMini;
@@ -98,7 +94,7 @@
         this.visible = false;
 
 		return this;
-    };
+    }
 
 	var ajaxManager = (function() {
 		 var requests = [];
@@ -152,7 +148,7 @@
 
 		<div class="tmp-content">
 			<div class="tmp-content-inner">
-				<div class="top-panel" onselectstart="return false" onselect="return false">
+				<div class="top-panel" onselect="return false">
 					<? if(GlobalVars::$logged) {
 						$userHTML = '';
 					?>
@@ -214,7 +210,7 @@
 
 					<div class="field panel">
 						<div class="left">
-							<span class="glyphicon glyphicon-warning-sign bootstrap-icon <?=((GlobalVars::$nowych_powiadomien > 0) ? 'blink' : '') ?>">
+							<div class="glyphicon glyphicon-warning-sign bootstrap-icon <?=((GlobalVars::$nowych_powiadomien > 0) ? 'blink' : '') ?>">
 								<div class="wide ttip panel">
 									<?
 										echo '<div style="padding-bottom: 10px;">';
@@ -228,10 +224,10 @@
 										echo "</div>".HTML::anchor('powiadomienia', 'Zobacz wszystkie', array('class' => 'btn btn-primary btn-block'));
 									?>
 								</div>
-							</span>
+							</div>
 						</div>
 						<div class="right">
-							<i class="glyphicon glyphicon-comment bootstrap-icon">
+							<div class="glyphicon glyphicon-comment bootstrap-icon">
 								<div class="wide ttip panel">
 									<?
 										echo '<div style="margin-bottom: 10px;">';
@@ -251,10 +247,10 @@
 										echo "</div>".HTML::anchor('poczta', 'Zobacz wszystkie', array('class' => 'btn btn-primary btn-block'));
 									?>
 								</div>
-							</i>
+							</div>
 						</div>
 						<div class="right">
-							<i class="glyphicon glyphicon-info-sign bootstrap-icon" id="tutorial_activate"></i>
+							<div class="glyphicon glyphicon-info-sign bootstrap-icon" id="tutorial_activate"></div>
 						</div>
 					</div>
 					<?
@@ -295,9 +291,9 @@
 				</div>
                 <div class="main">
                     <div class="mainScrollable">
-                        <? Helper_Prints::printMsg(); ?>
-                        <? Helper_Prints::printErrors(); ?>
-<?=((isset($content)) ? $content : '') ?>
+                        <? Helper_Prints::printMsg() ?>
+                        <? Helper_Prints::printErrors() ?>
+                        <?= ((isset($content)) ? $content : '') ?>
 						<div id="tutorialLayerInner"></div>
                     </div>
                 </div>
@@ -306,10 +302,10 @@
 					<div class="bottom-icon" id="tmp-chat-trigger">
 						<div class="icon"></div>
 					</div>
-					<div class="header" onselectstart="return false" onselect="return false">
+					<div class="header" onselect="return false">
 						<div class="sets">
-							<i class="glyphicon glyphicon-flash" id="chatHeaderSetDings" on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Miganie czatu"></i>
-							<i class="glyphicon glyphicon-circle-arrow-up" id="chatHeaderSetAutoUp" on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Automatyczne przewijanie"></i>
+							<i class="glyphicon glyphicon-flash" id="chatHeaderSetDings" data-on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Miganie czatu"></i>
+							<i class="glyphicon glyphicon-circle-arrow-up" id="chatHeaderSetAutoUp" data-on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Automatyczne przewijanie"></i>
 						</div>
 						<div class="channel">LOCAL <p id="chat-status" class="glyphicon glyphicon-remove red"></p></div>
 						<div class="right">
@@ -319,31 +315,31 @@
 					<div class="body">
 						<input type="text" class="input" placeholder="Napisz na chacie..."/>
 						<div id="content" class="content">
-							<table style="width: 100%; margin: 0px;" class="table table-striped">
+							<table style="width: 100%; margin: 0;" class="table table-striped">
 							</table>
 						</div>
 					</div>
 					<? if(GlobalVars::$logged && GlobalVars::$profil['admin']) { ?>
-					<div id="tmp-admin" class="tmp-admin">
-						<div id="admin-zbanuj" class="btn btn-primary">
-							Zbanuj gracza
-						</div>
-						<div id="admin-odbanuj" class="btn btn-primary">
-							Odbanuj gracza
-						</div>
-						<div id="admin-zmutuj" class="btn btn-primary">
-							Zmutuj gracza
-						</div>
-						<div id="admin-odmutuj" class="btn btn-primary">
-							Odmutuj gracza
-						</div>
-						<div id="admin-kasa" class="btn btn-primary">
-							Daj graczowi <?=WAL?>
-</div>
-<?=HTML::anchor("admin/updates", '<div class="btn btn-primary">
-							Czasy updatów
-						</div>') ?>
-</div>
+                        <div id="tmp-admin" class="tmp-admin">
+                            <div id="admin-zbanuj" class="btn btn-primary">
+                                Zbanuj gracza
+                            </div>
+                            <div id="admin-odbanuj" class="btn btn-primary">
+                                Odbanuj gracza
+                            </div>
+                            <div id="admin-zmutuj" class="btn btn-primary">
+                                Zmutuj gracza
+                            </div>
+                            <div id="admin-odmutuj" class="btn btn-primary">
+                                Odmutuj gracza
+                            </div>
+                            <div id="admin-kasa" class="btn btn-primary">
+                                Daj graczowi <?=WAL?>
+                            </div>
+                            <?=HTML::anchor("admin/updates", '<div class="btn btn-primary">
+                                Czasy updatów
+                            </div>') ?>
+                        </div>
 					<? } ?>
 				</div>
 				<? } ?>
@@ -355,12 +351,13 @@
 <?=(isset($modals)) ? $modals : '' ?>
 <?php //echo View::factory('profiler/stats') ?>
 <? if(GlobalVars::$logged) { ?>
-<script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
-<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/sails.io.js/sails.io.js"></script>
-<script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/chat.js"></script>
-<? if(GlobalVars::$logged && GlobalVars::$profil['admin']) { ?> <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/admin.js"></script><? } ?>
-<script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/tutorial.js"></script>
-
+    <script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
+    <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/sails.io.js/sails.io.js"></script>
+    <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/chat.js"></script>
+    <? if(GlobalVars::$profil['admin']) { ?>
+        <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/admin.js"></script>
+    <? } ?>
+    <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/tutorial.js"></script>
 <? } ?>
 
 <script type="text/javascript">
@@ -373,14 +370,11 @@
             $(this).parent().parent().find("#rusureButton").prop('disabled', !$(this).is(":checked"));
         });
 
-    	$('#menu a').mouseover(function() { $(this).addClass('animated tada'); });
-    	$('#menu a').mouseout(function() { $(this).removeClass('animated tada'); });
+    	$('#menu').find('a').mouseover(function() { $(this).addClass('animated tada'); })
+            .mouseout(function() { $(this).removeClass('animated tada'); });
 
 
-        $('.mainScrollable').niceScroll();
-        $(".mainScrollable").trigger('mouseenter');
-        $(".mainScrollable").trigger('mouseover');
-        $(".mainScrollable").trigger('hover');
+        $('.mainScrollable').perfectScrollbar().trigger('mouseenter').trigger('mouseover').trigger('hover');
 
 
         function scaleMenu() {
@@ -402,7 +396,7 @@
 
         $(window).resize(function() {
             scaleMenu();
-            $('.mainScrollable').getNiceScroll().resize();
+            $('.mainScrollable').perfectScrollbar('update');
         });
         scaleMenu();
 
@@ -411,7 +405,7 @@
             return $(
                 '<span><i class="flag flag-' + $(state.element).attr('data-flag') + '"></i> ' + state.text + '</span>'
             );
-        };
+        }
 
         $('select').select2({
             templateResult: formatState
@@ -419,8 +413,7 @@
 
 		if($.cookie('chatOpen') == 1)
 		{
-			$("#tmp-container").addClass("no-transition");
-			$("#tmp-container").addClass("tmp-chat-open");
+			$("#tmp-container").addClass("no-transition").addClass("tmp-chat-open");
 			$(window).resize();
 			setTimeout(function() { $("#tmp-container").removeClass("no-transition"); }, 1000);
 		}
@@ -428,7 +421,7 @@
 		if($.cookie('adminOpen') == 1)
 		{
 			$("#tmp-container").addClass("tmp-admin-open");
-			$("#tmp-admin-trigger i").removeClass("glyphicon-chevron-left").addClass("glyphicon-chevron-right");
+			$("#tmp-admin-trigger").find("i").removeClass("glyphicon-chevron-left").addClass("glyphicon-chevron-right");
 		}
 		<? } ?>
 
@@ -441,16 +434,17 @@
 			else
 				$.cookie('chatOpen', 1, { expires: 31, path: '/' });
 		});
+
 		<? if(GlobalVars::$logged and GlobalVars::$profil['admin']) { ?>
-		$("#tmp-admin-trigger").on('click', function(ev) {
-			ev.preventDefault();
-			$("#tmp-container").toggleClass("tmp-admin-open");
-			$("#tmp-admin-trigger i").toggleClass("glyphicon-chevron-left").toggleClass("glyphicon-chevron-right");
-			if($.cookie('adminOpen') == 1)
-				$.cookie('adminOpen', 0, { expires: 31, path: '/' });
-			else
-				$.cookie('adminOpen', 1, { expires: 31, path: '/' });
-		});
+            $("#tmp-admin-trigger").on('click', function(ev) {
+                ev.preventDefault();
+                $("#tmp-container").toggleClass("tmp-admin-open");
+                $(this).find("i").toggleClass("glyphicon-chevron-left").toggleClass("glyphicon-chevron-right");
+                if($.cookie('adminOpen') == 1)
+                    $.cookie('adminOpen', 0, { expires: 31, path: '/' });
+                else
+                    $.cookie('adminOpen', 1, { expires: 31, path: '/' });
+            });
 		<? } ?>
 
 		$(".ttip-row").click(function() {
@@ -512,13 +506,13 @@ $(function() {
 		  interval: 1000,
 		  callback: function () {
 				var czas = Math.round(timer.lap() / 1000);
-				minut = Math.floor(czas/60);
+				var minut = Math.floor(czas/60);
 				czas = czas % 60;
 
-				godzin = Math.floor(minut/60);
+				var godzin = Math.floor(minut/60);
 				minut = minut % 60;
 
-				dni = Math.floor(godzin/24);
+				var dni = Math.floor(godzin/24);
 				godzin = godzin % 24;
 				var zero = '';
 				if(czas < 10)
@@ -542,11 +536,11 @@ $(function() {
 		m = checkTime(m);
 		s = checkTime(s);
 		$("#clock").text(h+":"+m+":"+s);
-		var t = setTimeout(function(){startTime()},500);
+		setTimeout(function(){startTime()},500);
 	}
 
 	function checkTime(i) {
-		if (i<10) {i = "0" + i};
+		if (i<10) {i = "0" + i}
 		return i;
 	}
 	startTime();

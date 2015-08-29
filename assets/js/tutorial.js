@@ -58,7 +58,7 @@
                 SIZE: { X: 107, Y: 26 },
                 POINT: { X: 1, Y: 0.5 },
                 CLASS: "sprite-prawo"
-            },
+            }
         },
         stringToType: function(type)
         {
@@ -83,7 +83,7 @@
             else if (type == 'Site_Right')
                 type = ArrowTypes.SITE.RIGHT;
             return type;
-        },
+        }
     };
 
     var layer = $('#tutorialLayer');
@@ -146,47 +146,44 @@
         var div = $('<div/>', {
             id: 'field_' + ++id,
             class: 'field ' + visibleT,
-            style: 'width: ' + divSize.X + 'px; height: ' + divSize.Y + 'px; top: ' + divPos.Y + 'px; left: ' + divPos.X + 'px;',
+            style: 'width: ' + divSize.X + 'px; height: ' + divSize.Y + 'px; top: ' + divPos.Y + 'px; left: ' + divPos.X + 'px;'
         }).appendTo(lay);
 
         var arrowPos = {
             X: (type.POINT.X * divSize.X) - (type.POINT.X * type.SIZE.X),
-            Y: (type.POINT.Y * divSize.Y) - (type.POINT.Y * type.SIZE.Y),
+            Y: (type.POINT.Y * divSize.Y) - (type.POINT.Y * type.SIZE.Y)
         };
 
-        var arrow = $('<div/>', {
+        $('<div/>', {
             id: 'arrow_' + id,
             class: blinkT + ' sprite ' + type.CLASS,
-            style: 'top: ' + arrowPos.Y + 'px; left: ' + arrowPos.X + 'px;',
+            style: 'top: ' + arrowPos.Y + 'px; left: ' + arrowPos.X + 'px;'
         }).appendTo(div);
 
         var textPos = {
             X: ((!Math.ceil(type.POINT.X) << 0) * type.SIZE.X),
-            Y: ((!Math.ceil(type.POINT.Y) << 0) * type.SIZE.Y),
+            Y: ((!Math.ceil(type.POINT.Y) << 0) * type.SIZE.Y)
         };
 
         var textDiv = $('<div/>', {
             id: 'text_' + id,
             style: 'width: ' + boxSize.X + 'px; height: ' + boxSize.Y + 'px; top: ' + textPos.Y + 'px; left: ' + textPos.X + 'px;',
-            class: 'textDiv ' + blinkT,
+            class: 'textDiv ' + blinkT
         }).appendTo(div);
         var span = $('<span/>').appendTo(textDiv);
         span.text(text);
         return div;
     }
 	
-	function drawTutorial()
+	/*function drawTutorial()
 	{
 		var step = window.tutorialStep;
-		
-	
-	
-	}
+	}*/
 
     function drawInfo()
     {
-        layVisible = 0;
-        layInnerVisible = 0;
+        var layVisible = 0;
+        var layInnerVisible = 0;
         window.tutorialElements.forEach(function (e) {
             if (e.layer == 'layer' && e.visible)
                 layVisible++;
@@ -209,7 +206,7 @@
     {
         var close = $("<div/>", {
             id: 'close',
-            class: 'sprite sprite-close',
+            class: 'sprite sprite-close'
         }).appendTo(layer);
         close.on('click', function () {
             window.tutorialElements.forEach(function (e) {

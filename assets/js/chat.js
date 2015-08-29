@@ -15,6 +15,8 @@ $(function () {
     var content = $('.tmp-chat .content');
     var input = $('.tmp-chat .input');
     var status = $('#chat-status');
+    var setDings = $("#chatHeaderSetDings");
+    var setAutoUp = $("#chatHeaderSetAutoUp");
 
     function setStatus(bl) {
         if(bl == true) {
@@ -44,11 +46,9 @@ $(function () {
 	if($.cookie('chatAutoScroll') == 1)
 	{
 		autoScroll = true;
-		$('#chatHeaderSetAutoUp').find(".przekreslenie").remove();
-		$('#chatHeaderSetAutoUp').attr("on", 1);
+        setAutoUp.attr("data-on", 1).find(".przekreslenie").remove();
 	} else {
-		$('#chatHeaderSetAutoUp').append('<div class="przekreslenie"></div>');
-		$('#chatHeaderSetAutoUp').attr("on", 0);
+        setAutoUp.attr("data-on", 0).append('<div class="przekreslenie"></div>');
 	}
 	
 	//Dinging chat
@@ -56,11 +56,9 @@ $(function () {
 	if($.cookie('chatDings') == 1)
 	{
 		dings = true;
-		$('#chatHeaderSetDings').find(".przekreslenie").remove();
-		$('#chatHeaderSetDings').attr("on", 1);
+		setDings.attr("data-on", 1).find(".przekreslenie").remove();
 	} else {
-		$('#chatHeaderSetDings').append('<div class="przekreslenie"></div>');
-		$('#chatHeaderSetDings').attr("on", 0);
+		setDings.attr("data-on", 0).append('<div class="przekreslenie"></div>');
 	}
 
     var messages = [];
@@ -116,7 +114,7 @@ $(function () {
             io.socket.post('/addMessage', { token: userToken, msg: msg },  function serverResponded (body, JWR) {
                 console.log(body);
 
-                if(body.err) {
+                if(body.hasOwnProperty('err')) {
                     addServerMessage(body.err);
                     console.log(body.err);
                 }
@@ -182,7 +180,8 @@ $(function () {
     }
 
     function onNewMessage() {
-        if(( ! $(".tmp-container").hasClass("st-chat-open")) && !dinging && dings)
+        var container = $(".tmp-container");
+        if(( ! container.hasClass("st-chat-open")) && !dinging && dings)
         {
             dinging = true;
 
@@ -193,45 +192,45 @@ $(function () {
             setTimeout(function() { trigger.removeClass('newMessage'); }, 500);
             setTimeout(function() { dinging = false; }, 1000);
 
-        } else if($(".tmp-container").hasClass("st-chat-open") && dinging == false && dings) {
+        } else if(container.hasClass("st-chat-open") && dinging == false && dings) {
             dingNew();
         } else {
             $(".chatNew").removeClass("chatNew");
         }
-    };
+    }
 
-	$("#chatHeaderSetAutoUp").tooltip().on("click", function(event) {
+	setAutoUp.tooltip().on("click", function(event) {
 		event.preventDefault();
-		var on = $(this).attr("on");
+		var on = $(this).attr("data-on");
 		if(on == 0)
 		{
 			$(this).find(".przekreslenie").remove();
 			$.cookie('chatAutoScroll', 1);
-			$(this).attr("on", 1);
+			$(this).attr("data-on", 1);
 			autoScroll = true;
 		} else {
 			$(this).append('<div class="przekreslenie"></div>');
 			$.cookie('chatAutoScroll', 0);
-			$(this).attr("on", 0);
+			$(this).attr("data-on", 0);
 			autoScroll = false;
 		}
 	});
-	
-	
-	
-	$("#chatHeaderSetDings").tooltip().on("click", function(event) {
+
+
+
+    setDings.tooltip().on("click", function(event) {
 		event.preventDefault();
-		var on = $(this).attr("on");
+		var on = $(this).attr("data-on");
 		if(on == 0)
 		{
 			$(this).find(".przekreslenie").remove();
 			$.cookie('chatDings', 1);
-			$(this).attr("on", 1);
+			$(this).attr("data-on", 1);
 			dings = true;
 		} else {
 			$(this).append('<div class="przekreslenie"></div>');
 			$.cookie('chatDings', 0);
-			$(this).attr("on", 0);
+			$(this).attr("data-on", 0);
 			dings = false;
 		}
 	});

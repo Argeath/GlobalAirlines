@@ -14,7 +14,7 @@ $(function () {
             }
         });
         return ret;
-    };
+    }
 
     function Note() {
         this.id = 0;
@@ -95,7 +95,8 @@ $(function () {
                  .fail(function () { changeStatus('error'); });
             }
         };
-    };
+    }
+
 	function updateStatus() {
 		if(ajaxManager.countRequests() > 0)
 			changeStatus('loading');
@@ -111,7 +112,7 @@ $(function () {
             status.find('i').removeClass('glyphicon-refresh glyphicon-remove loading').addClass('glyphicon-ok');
         else if (type == 'error')
             status.find('i').removeClass('glyphicon-ok glyphicon-refresh loading').addClass('glyphicon-remove');
-    };
+    }
 
     function getNotes() {
         changeStatus('loading');
@@ -124,7 +125,7 @@ $(function () {
                 notes.push(note);
             });
         });
-    };
+    }
 
     content.prop("disabled", true);
     getNotes();
