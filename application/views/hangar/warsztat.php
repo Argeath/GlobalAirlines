@@ -18,8 +18,8 @@
 						<div class='text-rounded bg-blue Jtooltip' data-container='.main' data-toggle='tooltip' data-placement='bottom' title='Mnożnik serwisowy' style='display:inline-block;width: 70px;'><i class='glyphicon glyphicon-wrench'></i> x" . $data['typ']->mechanicy . "</div>
 					</td>
 					<td width='20%'>
-						" . HTML::anchor('warsztat/przeglad/' . $data['plane']->id, Form::submit('opcje', 'Przegląd generalny', array_merge(array('class' => "btn btn-primary btn-block btn-success"), $data['disabled'])), $data['disabledText']) . "
-						" . HTML::anchor('warsztat/ulepszenia/' . $data['plane']->id, Form::submit('opcje', 'Ulepsz samolot', array_merge(array('class' => "btn btn-primary btn-block btn-primary"), $data['disabled'])), $data['disabledText']) . "
+						" . HTML::anchor('warsztat/przeglad/' . $data['plane']->id, 'Przegląd generalny', ['class' => "btn btn-primary btn-block btn-success"] + $data['disabled']), $data['disabledText'] . "
+						" . HTML::anchor('warsztat/ulepszenia/' . $data['plane']->id, 'Ulepsz samolot', ['class' => "btn btn-primary btn-block btn-primary"] + $data['disabled']), $data['disabledText'] . "
 					</td></tr>";
 			}
 		} else {
