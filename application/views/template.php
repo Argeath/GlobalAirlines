@@ -397,7 +397,7 @@
 
         $(window).resize(function() {
             scaleMenu();
-            $('.mainScrollable').perfectScrollbar('update');
+            $('.mainScrollable').perfectScrollbar('destroy').perfectScrollbar();
         });
         scaleMenu();
 
