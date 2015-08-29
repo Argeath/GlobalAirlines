@@ -173,12 +173,16 @@ tr.collapse.in {
       box-shadow:         7px 7px 10px 0px rgba(43, 43, 43, 0.4);
       overflow: hidden;
 
+      @media (max-width: 1024px) {
+        left: -100px;
+      }
+
       &.wide {
         width: 400px;
         font-size: 13px;
 
         @media (max-width: 1024px) {
-          width: 200px;
+          width: 300px;
           font-size: 12px;
         }
       }

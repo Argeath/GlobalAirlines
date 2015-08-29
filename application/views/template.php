@@ -159,7 +159,7 @@
 							<?=((isset(GlobalVars::$profil['cash'])) ? formatCash(GlobalVars::$profil['cash']) . ' ' . WAL : '') ?><br />
 							<?=((isset(GlobalVars::$profil['premium_points'])) ? formatCash(GlobalVars::$profil['premium_points']) . ' PP' : '') ?>
 						</div>
-						<div class="ttip panel" style="left: -20px; top: 48px;">
+						<div class="ttip panel" style="left: -10px; top: 48px;">
                             <div class="level-info" data-container="body" data-toggle="tooltip" data-placement="right" title="Poziom konta - doświadczenie">
                                 <div class="level-field"><?=Helper_Experience::getLevelByExp(GlobalVars::$profil['exp']) ?></div>
                                 <div id='expbar'>
