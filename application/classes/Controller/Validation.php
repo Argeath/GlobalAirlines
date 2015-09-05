@@ -23,7 +23,8 @@ class Controller_Validation extends Controller
         try {
             $valid = Validation::factory($this->request->post());
             foreach((new Model_User)->rules() as $key => $value)
-                $valid->rule($key, $value);
+                $valid->rules($key, $value);
+
             if ($valid->check()) {
                 return json_encode(['status' => 'success']);
             }
