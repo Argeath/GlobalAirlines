@@ -21,8 +21,6 @@
     "jquery": "2.1.4",
     "jquery-placeholder": "~2.1.2",
     "jquery-ui": "1.11.4",
-    "jquery-validation": "~1.14.0",
-    "jquery-validation-bootstrap-tooltip": "~0.9.0",
     "jquery.cookie": "~1.4.1",
     "jquery.transit": "~0.9.12",
     "mjolnic-bootstrap-colorpicker": "~2.3.0",
