@@ -38,9 +38,12 @@ class Events_OrderFlightCheckIn extends Events_Event {
                     $flight->staff = json_encode($staffArray);
                     $flight->save();
 
+                    $distance = Helper_Map::getDistanceBetween($flight->from, $flight->to);
+
                     //Parametry
                     $this->manager->addParam($event_id, 'czas', $timeInAir);
                     $this->manager->addParam($event_id, 'zlecenie', $zlecenieId);
+                    $this->manager->addParam($event_id, 'distance', $distance);
 
                     $plane->position = $userOrder->order->to;
                     $plane->save();
