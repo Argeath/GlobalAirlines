@@ -13,8 +13,8 @@ class Events_FreeFlight extends Events_Event {
 
             $stan = round((rand(1, 5) / 100) * $hours, 2);
 
-            $this->event->user->sendMiniMessage("Samolot " . $plane->rejestracja . " dotar≥ do miasta " .
-                Helper_Map::getCityName($to), "Samolot " . $plane->fullName() . " dotar≥ do miasta " .
+            $this->event->user->sendMiniMessage("Samolot " . $plane->rejestracja . " dotar≈Ç do miasta " .
+                Helper_Map::getCityName($to), "Samolot " . $plane->fullName() . " dotar≈Ç do miasta " .
                 Helper_Map::getCityName($to) . ".<br />Spadek stanu samolotu: " . $stan . "%", 1, $flight->end);
 
             $plane->position = $to;

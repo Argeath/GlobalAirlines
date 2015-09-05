@@ -25,12 +25,12 @@ class Events_OrderFlight extends Events_Event {
 
                         $plane->updateStaffConditionToFuture($this->event->when);
 
-                        $msg = 'Samolot ' . $plane->fullName() . ' dotar³ do miasta ' .
-                            Helper_Map::getCityName($to) . '.<br />Zap³ata: ' .
+                        $msg = 'Samolot ' . $plane->fullName() . ' dotarÅ‚ do miasta ' .
+                            Helper_Map::getCityName($to) . '.<br />ZapÅ‚ata: ' .
                             formatCash($order->cash) . ' ' . WAL . '<br />Spadek stanu samolotu: ' .
-                            $stan . '%<br />Dosta³eœ ' . $xp . ' punktów doœwiadczenia.';
+                            $stan . '%<br />Otrzymano ' . $xp . ' punktÃ³w doÅ›wiadczenia.';
 
-                        $this->event->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' dotar³ do miasta ' .
+                        $this->event->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' dotarÅ‚ do miasta ' .
                             Helper_Map::getCityName($to), $msg, $flight->end);
 
                         $userOrder->done = 1;
@@ -49,7 +49,7 @@ class Events_OrderFlight extends Events_Event {
                             'plane_id' => $plane->id,
                             'order_id' => $order->id);
 
-                        $this->event->user->operateCash($order->cash, 'Zap³ata za zlecenie (' .
+                        $this->event->user->operateCash($order->cash, 'ZapÅ‚ata za zlecenie (' .
                             Helper_Map::getCityName($order->from) . ' -> ' .
                             Helper_Map::getCityName($order->to) . ') wykonane samolotem - ' .
                             $plane->fullName() . '.', $this->event->when, $info);

@@ -9,11 +9,11 @@ class Events_PlaneInspection extends Events_Event {
             $xp = round((100 - $stan) * 2);
 
             $msg = 'Samolot ' . $plane->fullName() .
-                ' przeszed³ przegl¹d generalny i zosta³ naprawiony.<br />Dosta³eœ ' .
-                $xp . ' punktów doœwiadczenia.';
+                ' przeszedÅ‚ przeglÄ…d generalny i zostaÅ‚ naprawiony.<br />Otrzymano ' .
+                $xp . ' punktÃ³w doÅ›wiadczenia.';
 
             $this->event->user->sendMiniMessage('Samolot ' . $plane->rejestracja .
-                ' przeszed³ przegl¹d generalny i zosta³ naprawiony.', $msg, $this->event->when);
+                ' przeszedÅ‚ przeglÄ…d generalny i zostaÅ‚ naprawiony.', $msg, $this->event->when);
 
             $plane->stan = 100;
             $plane->save();

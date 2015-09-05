@@ -18,7 +18,7 @@ class Events_FlightCrash extends Events_Event {
                 $plane->stan -= $accident->condition;
                 $plane->save();
                 $this->event->user->sendMiniMessage("Awaria", "Samolot " . $plane->fullName() .
-                    " mia³ awariê przed startem. Rozpoczêto naprawê - powinna zaj¹æ oko³o " . $time . "h.",
+                    " miaÅ‚ awariÄ™ przed startem. RozpoczÄ™to naprawÄ™ - powinna zajÄ…Ä‡ okoÅ‚o " . $time . "h.",
                     $this->event->when);
 
             } elseif ($typ['when'] == 1) {
@@ -26,8 +26,8 @@ class Events_FlightCrash extends Events_Event {
                 $plane->stan -= $accident->condition;
                 $plane->save();
                 $this->event->user->sendMiniMessage("Awaria", "Samolot " . $plane->fullName() .
-                    " mia³ awariê tu¿ po starcie i l¹dowa³ awaryjnie na tym samym lotnisku." .
-                    " Rozpoczêto naprawê - powinna zaj¹æ oko³o " . $time . "h.",
+                    " miaÅ‚ awariÄ™ tuÅ¼ po starcie i lÄ…dowaÅ‚ awaryjnie na tym samym lotnisku." .
+                    " RozpoczÄ™to naprawÄ™ - powinna zajÄ…Ä‡ okoÅ‚o " . $time . "h.",
                     $this->event->when);
 
             } elseif ($typ['when'] == 2) {
@@ -43,8 +43,8 @@ class Events_FlightCrash extends Events_Event {
                 $plane->stan -= $accident->condition;
                 $plane->save();
                 $this->event->user->sendMiniMessage("Awaria", "Samolot " . $plane->fullName() .
-                    " mia³ awariê tu¿ po starcie i l¹dowa³ awaryjnie na lotnisku -
-                    " . $city->name . ". Rozpoczêto naprawê - powinna zaj¹æ oko³o " . $time . "h.",
+                    " miaÅ‚ awariÄ™ tuÅ¼ po starcie i lÄ…dowaÅ‚ awaryjnie na lotnisku -
+                    " . $city->name . ". RozpoczÄ™to naprawÄ™ - powinna zajÄ…Ä‡ okoÅ‚o " . $time . "h.",
                     $this->event->when);
 
             }

@@ -14,12 +14,12 @@ class Events_Auction extends Events_Event {
 
                     $auction->UserPlane->user_id = $highest->user_id;
                     $auction->UserPlane->save();
-                    $msg = 'Wygrano licytacje za ' . $highest->price . '. Samolot od teraz nale¿y do Ciebie.';
+                    $msg = 'Wygrano licytacje za ' . $highest->price . '. Samolot od teraz naleÅ¼y do Ciebie.';
                     $highest->user->sendMiniMessage('Wygrano licytacje.', $msg, $this->event->when);
 
                 } else {
-                    $msg = 'Nie uda³o ci siê sprzedaæ samolotu na aukcjach.';
-                   $this->event->user->sendMiniMessage('Nie uda³o siê sprzedaæ samolotu.',
+                    $msg = 'Nie udaÅ‚o ci siÄ™ sprzedaÅ‚ samolotu na aukcjach.';
+                   $this->event->user->sendMiniMessage('Nie udaÅ‚o siÄ™ sprzedaÄ‡ samolotu.',
                        $msg, $this->event->when);
                 }
             }

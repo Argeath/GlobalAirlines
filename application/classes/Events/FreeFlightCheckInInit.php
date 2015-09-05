@@ -32,10 +32,10 @@ class Events_FreeFlightCheckInInit extends Events_Event {
 
         } elseif ($plane->loaded()) {
 
-            $this->event->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' nie wystartowa³.',
+            $this->event->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' nie wystartowaÅ‚.',
                 'Samolot ' . $plane->fullName() .
-                ' nie wystartowa³ podczas lotu swobodnego z ' . Helper_Map::getCityName($from) . ' do
-                ' . Helper_Map::getCityName($to) . ', poniewa¿ nie stawi³ siê na miejsce startu.',
+                ' nie wystartowaÅ‚ podczas lotu swobodnego z ' . Helper_Map::getCityName($from) . ' do
+                ' . Helper_Map::getCityName($to) . ', poniewaÅ¼ nie stawiÅ‚ siÄ™ na miejsce startu.',
                 1, $this->event->when);
 
         } else {

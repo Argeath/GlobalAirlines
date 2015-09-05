@@ -59,12 +59,12 @@ class Events_OrderFlightCheckInInit extends Events_Event {
                             $err = "";
 
                             if ($plane->position != $order->from) {
-                                $err = "Samolot nie stawi³ siê w miejscu startu";
+                                $err = "Samolot nie stawiÅ‚ siÄ™ w miejscu startu";
                             }
 
                             $flight->cancel();
-                            $this->event->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' nie wystartowa³.',
-                                'Samolot ' . $plane->fullName() . ' nie wystartowa³ z ' .
+                            $this->event->user->sendMiniMessage('Samolot ' . $plane->rejestracja . ' nie wystartowaÅ‚.',
+                                'Samolot ' . $plane->fullName() . ' nie wystartowaÅ‚ z ' .
                                 Helper_Map::getCityName($order->from) . ' do ' .
                                 Helper_Map::getCityName($order->to) . '. ' . $err, $this->event->when);
 

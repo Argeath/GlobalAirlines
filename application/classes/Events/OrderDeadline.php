@@ -19,11 +19,11 @@ class Events_OrderDeadline extends Events_Event {
 
             if ($punish) {
                 $punish = $order->cash * 1.2;
-                $msg = "Zap³aci³eœ karê - " . formatCash($punish) . " " . WAL . " za zlecenie z miasta " .
+                $msg = "ZapÅ‚acono karÄ™ - " . formatCash($punish) . " " . WAL . " za zlecenie z miasta " .
                     Helper_Map::getCityName($order->from) . " do miasta " .
                     Helper_Map::getCityName($order->to) . ".";
 
-                $this->event->user->sendMiniMessage("Zap³acono karê za niewykonanie zlecenia.", $msg, $order->deadline);
+                $this->event->user->sendMiniMessage("ZapÅ‚acono karÄ™ za niewykonanie zlecenia.", $msg, $order->deadline);
                 $info = array('type' => Helper_Financial::Deadline, 'order_id' => $order->id);
 
                 $this->event->user->niewykonanych++;
