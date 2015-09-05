@@ -82,7 +82,7 @@ if (isset($_SERVER['SERVER_PROTOCOL'])) {
  * Note: If you supply an invalid environment name, a PHP warning will be thrown
  * saying "Couldn't find constant Kohana::<INVALID_ENV_NAME>"
  */
-Kohana::$environment = Kohana::PRODUCTION;
+Kohana::$environment = Kohana::DEVELOPMENT;
 
 /**
  * Initialize Kohana, setting the default options.
@@ -101,7 +101,6 @@ Kohana::$environment = Kohana::PRODUCTION;
  */
 
 define('PATH', '/');
-//define('WAL', '€');
 define('WAL', '<div class="fa fa-money"></div>');
 
 Session::$default = 'database';

@@ -158,6 +158,7 @@ class Controller_User extends Controller_Template {
 		if ($user) {
 			$this->redirect('user/index');
 		}
+
 		$this->template->content = View::factory('user/login')
 		     ->bind('message', $message);
 

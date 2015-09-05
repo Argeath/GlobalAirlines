@@ -173,12 +173,6 @@ Route::set('zlecenia', '(zlecenia(/<biuropodrozy>(/<klasa>(/<action>(/<id>)))))'
         'action' => 'index',
     ));
 
-Route::set('validations', '(validation(/<action>))')
-    ->defaults(array(
-        'controller' => 'validation',
-        'action' => 'index',
-    ));
-
 Route::set('ajaxy', '(ajax(/<action>(/<id>(/<param>(/<param2>)))))')
     ->defaults(array(
         'controller' => 'ajax',
