@@ -26,10 +26,11 @@ class Controller_Validation extends Controller
                 $valid->rules($key, $value);
 
             if ($valid->check()) {
-                return json_encode(['status' => 'success']);
+                echo json_encode(['status' => 'success']);
+                return true;
             }
         } catch(ORM_Validation_Exception $exception) {
-            return json_encode($exception->errors('models'));
+            echo json_encode($exception->errors('models'));
         }
     }
 }
