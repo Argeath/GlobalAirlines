@@ -22,7 +22,9 @@ class Controller_Validation extends Controller
     {
         try {
             $valid = Validation::factory($this->request->post());
-            foreach((new Model_User)->rules() as $key => $value)
+            $rules = (new Model_User)->rules();
+            Debug::vars($rules);
+            foreach($rules as $key => $value)
                 $valid->rules($key, $value);
 
             if ($valid->check()) {

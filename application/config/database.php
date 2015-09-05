@@ -18,7 +18,7 @@ return array
 			 *
 			 * Ports and sockets may be appended to the hostname.
 			 */
-			'hostname' => 'mysql5',
+			'hostname' => 'mysql-375960.vipserv.org',
 			'database' => 'argeath_planes',
 			'username' => 'argeath_planes',
 			'password' => 'z42iAtmR',
