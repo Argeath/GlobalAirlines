@@ -61,7 +61,7 @@ class Controller_Events extends Controller {
         $event = ORM::factory("Event", $id);
 
         if($event->when > time()) {
-            echo json_encode(['status' => 'early']);
+            echo json_encode(['status' => 'fail', 'error' => "Too early"]);
             return false;
         }
 
