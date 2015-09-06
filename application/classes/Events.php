@@ -4,65 +4,24 @@ class Events {
 	static function checkEvents() {
 		try {
 			$user = Auth::instance()->get_user();
-			$ech = DB::select()->from('check_events')->where('data', '=', time())->execute()->as_array();
-			if (!empty($ech)) {
-				return false;
-			}
-
-			$setting = ORM::factory("Setting")->where('key', '=', 'lock_events')->find();
-			if (!$setting->loaded()) {
-				$setting = ORM::factory("Setting");
-				$setting->key = 'lock_events';
-				$setting->value = 0;
-				$setting->save();
-			}
-
-			if ($setting->value == 1) {
-				return false;
-			}
-
 			do {
                 $eventManager = new Events_EventManager();
-				$qs = ORM::factory("Event")->where('done', '=', 0)->and_where('when', '<=', time())->find_all();
+				$qs = ORM::factory("Event")->where('done', '=', 0)->and_where('when', '<', time() - 5)->find_all();
 
-				if ($qs->count() == 0) {
-					break;
-				}
+                // Sprawdzenie przypadkowego przerwania oleju
+                $lastOil = ORM::factory("Event")->where('type', '=', 8)->order_by('when', 'DESC')->find();
+                if ($lastOil->loaded()) {
+                    if ($lastOil->when < time() - 3650) {
+                        $newEvent = ORM::factory("Event");
+                        $newEvent->when = $lastOil->when + 3600;
+                        $newEvent->type = 8;
+                        $newEvent->save();
+                        $eventManager->needOneMoreCycle = true;
+                    }
+                }
 
 				foreach ($qs as $q) {
-					if ($q->user_id != NULL) {
-						if ($q->user->loaded()) {
-							// Usunięcie podwójnych eventów
-							$eves = $q->user->events->where('type', '=', $q->type)->and_where('id', '!=', $q->id)->and_where('done', '=', 0)->and_where('when', '=', $q->when)->find_all();
-							foreach ($eves as $eveD) {
-								$paramsD = $eveD->parameters->find_all();
-								if ($paramsD != $q->parameters->find_all()) {
-									continue;
-								}
-
-								$eveD->done = 1;
-								$eveD->save();
-								errToDb('[Double event][ID: ' . $q->id . ' && ' . $eveD->id . ']');
-							}
-						}
-					} // Koniec usuwania podwójnych eventów
-
                     Events::route($q, $eventManager, $user);
-				}
-
-
-				{
-					// Sprawdzenie przypadkowego przerwania oleju lub regeneracji załogi
-					$lastOil = ORM::factory("Event")->where('type', '=', 8)->order_by('when', 'DESC')->find();
-					if ($lastOil->loaded()) {
-						if ($lastOil->when < time() - 3650) {
-							$newEvent = ORM::factory("Event");
-							$newEvent->when = $lastOil->when + 3600;
-							$newEvent->type = 8;
-							$newEvent->save();
-							$eventManager->needOneMoreCycle = true;
-						}
-					}
 				}
 
                 $eventManager->commitParams();
@@ -71,9 +30,6 @@ class Events {
 
 			DB::delete('events')->and_where('when', '<', time() - 604800)->and_where('done', '=', 1)->execute();
 			DB::delete('events')->and_where('when', '<', time() - 86400)->and_where('type', '=', 8)->execute();
-
-			$setting->value = 0;
-			$setting->save();
 
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');

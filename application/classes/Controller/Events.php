@@ -65,6 +65,8 @@ class Controller_Events extends Controller {
             return false;
         }
 
+        // TODO: Usunięcie podwójnych eventów
+
         $eventManager = new Events_EventManager();
 
         Events::route($event, $eventManager);
