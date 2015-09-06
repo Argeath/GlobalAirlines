@@ -31,6 +31,26 @@ class Controller_Events extends Controller {
         echo json_encode($events);
     }
 
+    public function action_getFrom() {
+        if( ! $this->authenticated) {
+            throw new Kohana_HTTP_Exception_404();
+        }
+
+        $id = (int)$this->request->param('id');
+
+        $events = ORM::factory("Event")->where('done', '=', 0)->and_where('id', '>', $id)->find_all()->as_array('id', 'when');
+
+        echo json_encode($events);
+    }
+
+    public function action_getTime() {
+        if( ! $this->authenticated) {
+            throw new Kohana_HTTP_Exception_404();
+        }
+
+        echo json_encode(['time' => time()]);
+    }
+
     public function action_execute() {
         if( ! $this->authenticated) {
             throw new Kohana_HTTP_Exception_404();
