@@ -32,7 +32,7 @@ class Controller_Events extends Controller {
 
         $events = ORM::factory("Event")->where('done', '=', 0)->and_where('id', '>', $id)->find_all()->as_array('id', 'when');
 
-        echo json_encode(['status' => 'success', 'data' => $events]);
+        echo json_encode(['status' => 'success', 'data' => [ 'events' => $events ]]);
     }
 
     public function action_getTime() {
@@ -41,9 +41,7 @@ class Controller_Events extends Controller {
             $this->response->status(403);
         }
 
-        echo json_encode(['status' => 'success', 'data' => [
-            'time' => time()
-        ]]);
+        echo json_encode(['status' => 'success', 'data' => [ 'time' => time() ]]);
     }
 
     public function action_execute() {
