@@ -64,6 +64,10 @@ class Controller_Events extends Controller {
             echo json_encode(['status' => 'fail', 'error' => "Too early"]);
             return false;
         }
+        if($event->done == 1) {
+            echo json_encode(['status' => 'fail', 'error' => "Already done"]);
+            return false;
+        }
 
         // TODO: Usunięcie podwójnych eventów
 
