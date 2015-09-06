@@ -21,39 +21,35 @@ class Controller_Events extends Controller {
         throw new Kohana_HTTP_Exception_404();
     }
 
-    public function action_getAll() {
-        if( ! $this->authenticated) {
-            throw new Kohana_HTTP_Exception_404();
-        }
-
-        $events = ORM::factory("Event")->where('done', '=', 0)->find_all()->as_array('id', 'when');
-
-        echo json_encode($events);
-    }
-
     public function action_getFrom() {
         if( ! $this->authenticated) {
-            throw new Kohana_HTTP_Exception_404();
+            echo json_encode(['status' => 'fail', 'error' => 'Not authenticated']);
+            $this->response->status(403);
+            return false;
         }
 
         $id = (int)$this->request->param('id');
 
         $events = ORM::factory("Event")->where('done', '=', 0)->and_where('id', '>', $id)->find_all()->as_array('id', 'when');
 
-        echo json_encode($events);
+        echo json_encode(['status' => 'success', 'data' => $events]);
     }
 
     public function action_getTime() {
         if( ! $this->authenticated) {
-            throw new Kohana_HTTP_Exception_404();
+            echo json_encode(['status' => 'fail', 'error' => 'Not authenticated']);
+            $this->response->status(403);
         }
 
-        echo json_encode(['time' => time()]);
+        echo json_encode(['status' => 'success', 'data' => [
+            'time' => time()
+        ]]);
     }
 
     public function action_execute() {
         if( ! $this->authenticated) {
-            throw new Kohana_HTTP_Exception_404();
+            echo json_encode(['status' => 'fail', 'error' => 'Not authenticated']);
+            $this->response->status(403);
         }
 
         $id = (int)$this->request->post('event_id');
