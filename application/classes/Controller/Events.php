@@ -21,16 +21,14 @@ class Controller_Events extends Controller {
         throw new Kohana_HTTP_Exception_404();
     }
 
-    public function action_getFrom() {
+    public function action_getAll() {
         if( ! $this->authenticated) {
             echo json_encode(['status' => 'fail', 'error' => 'Not authenticated']);
             $this->response->status(403);
             return false;
         }
 
-        $id = (int)$this->request->param('id');
-
-        $events = ORM::factory("Event")->where('done', '=', 0)->and_where('id', '>', $id)->find_all()->as_array('id', 'when');
+        $events = ORM::factory("Event")->where('done', '=', 0)->find_all()->as_array('id', 'when');
 
         echo json_encode(['status' => 'success', 'data' => [ 'events' => $events ]]);
     }
