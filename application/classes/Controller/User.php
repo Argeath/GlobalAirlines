@@ -8,15 +8,92 @@ class Controller_User extends Controller_Template {
 			Session::instance()->bind('ref', $ref);
 		}
 
-		$this->template->title = "Strona powitalna";
+		$this->template->title = "";
+		$this->template->content = "";
 
-		$this->template->content = View::factory('welcome');
 		$user = Auth::instance()->get_user();
 		if (!$user) {
 			$this->redirect('user/login');
 		}
 
 		$this->redirect('podglad');
+	}
+
+	public function action_settings() {
+		$this->template->title = "Ustawienia konta";
+		$this->template->content = View::factory("user/settings")
+            ->bind('avatar', $avatar);
+
+		$user = Auth::instance()->get_user();
+		if ( ! $user)
+			$this->redirect('user/login');
+
+        $filename = NULL;
+        $avatar = NULL;
+
+        $post = $this->request->post();
+        if ($post && !empty($post) && isSet($post['action'])) {
+            if($post['action'] == 'change-password') {
+                if ($user->facebook > 0) {
+                    sendError('Nie możesz zmieniać hasła do konta zalogowanego przez Facebook.');
+                    $this->redirect('podglad');
+                }
+
+                $valid = Validation::factory($post);
+                $valid->rule('csrf', 'not_empty');
+                $valid->rule('csrf', 'Security::check');
+                if ($valid->check()) {
+                    $hashed = Auth::instance()->hash($post['old_password']);
+                    if ($hashed === $user->password) {
+                        try {
+                            $values = array('password' => $post['new_password'], 'password_confirm' => $post['password_confirm']);
+                            $user->update_user($values);
+                            sendMsg('Hasło zostało zmienione. Zaloguj się ponownie, używając nowego hasła.');
+                            $this->action_logout();
+                        } catch (ORM_Validation_Exception $e) {
+                            foreach ($e->errors('models') as $error)
+                                sendError($error);
+                        }
+                    } else {
+                        sendError('Złe hasło.');
+                    }
+                }
+            } elseif($post['action'] == 'delete-account') {
+                $valid = Validation::factory($post);
+                $valid->rule('csrf', 'not_empty');
+                $valid->rule('csrf', 'Security::check');
+                if ($valid->check()) {
+                    $hashed = Auth::instance()->hash($post['password']);
+                    if ($hashed === $user->password) {
+                        $newEvent = ORM::factory("Event");
+                        $newEvent->user_id = $user->id;
+                        $newEvent->when = time() + (30 * 24 * 60 * 60);
+                        $newEvent->type = 6;
+                        $newEvent->save();
+                        sendMsg('Twoje konto zostanie usunięte za 30 dni.');
+                        Auth::instance()->logout();
+                        $this->redirect('user/login');
+                    } else {
+                        sendError('Złe hasło.');
+                    }
+                }
+            } elseif($post['action'] == 'change-avatar') {
+                $valid = Validation::factory($post);
+                $valid->rule('csrf', 'not_empty');
+                $valid->rule('csrf', 'Security::check');
+                if ($valid->check()) {
+                    if (isset($_FILES['avatar']))
+                        $filename = $this->_save_image($_FILES['avatar']);
+
+                    if (!$filename) {
+                        sendError('Wystąpił błąd podczas wgrywania pliku.');
+                    }
+                    $user->avatar = $filename;
+                    $user->save();
+                }
+                $this->redirect('user/settings', 303);
+            }
+        }
 	}
 
 	public function action_created() {
@@ -194,117 +271,6 @@ class Controller_User extends Controller_Template {
 
 		// Redirect to login page
 		$this->redirect('user/login');
-	}
-
-	public function action_changePassword() {
-		$this->template->title = "Zmiana hasła";
-
-		$this->template->content = View::factory('user/password');
-
-		$user = Auth::instance()->get_user();
-
-		if (!$user) {
-			$this->redirect('user/login');
-		}
-
-		if ($user->facebook > 0) {
-			sendError('Nie możesz zmieniać hasła do konta zalogowanego przez Facebook.');
-			$this->redirect('podglad');
-		}
-
-		$post = $this->request->post();
-		if ($post && !empty($post)) {
-			$valid = Validation::factory($post);
-			$valid->rule('csrf', 'not_empty');
-			$valid->rule('csrf', 'Security::check');
-			if ($valid->check()) {
-				$hashed = Auth::instance()->hash_password($post['old_password']);
-				if ($hashed === $user->password) {
-					try
-					{
-						$values = array('password' => $post['new_password'], 'password_confirm' => $post['new2_password']);
-						$user->update_user($values);
-						sendMsg('Hasło zostało zmienione. Zaloguj się ponownie, używając nowego hasła.');
-						$this->action_logout();
-					} catch (ORM_Validation_Exception $e) {
-						foreach ($e->errors('models') as $err) {
-							sendError($err);
-						}
-					}
-				} else {
-					sendError('Złe hasło.');
-				}
-			}
-		}
-	}
-
-	public function action_deleteAccount() {
-		$this->template->title = "Usuwanie konta";
-
-		$this->template->content = View::factory('user/delete');
-
-		$user = Auth::instance()->get_user();
-
-		if (!$user) {
-			$this->redirect('user/login');
-		}
-
-		$post = $this->request->post();
-		if ($post && !empty($post)) {
-			$valid = Validation::factory($post);
-			$valid->rule('csrf', 'not_empty');
-			$valid->rule('csrf', 'Security::check');
-			if ($valid->check()) {
-				$hashed = Auth::instance()->hash_password($post['password']);
-				if ($hashed === $user->password) {
-					$newEvent = ORM::factory("Event");
-					$newEvent->user_id = $user->id;
-					$newEvent->when = time() + (30 * 24 * 60 * 60);
-					$newEvent->type = 6;
-					$newEvent->save();
-					sendMsg('Twoje konto zostanie usunięte za 30 dni.');
-					Auth::instance()->logout();
-					$this->redirect('user/login');
-				} else {
-					sendError('Złe hasło.');
-				}
-			}
-		}
-	}
-
-	public function action_avatar() {
-		$this->template->title = "Zmiana awatara";
-
-		$this->template->content = View::factory('user/avatar')
-		     ->bind('avatar', $avatar);
-
-		$user = Auth::instance()->get_user();
-		$filename = NULL;
-		$avatar = NULL;
-
-		if (!$user) {
-			$this->redirect('user/login');
-		}
-
-		$post = $this->request->post();
-		if ($post && !empty($post)) {
-			$valid = Validation::factory($post);
-			$valid->rule('csrf', 'not_empty');
-			$valid->rule('csrf', 'Security::check');
-			if ($valid->check()) {
-				if (isset($_FILES['avatar'])) {
-					$filename = $this->_save_image($_FILES['avatar']);
-				}
-
-				if (!$filename) {
-					sendError('There was a problem while uploading the image.
-						Make sure it is uploaded and must be JPG/PNG/GIF file.');
-				}
-				$user->avatar = $filename;
-				$user->save();
-			}
-			$this->redirect('user/avatar', 303);
-		}
 	}
 
 	protected function _save_image($image) {

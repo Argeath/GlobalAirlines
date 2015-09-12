@@ -29,10 +29,9 @@ return array(
 			'<i class="fa fa-envelope"></i>' => array('name' => 'Poczta', 'url' => 'poczta', 'badge' => 'nowych_wiadomosci'),
 			'<i class="fa fa-share-alt"></i>' => array('name' => 'Poleceni', 'url' => 'referrals'),
 			'<i class="glyphicon glyphicon-user"></i>' => array('name' => 'Profil', 'url' => 'profil'),
-			'<i class="glyphicon glyphicon-wrench"></i>' => array('name' => 'Hasło', 'url' => 'user/changePassword'),
 			'<i class="glyphicon glyphicon-user"></i>' => array('name' => 'Avatar', 'url' => 'user/avatar'),
 			'<i class="glyphicon glyphicon-remove"></i>' => array('name' => 'Usuń konto', 'url' => 'user/deleteAccount'),
-			'<i class="fa fa-cog"></i>' => array('name' => 'Ustawienia', 'url' => 'Podglad'), //TODO
+			'<i class="fa fa-cog"></i>' => array('name' => 'Ustawienia', 'url' => 'user/settings'),
 		),
 
 		'<i class="fa fa-plane"></i>' => array(

@@ -1,79 +1,83 @@
-<div class="well">
-	<div class="page-header">
-		<h1>Terminarz</h1>
-	</div>
-	<div class="clearfix"></div>
-	<div class="hidden-xs clearfix">
-		<div class="thumbnail col-md-12 col-lg-9">
-			<div class="suwakDiv">
-				<div id="terminarzDate" class="input-group date col-xs-12 col-sm-6 col-md-4" style="float: none; margin: 20px auto; padding: 0 15px;">
-					<input id="terminarzDateInput" data-format="dd.MM.yyyy" type="text" name="terminarzDate" class="form-control"/>
-					<span class="input-group-addon add-on">
-						<i id="terminarzDateButton" data-time-icon="icon-time" data-date-icon="icon-calendar" class="glyphicon glyphicon-calendar"></i>
-					</span>
-				</div>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="well">
+			<div class="page-header">
+				<h1>Terminarz</h1>
 			</div>
-			<? for($i=1; $i <= 7; $i++) { ?>
-			<div class="suwakDiv">
-				<div class="suwakDzien col-xs-2"><?=$dni[$i]['name'];?><br /><?=$dni[$i]['date'];?></div>
-				<div class="suwakBlock col-xs-10">
-<?=$dni[$i]['zlecenia'];?>
-<div class="suwak"></div>
-<?=$textT;?>
-<? if($dni[$i]['today'])
-						echo "<div class='suwakGodzina' style='left: ".$suwakGodzinaPoz."px;'></div>"; ?>
-				</div>
-			</div>
-			<? } ?>
 			<div class="clearfix"></div>
-		</div>
-		<div class="col-md-12 col-lg-3" style="display: table-cell;">
-			<div class="well">
-				<ul class="nav nav-tabs" id="terminarzTab">
-				  <li class="active"><a href="#samoloty" id="terminarzPodglad">Samoloty</a></li>
-				  <li class="disabled"><a href="#zlecenie" id="terminarzZlecA">Zlecenie</a></li>
-				</ul>
-
-				<!-- Tab panes -->
-				<div class="tab-content">
-				  <div class="tab-pane active" id="samoloty">
-				    <div style="width: 100%; padding: 10px;">
-						<? foreach($samoloty as $samolot)
-						{
-							echo $samolot['buttonCode'];
-						} ?>
-						<div class="clearfix"></div>
+			<div class="hidden-xs clearfix">
+				<div class="well col-md-12 col-lg-9">
+					<div class="suwakDiv">
+						<div id="terminarzDate" class="input-group date col-xs-12 col-sm-6 col-md-4" style="float: none; margin: 20px auto; padding: 0 15px;">
+							<input id="terminarzDateInput" data-format="dd.MM.yyyy" type="text" name="terminarzDate" class="form-control"/>
+							<span class="input-group-addon add-on">
+								<i id="terminarzDateButton" data-time-icon="icon-time" data-date-icon="icon-calendar" class="glyphicon glyphicon-calendar"></i>
+							</span>
+						</div>
 					</div>
+					<? for($i=1; $i <= 7; $i++) { ?>
+					<div class="suwakDiv">
+						<div class="suwakDzien col-xs-2"><?=$dni[$i]['name'];?><br /><?=$dni[$i]['date'];?></div>
+						<div class="suwakBlock col-xs-10">
+							<?=$dni[$i]['zlecenia'];?>
+							<div class="suwak"></div>
+							<?=$textT;?>
+							<? if($dni[$i]['today'])
+								echo "<div class='suwakGodzina' style='left: ".$suwakGodzinaPoz."px;'></div>"; ?>
+						</div>
+					</div>
+					<? } ?>
+					<div class="clearfix"></div>
+				</div>
+				<div class="col-md-12 col-lg-3" style="display: table-cell;">
+					<div class="well">
+						<ul class="nav nav-tabs" id="terminarzTab">
+						  <li class="active"><a href="#samoloty" id="terminarzPodglad">Samoloty</a></li>
+						  <li class="disabled"><a href="#zlecenie" id="terminarzZlecA">Zlecenie</a></li>
+						</ul>
 
-				  </div>
-				  <div class="tab-pane" id="zlecenie">
-					<div class="tab-pane-loading"></div>
-<?=Form::open('terminarz/update');?>
-					<input type="hidden" name="flightId" id="flightId"/>
-					<table class="table table-striped table-bg-dark">
-						<tr><td width="50%">Lot z: </td><td id="zlecenie_from"></td></tr>
-						<tr><td>Lot do: </td><td id="zlecenie_to"></td></tr>
-						<tr><td>Zapłata: </td><td id="zlecenie_cash"></td></tr>
-						<tr><td>Kara: </td><td id="zlecenie_punish"></td></tr>
-						<tr><td>Il. pasażerów: </td><td id="zlecenie_count"></td></tr>
-						<tr><td>Deadline: </td><td id="zlecenie_deadline"></td></tr>
-						<tr><td>Początek odprawy: </td><td id="zlecenie_flight_odprawa"></td></tr>
-						<tr><td>Początek lotu: </td><td id="zlecenie_flight_started"></td></tr>
-						<tr><td>Koniec lotu: </td><td id="zlecenie_flight_end"></td></tr>
-						<tr><td>Zlecenie zaliczone: </td><td id="zlecenie_done"></td></tr>
-						<tr><td><button id="moveButton" name="option" value="move" class="btn btn-block btn-warning"><i class="glyphicon glyphicon-backward"></i> Przesuń <i class="glyphicon glyphicon-forward"></i></button></td>
-						<td>
-						<?=Helper_Prints::rusureButton('<i class="glyphicon glyphicon-remove"></i> Odwołaj', 'option', 'cancel', ['btn-danger']);?>
-						</td></tr>
-					</table>
-					</form>
-				  </div>
+						<!-- Tab panes -->
+						<div class="tab-content">
+						  <div class="tab-pane active" id="samoloty">
+							<div style="width: 100%; padding: 10px;">
+								<? foreach($samoloty as $samolot)
+								{
+									echo $samolot['buttonCode'];
+								} ?>
+								<div class="clearfix"></div>
+							</div>
+
+						  </div>
+						  <div class="tab-pane" id="zlecenie">
+							<div class="tab-pane-loading"></div>
+		<?=Form::open('terminarz/update');?>
+							<input type="hidden" name="flightId" id="flightId"/>
+							<table class="table table-striped table-bg-dark">
+								<tr><td width="50%">Lot z: </td><td id="zlecenie_from"></td></tr>
+								<tr><td>Lot do: </td><td id="zlecenie_to"></td></tr>
+								<tr><td>Zapłata: </td><td id="zlecenie_cash"></td></tr>
+								<tr><td>Kara: </td><td id="zlecenie_punish"></td></tr>
+								<tr><td>Il. pasażerów: </td><td id="zlecenie_count"></td></tr>
+								<tr><td>Deadline: </td><td id="zlecenie_deadline"></td></tr>
+								<tr><td>Początek odprawy: </td><td id="zlecenie_flight_odprawa"></td></tr>
+								<tr><td>Początek lotu: </td><td id="zlecenie_flight_started"></td></tr>
+								<tr><td>Koniec lotu: </td><td id="zlecenie_flight_end"></td></tr>
+								<tr><td>Zlecenie zaliczone: </td><td id="zlecenie_done"></td></tr>
+								<tr><td><button id="moveButton" name="option" value="move" class="btn btn-block btn-warning"><i class="glyphicon glyphicon-backward"></i> Przesuń <i class="glyphicon glyphicon-forward"></i></button></td>
+								<td>
+								<?=Helper_Prints::rusureButton('<i class="glyphicon glyphicon-remove"></i> Odwołaj', 'option', 'cancel', ['btn-danger']);?>
+								</td></tr>
+							</table>
+							</form>
+						  </div>
+						</div>
+					</div>
 				</div>
 			</div>
+			<div class="visible-xs">
+				Terminarz nie jest dostępny w tej rozdzielczości ekranu.
+			</div>
 		</div>
-	</div>
-	<div class="visible-xs">
-		Terminarz nie jest dostępny w tej rozdzielczości ekranu.
 	</div>
 </div>
 <link rel="stylesheet" href="<?=URL::base(TRUE);?>bower_components/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" />
