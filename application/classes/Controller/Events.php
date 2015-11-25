@@ -28,7 +28,7 @@ class Controller_Events extends Controller {
             return false;
         }
 
-        $events = ORM::factory("Event")->where('done', '=', 0)->find_all()->as_array('id', 'when');
+        $events = ORM::factory("Event")->where('type', '!=', 0)->where('done', '=', 0)->find_all()->as_array('id', 'when');
 
         echo json_encode(['status' => 'success', 'data' => [ 'events' => $events ]]);
     }
@@ -62,7 +62,7 @@ class Controller_Events extends Controller {
             echo json_encode(['status' => 'fail', 'error' => "Too early"]);
             return false;
         }
-        if($event->done == 1) {
+        if($event->done == 1 || $event->type == 0) {
             echo json_encode(['status' => 'fail', 'error' => "Already done"]);
             return false;
         }
