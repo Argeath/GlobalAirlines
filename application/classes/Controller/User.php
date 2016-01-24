@@ -99,7 +99,8 @@ class Controller_User extends Controller_Template {
 	public function action_created() {
 		$this->template->title = "Konto zostało założone";
 
-		$this->template->content = View::factory('user/created');
+		$this->template->content = View::factory('user/created')
+			->bind('email', $email);
 		$user = Auth::instance()->get_user();
 		if (!$user) {
 			$this->redirect('user/login');
@@ -108,6 +109,8 @@ class Controller_User extends Controller_Template {
 		if($user->activation_hash == NULL)  {
 			$this->redirect('podglad');
 		}
+
+		$email = $user->email;
 	}
 
 	public function action_resendActivation() {

@@ -2,6 +2,7 @@
   "require": {
     "phpunit/phpunit": "3.7.24",
     "phing/phing": "dev-master",
-    "swiftmailer/swiftmailer" : "4.3.*"
+    "swiftmailer/swiftmailer" : "4.3.*",
+    "aws/aws-sdk-php": "2.*"
   }
 }

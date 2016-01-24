@@ -7,7 +7,10 @@
                     <h1>Konto zostało założone</h1>
                 </div>
                 <div class="list-group">
-                    Twoje konto zostało założone. Na podany adres email został wysłany link aktywacyjny. Kliknij go, aby aktywować konto.
+                    Twoje konto zostało założone. Na podany adres email został wysłany link aktywacyjny. Kliknij go, aby aktywować
+                    <br />
+                    <br />
+                    <b>Email:</b> <?= $email; ?>
                 </div>
                 <div class="clearfix"></div>
                 <br />
