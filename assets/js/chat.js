@@ -7,7 +7,7 @@ pagehide:!0};if(a=a||window.event)a.hidden=a.type in b?b[a.type]:document[$.winF
 $(function () {
     "use strict";
 
-	var ChatType = 1;
+    moment.locale("pl");
  
     // for better performance - to avoid searching in DOM
 	var trigger = $('#tmp-chat-trigger');
@@ -66,101 +66,200 @@ $(function () {
 	var dinging = true;
 	setTimeout(function() { dinging = false; }, 1500);
 
-	var userToken = $("#userToken").attr('token');
+    var userDataObj = $("#userData");
+	var userData = {
+        id: userDataObj.attr('user-id'),
+        username: userDataObj.attr('user-name'),
+        thumbnail: userDataObj.attr('user-avatar')
+    };
 
-    io.socket.get('/getHistory', function serverResponded (body, JWR) {
-        if(body.success == true) {
-            setStatus(true);
-        } else {
-            setStatus(false);
+    var loc = window.location, new_uri;
+    if (loc.protocol === "https:") {
+        new_uri = "wss:";
+    } else {
+        new_uri = "ws:";
+    }
+    new_uri += "//global-airlines-chat.herokuapp.com";
+
+    var socket = io.connect(new_uri);
+    var isAdmin = false;
+
+    function addMessage(msg, front) {
+        var tr = $("<div/>", {
+            "class": "msg",
+            "msg_date": msg.date,
+            "msg_text": msg.message,
+            "msg_user_id": msg.user.id
+        });
+
+        var msgDate = new Date(msg.date);
+
+        var userText = $("<div/>", {
+            "class": "msg_user"
+        });
+
+        if (msg.user.thumbnail) {
+            userText.prepend($("<img/>", {
+                src: msg.user.thumbnail,
+                "class": "avatar"
+            }));
         }
-        if(body.err) {
-            console.log(body.err);
+        userText.append($("<a/>", {
+            href: "/profil/" + msg.user.id
+        }).text(msg.user.username));
+        tr.append(userText);
+
+        tr.append($("<div/>", {
+            "class": "msg_text"
+        }).text(msg.message));
+
+        var msgDateMoment = moment(msg.date);
+
+        tr.append($("<div/>", {
+            "class": "msg_date"
+        }).text(msgDateMoment.fromNow()));
+
+        if (isAdmin) {
+            tr.append($("<div/>", {
+                "class": "msg_remove"
+            }).append($("<div/>", {
+                "class" : "removeMessage"
+            }).on("click", function(event) {
+                event.preventDefault();
+
+                var row = $(this).parent().parent();
+                var newMsg = {
+                    dateStr: row.attr("msg_date"),
+                    message: row.attr("msg_text"),
+                    user: {
+                        id: row.attr("msg_user_id")
+                    }
+                };
+
+                socket.emit("remove", {
+                    "adminKey": $("#adminKey").val(),
+                    "msg": newMsg
+                });
+            }).append($("<i/>", {
+                "class": "fa fa-times"
+            }))));
         }
-    });
 
-    //io.socket.on('connect', function () {
+        onNewMessage();
 
-    messages = [];
-    refreshMessages();
+        if (front) {
+            content.append(tr);
 
-	io.socket.post('/user', {token: userToken}, function serverResponded (body, JWR) {
-        if(body.success == true) {
-            setStatus(true);
-        } else {
-            setStatus(false);
+            if(autoScroll)
+                content.stop(true).animate({ scrollTop: content.prop('scrollHeight') }, "slow");
+
+            return true;
         }
-        if(body.err) {
-            addServerMessage(body.err);
-            console.log(body.err);
-        }
-    });
 
-    io.socket.on('message', function(json) {
-        console.log(json);
-        messages[messages.length] = json;
-        refreshMessages();
-    });
+        var last;
+        $(".tmp-chat .content > div").each(function () {
+            var thisDate = new Date($(this).attr("msg_date"));
+            if (msgDate > thisDate)
+                last = this;
+            else
+                return false;
+            return true;
+        });
+        if (last)
+            $(last).after(tr);
+        else
+            content.prepend(tr);
+        return true;
+    }
 
-	/**
-	 * Send mesage when user presses Enter key
-	 */
-	input.keydown(function(e) {
-		if (e.keyCode === 13) {
-			var msg = $(this).val();
-			if (!msg) {
-				return;
-			}
-            io.socket.post('/addMessage', { token: userToken, msg: msg },  function serverResponded (body, JWR) {
-                console.log(body);
+    function addInfoMessage(msg) {
+        var tr = $("<div/>", {
+            "class": "msg"
+        });
 
-                if(body.hasOwnProperty('err')) {
-                    addServerMessage(body.err);
-                    console.log(body.err);
+        tr.append($("<div/>", {
+            "class": "msg_text"
+        }).text(msg.message));
+
+        content.append(tr);
+        content.stop(true).animate({ scrollTop: content.height() }, "slow");
+
+        onNewMessage();
+        return true;
+    }
+
+    socket.on("connect", function() {
+        content.find(".msg").remove();
+        setStatus(true);
+        socket.emit("login", userData);
+
+        socket.emit("history", null);
+
+        socket.on("message", function (msg) {
+            addMessage(msg, true);
+        });
+
+        socket.on("history", function (msg) {
+            addMessage(msg, false);
+        });
+
+        socket.on("update", function(msg) {
+            $(".tmp-chat .content > div").each(function() {
+                if (msg.date === $(this).attr("date") && msg.user.id == $(this).attr("msg_user_id")) {
+                    $(this).find(".msg_text").text(msg.message);
                 }
             });
-
-			$(this).val('');
-		}
-	});
-
-	
-
-    function refreshMessages() {
-        content.find('.table tr').remove();
-        messages.sort(function (a, b) {
-            if (a == null || b == null) return false;
-            return a.date - b.date
         });
-        for (var i = 0; i < messages.length; i++) {
-            if (messages[i] != null)
-                addMessage(messages[i].author, messages[i].msg,
-                    messages[i].avatar, messages[i].date);
-        }
-    }
-    /**
-     * Add message to the chat window
-     */
-    function addMessage(author, message, avatar, date) {
-        var dt = new Date(date*1000);
-        content.find('.table').prepend('<tr class="chatNew"><td width="40">' +
-             + (dt.getHours() < 10 ? '0' + dt.getHours() : dt.getHours()) + ':'
-             + (dt.getMinutes() < 10 ? '0' + dt.getMinutes() : dt.getMinutes()) + ':'
-             + (dt.getSeconds() < 10 ? '0' + dt.getSeconds() : dt.getSeconds())
-             + '</td><td width="10%"><a href="' + url_base() + 'profil/znajdz/' + author + '" class="btn btn-xs btn-primary"><img src="' + avatar + '" style="height: 20px; border-radius: 5px;"/> ' + author + '</a></td><td>' + message + '</td></tr>');
 
-		if(autoScroll)
-			content.scrollTop(0);
-		else
-			content.scrollTop(content.scrollTop()+37);
-			
-		onNewMessage();
+        socket.on("info", function(info) {
+            addInfoMessage(info);
+        });
+
+        socket.on("disconnect", function() {
+            setStatus(false);
+        })
+    });
+
+    function sendMessage() {
+        var text = $.trim(input.val());
+        if (text === "")
+            return;
+
+        socket.emit("message", text);
+        input.val("");
+        input.focus();
     }
 
-    function addServerMessage(message) {
-        messages[messages.length] = { author: "Serwer", avatar: "/uploads/hologram.jpg", date: Math.round(+new Date()/1000)-3, msg: message };
-        refreshMessages();
-    }
+    $(function () {
+        isAdmin = $("#adminKey").data("key") !== "";
+
+        $("#sendMessage").on("click", function (event) {
+            event.preventDefault();
+            sendMessage();
+        });
+
+        input.on("keypress", function(e) {
+            if (e.which === 13) {
+                sendMessage();
+            }
+        });
+
+        $("#loadMore").on("click", function (event) {
+            event.preventDefault();
+            $("#content").stop(true).animate({ scrollTop: 0 }, "slow");
+
+            var lastMessage = $(".tmp-chat .content > div").first();
+            var msg = {
+                dateStr: lastMessage.attr("msg_date"),
+                message: lastMessage.attr("msg_text"),
+                user: {
+                    id: lastMessage.attr("msg_user_id")
+                }
+            };
+
+            socket.emit("history", msg);
+        });
+    });
 
     function dingNew() {
         $(".chatNew").each(function() {

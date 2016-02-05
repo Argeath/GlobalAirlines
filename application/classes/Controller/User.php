@@ -100,13 +100,13 @@ class Controller_User extends Controller_Template {
 		$this->template->title = "Konto zostało założone";
 
 		$this->template->content = View::factory('user/created')
-			->bind('email', $email);
+			->bind('email', $pass);
 		$user = Auth::instance()->get_user();
 		if (!$user) {
 			$this->redirect('user/login');
 		}
 
-		if($user->activation_hash == NULL)  {
+		if($user->activation_hash == NULL) {
 			$this->redirect('podglad');
 		}
 
@@ -186,6 +186,7 @@ class Controller_User extends Controller_Template {
 				$valid->rule('csrf', 'Security::check');
 				if ($valid->check()) {
 					// Create the user using form values
+					/** @var Model_User $user */
 					$user = ORM::factory('User')->create_user($this->request->post(), array(
 						'username',
 						'password',

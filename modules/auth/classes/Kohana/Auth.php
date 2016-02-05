@@ -147,6 +147,7 @@ abstract class Kohana_Auth {
 	 *
 	 * @deprecated
 	 * @param  string  $password Plaintext password
+	 * @return string hashed password
 	 */
 	public function hash_password($password)
 	{

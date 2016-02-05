@@ -60,7 +60,7 @@ class Kohana_Auth_ORM extends Auth {
 	/**
 	 * Logs a user in.
 	 *
-	 * @param   string   $username
+	 * @param   string   $user
 	 * @param   string   $password
 	 * @param   boolean  $remember  enable autologin
 	 * @return  boolean

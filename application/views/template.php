@@ -41,6 +41,7 @@
 	<script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/tock/tock.min.js"></script>
     <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/select2/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/datetimepicker/jquery.datetimepicker.js"></script>
+    <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/moment/min/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/formValidation/formValidation.min.js"></script>
     <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/formValidation/bootstrap.min.js"></script>
 
@@ -313,11 +314,11 @@
 						</div>
 					</div>
 					<div class="body">
-						<input type="text" class="input" placeholder="Napisz na chacie..."/>
 						<div id="content" class="content">
-							<table style="width: 100%; margin: 0;" class="table table-striped">
-							</table>
+							<div id="loadMore">Wczytaj starsze wiadomości...</div>
 						</div>
+						<input type="text" class="input" placeholder="Napisz na chacie..."/>
+                        <button class="send_btn" id="sendMessage"><i class="fa fa-share"></i></button>
 					</div>
 					<?php if(GlobalVars::$logged && GlobalVars::$profil['admin']) { ?>
                         <div id="tmp-admin" class="tmp-admin">
@@ -345,13 +346,15 @@
 		</div>
 </div>
 <div id="tutorialLayer"></div>
-<div id="userToken" token="<?=(isset(GlobalVars::$profil) && isset(GlobalVars::$profil['token'])) ? GlobalVars::$profil['token'] : ""?>"></div>
 <?=(isset($modals)) ? $modals : '' ?>
-<?php //echo View::factory('profiler/stats') ?>
+
 <?php if(GlobalVars::$logged) { ?>
-    <!--<script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
-    <script type="text/javascript" src="<?= URL::base(TRUE) ?>bower_components/sails.io.js/sails.io.js"></script>
-    <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/chat.js"></script> -->
+	<div id="userData" user-id="<?=GlobalVars::$profil['id']?>" user-name="<?=GlobalVars::$profil['username']?>" user-avatar="<?= URL::base(TRUE) ?>uploads/<?=GlobalVars::$profil['avatar'] ?>.jpg"></div>
+	<?php if(GlobalVars::$profil['admin']) { ?>
+		<div id="adminKey" data-key="761a5ecac072274f6df2fd973b66a774a2b062652bd89aceeaaebbda40687143"></div>
+	<?php } ?>
+	<script src="https://cdn.socket.io/socket.io-1.4.3.js"></script>
+    <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/chat.js"></script>
     <?php if(GlobalVars::$profil['admin']) { ?>
         <script type="text/javascript" src="<?= URL::base(TRUE) ?>assets/js/admin.js"></script>
     <?php } ?>
@@ -359,9 +362,6 @@
 <?php } ?>
 
 <script type="text/javascript">
-	<?php if(GlobalVars::$logged) { ?>
-		io.sails.url = 'http://ws.planes.vipserv.org';
-	<?php } ?>
     $(function () {
 
         $('.rusureButtonGroup #cancelCheckbox').on('click', function() {
