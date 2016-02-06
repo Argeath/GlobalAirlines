@@ -251,7 +251,7 @@
 							</div>
 						</div>
 						<div class="right">
-							<div class="glyphicon glyphicon-info-sign bootstrap-icon" id="tutorial_activate"></div>
+							<div class="glyphicon glyphicon-info-sign bootstrap-icon cursor-pointer" id="tutorial_activate"></div>
 						</div>
 					</div>
 					<?

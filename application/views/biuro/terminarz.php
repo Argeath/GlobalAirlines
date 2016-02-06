@@ -16,7 +16,7 @@
 						</div>
 					</div>
 					<? for($i=1; $i <= 7; $i++) { ?>
-					<div class="suwakDiv">
+					<div class="suwakDiv" <?= ($i==1) ? 'id="tutorial_date"' : '' ?>>
 						<div class="suwakDzien col-xs-2"><?=$dni[$i]['name'];?><br /><?=$dni[$i]['date'];?></div>
 						<div class="suwakBlock col-xs-10">
 							<?=$dni[$i]['zlecenia'];?>
@@ -40,8 +40,7 @@
 						<div class="tab-content">
 						  <div class="tab-pane active" id="samoloty">
 							<div style="width: 100%; padding: 10px;">
-								<? foreach($samoloty as $samolot)
-								{
+								<? foreach($samoloty as $samolot) {
 									echo $samolot['buttonCode'];
 								} ?>
 								<div class="clearfix"></div>
@@ -50,7 +49,7 @@
 						  </div>
 						  <div class="tab-pane" id="zlecenie">
 							<div class="tab-pane-loading"></div>
-		<?=Form::open('terminarz/update');?>
+		                    <?=Form::open('terminarz/update');?>
 							<input type="hidden" name="flightId" id="flightId"/>
 							<table class="table table-striped table-bg-dark">
 								<tr><td width="50%">Lot z: </td><td id="zlecenie_from"></td></tr>
@@ -93,10 +92,11 @@ function getContrastYIQ(hexcolor){
 }
 
 $(function() {
-    var n1 = new tutorialElement($('#terminarzDate'), "Hard_Bottom_Left", "Site_Bottom", "Wybierz datę aby zobaczyć inny okres czasu", "inner", false);
-    var n2 = new tutorialElement($('#samoloty'), "Site_Right", "Site_Right", "Wybierz samoloty, które chcesz zobaczyć na terminarzu.", "inner", false);
+    var n1 = new tutorialElement($('#terminarzDate'), "Site_Bottom", "Site_Bottom", "Wybierz datę aby zobaczyć inny okres czasu", "inner", false);
+    var n2 = new tutorialElement($('#samoloty'), "Site_Top", "Site_Top", "Wybierz samoloty, które chcesz zobaczyć na terminarzu.", "inner", false);
     var n3 = new tutorialElement($('#terminarzZlecA'), "Hard_Bottom_Right", "Site_Right", "Kliknij na lot, aby zobaczyć informacje o zleceniu.", "inner", false);
-    window.tutorialElements.push(n1, n2, n3);
+    var n4 = new tutorialElement($('#tutorial_date'), "Hard_Top_Right", "Site_Top", "Loty danego dnia, filtrowane wg. samolotów w polu na prawo.", "inner", false);
+    window.tutorialElements.push(n1, n2, n3, n4);
 
 	$(".terminarzBtn").click(function(event) {
 		if(event.target.nodeName != 'INPUT')
@@ -114,27 +114,31 @@ $(function() {
 		}
 	});
 
-	$("#terminarzDateButton").click(function(){
+	$("#terminarzDateButton").on('click', function(){
 	  $("#terminarzDateInput").datetimepicker("show");
 	});
 
 	$('.suwakZlecenie').hide();
 
-    $('.colorpick').colorpicker({
-        color: $(this).css('background-color')
-    }).on('changeColor.colorpicker', function(event) {
-        var hex = event.color.toHex();
+    var isColorSet = $(".colorpick").length;
 
-        var planeId = $(el).parent().parent().parent().attr('planeId');
-        $(el).parent().parent().children().first().children().css('background-color', '#'+hex);
+    $('.colorpick').colorpicker().on('create.colorpicker', function() {
+        $(this).colorpicker('setValue', $(this).css('background-color'));
+        isColorSet--;
+    }).on('hidePicker.colorpicker', function(event) {
+        if(isColorSet > 0) return;
+
+        var hex = event.color.toHex().substr(1);
+        console.log(hex);
+
+        var planeId = $(this).parent().parent().parent().attr('planeId');
+        $(this).parent().parent().children().first().children().css('background-color', '#'+hex);
         var textcolor = getContrastYIQ(hex);
-        $(el).parent().parent().children().first().children().css('color', textcolor);
-        $(el).css('background-color', '#'+hex);
+        $(this).parent().parent().children().first().children().css('color', textcolor);
+        $(this).css('background-color', '#'+hex);
         $('.suwakZlecenie').each(function() {
             if($(this).attr('planeId') == planeId)
-            {
                 $(this).css('background-color', '#'+hex);
-            }
         });
 
         var url = url_base()+'ajax/planeColor/' + planeId + '/' + hex;
@@ -157,10 +161,12 @@ $(function() {
 			}
 		});
 	});
+
 	$('#terminarzPodglad').click(function (e) {
 	  e.preventDefault();
 	  $(this).tab('show');
 	});
+
 	$('.suwakZlecenie').click(function() {
 		$('.tab-pane-loading').show();
 		$('#moveButton').prop('disabled', true);
@@ -196,7 +202,6 @@ $(function() {
 			$('.tab-pane-loading').hide();
 			$('#terminarzTab a:last').tab('show');
 		});
-
 	});
 });
 </script>

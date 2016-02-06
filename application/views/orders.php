@@ -78,13 +78,13 @@
 				<div style="margin: 10px auto;">
 					<table style="width: 100%;" class="board">
 						<thead>
-							<th width="10%">Skad</th>
-							<th width="10%">Dokad</th>
+							<th width="10%"><span id="tutorial_from">Skad</span></th>
+							<th width="10%"><span id="tutorial_to">Dokad</span></th>
 							<th width="10%">Dystans</th>
-							<th width="10%">Zaplata</th>
-							<th width="5%">Osob</th>
+							<th width="10%"><span id="tutorial_cash">Zaplata</span></th>
+							<th width="5%"><span id="tutorial_people">Osob</span></th>
 							<th width="20%"><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="top" title="Termin po którym zostanie naliczona kara">Deadline</span></th>
-							<th width="15%"><span class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="top" title="Przewidywany zysk na locie dla danego samolotu. (Uwaga: nie uwzględnia opłat dodatkowych oraz cen paliwa)">Oplacalnosc</span></th>
+							<th width="15%"><span id="tutorial_efficiency" class="Jtooltip" data-container=".main" data-toggle="tooltip" data-placement="top" title="Przewidywany zysk na locie dla danego samolotu. (Uwaga: nie uwzględnia opłat dodatkowych oraz cen paliwa)">Oplacalnosc</span></th>
 						</thead>
 						<tbody id="ordersBody">
 						</tbody>
@@ -210,5 +210,12 @@ $(function() {
 			}
 		}
     });
+
+	var n1 = new tutorialElement($('#tutorial_from'), "Hard_Bottom_Left", "Site_Top", "Lotnisko, z którego samolot musi zabrać ludzi", "inner", false);
+	var n2 = new tutorialElement($('#tutorial_to'), "Site_Top", "Site_Top", "Lotnisko, na które samolot musi przetransportować ludzi", "inner", false);
+	var n3 = new tutorialElement($('#tutorial_cash'), "Site_Bottom", "Site_Bottom", "Zapłata za zlecenie", "inner", false);
+	var n4 = new tutorialElement($('#tutorial_people'), "Hard_Bottom_Left", "Site_Bottom", "Liczba osób, które trzeba przetransportować", "inner", false);
+	var n5 = new tutorialElement($('#tutorial_efficiency'), "Hard_Top_Right", "Site_Top", "Im większa ilość gwiazdek, tym zlecenie jest bardziej opłacalne (większy zysk)", "inner", false);
+	window.tutorialElements.push(n1, n2, n3, n4, n5);
 });
 </script>

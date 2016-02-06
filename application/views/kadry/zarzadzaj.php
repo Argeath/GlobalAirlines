@@ -18,7 +18,7 @@
 
 				} ?>
 			</div>
-			<div class="well form_300">
+			<div class="well form_300" id="tutorial_hire">
 				<h3>Zatrudnianie</h3>
 				<?=($planeId > 0) ? Form::open('kadry/zatrudnij/' . $planeId) : Form::open('kadry/zatrudnij');?>
 				<select name="type" class="form-control">
@@ -31,7 +31,7 @@
 					<?=($level > 20) ? '<option value="2">Doświadczony(~31%)</option>' : ''?>
 					<?=($level > 30) ? '<option value="3">Zaawansowany(~44%)</option>' : ''?>
 				</select>
-				<button class="btn btn-block btn-primary" id="kadry-zatrudnij">Zatrudnij</button>
+				<button class="btn btn-block btn-primary">Zatrudnij</button>
 				<div class="clearfix"></div>
 				</form>
 			</div>
@@ -39,9 +39,9 @@
 			<thead>
 				<tr>
 					<th id="kadry-pracownik">Pracownik</th>
-					<th class="hidden-xs">Stan</th>
-					<th>Doświadczenie</th>
-					<th>Zadowolenie</th>
+					<th class="hidden-xs"><span id="tutorial_condition">Stan</span></th>
+					<th><span id="tutorial_experience">Doświadczenie</span></th>
+					<th><span id="tutorial_enjoy">Zadowolenie</span></th>
 					<th width="15%">Płaca</th>
 					<th width="15%">Opcje</th>
 				</tr>
@@ -114,9 +114,11 @@
             }
         } ?>
 
-        var n1 = new tutorialElement($('#kadry-podzial'), "Site_Left", "Site_Top", "Podział pracowników na samoloty", "inner", false);
-        var n2 = new tutorialElement($('#kadry-zatrudnij'), "Site_Left", "Site_Top", "Zatrudnianie pracowników (Doświadczeni piloci obniżają szansę na wypadek oraz spalanie samolotu)", "inner", false);
-        var n3 = new tutorialElement($('#kadry-pracownik'), "Site_Bottom", "Site_Left", "Lista pracowników", "inner", false);
-        window.tutorialElements.push(n1, n2, n3);
+        var n1 = new tutorialElement($('#kadry-podzial'), "Hard_Bottom_Left", "Site_Left", "Podział pracowników na samoloty", "inner", false);
+        var n2 = new tutorialElement($('#tutorial_hire'), "Hard_Bottom_Left", "Site_Top", "Zatrudnianie pracowników. Doświadczeni piloci obniżają szansę na wypadek oraz spalanie samolotu. Im większe doświadczenie, tym więcej pracownik musi zarabiać.", "inner", false);
+		var n3 = new tutorialElement($('#tutorial_condition'), "Hard_Bottom_Right", "Site_Top", "Stan fizyczny pracownika. Im bardziej jest zmęczony, tym większa szansa na wypadek", "inner", false);
+		var n4 = new tutorialElement($('#tutorial_experience'), "Hard_Top_Right", "Site_Bottom", "Pracownik zdobywa doświadczenie latając. Im bardziej doświadczony, tym mniejsza szansa na wypadek, szybciej regeneruje siły, ale również chce więcej zarabiać.", "inner", false);
+		var n5 = new tutorialElement($('#tutorial_enjoy'), "Hard_Top_Left", "Site_Bottom", "Jeżeli pracownik nie zarabia tyle ile by chciał może odejść z pracy", "inner", false);
+        window.tutorialElements.push(n1, n2, n3, n4, n5);
     });
 </script>

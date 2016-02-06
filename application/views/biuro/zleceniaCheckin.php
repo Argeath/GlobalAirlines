@@ -30,10 +30,10 @@
                 <thead>
                 <tr>
                     <th>Gracz</th>
-                    <th>Skrócenie czasu odpraw</th>
-                    <th>Koszt za minute odprawy</th>
-                    <th>Czas odprawy</th>
-                    <th>Najbliższy termin</th>
+                    <th><span id="tutorial_time">Skrócenie czasu odpraw</span></th>
+                    <th><span id="tutorial_cost">Koszt za minute odprawy</span></th>
+                    <th><span id="tutorial_totalTime">Czas odprawy</span></th>
+                    <th><span id="tutorial_term">Najbliższy termin</span></th>
                     <th>Dodaj do kolejki</th>
                 </tr>
                 </thead>
@@ -77,3 +77,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function() {
+        var n1 = new tutorialElement($('#tutorial_time'), "Hard_Bottom_Left", "Site_Bottom", "Im lepszy punkt odpraw, tym krótszy czas odprawy", "inner", false);
+        var n2 = new tutorialElement($('#tutorial_cost'), "Site_Top", "Site_Top", "Opłata ustanowiona przez właścicela punktu odpraw, liczona za każdą minutę odprawy", "inner", false);
+        var n3 = new tutorialElement($('#tutorial_totalTime'), "Site_Bottom", "Site_Bottom", "Obliczony czas, jaki zajmie odprawa w tym punkcie odpraw", "inner", false);
+        var n4 = new tutorialElement($('#tutorial_term'), "Site_Top", "Site_Top", "Najbliższy termin odprawy w kolejce do tego punktu odpraw.", "inner", false);
+        window.tutorialElements.push(n1, n2, n3, n4);
+    });
+</script>

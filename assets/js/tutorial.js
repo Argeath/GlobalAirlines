@@ -244,4 +244,8 @@
     $('.main').scroll(function () {
         updateTutorials();
     });
+
+    if(window.tutorialElements.length == 0) {
+        $("#tutorial_activate").parent().hide();
+    }
 });

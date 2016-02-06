@@ -134,30 +134,29 @@
 
 <script>
 $(function() {
-    var $rows = $('#journal tbody tr');
+    var $rows = $('#journal').find('tbody tr');
     var items = [],
-        itemtext = [],
+        itemText = [],
         currGroupStartIdx = 0;
     $rows.each(function(i) {
         var $this = $(this);
-        var itemCell = $(this).find('td:eq(0)')
+        var itemCell = $(this).find('td:eq(0)');
         var item = itemCell.text();
         itemCell.remove();
-        if ($.inArray(item, itemtext) === -1) {
-            itemtext.push(item);
+        if ($.inArray(item, itemText) === -1) {
+            itemText.push(item);
             items.push([i, item]);
-            groupRowSpan = 1;
             currGroupStartIdx = i;
             $this.data('rowspan', 1)
         } else {
-            var rowspan = $rows.eq(currGroupStartIdx).data('rowspan') + 1;
-            $rows.eq(currGroupStartIdx).data('rowspan', rowspan);
+            var rowSpan = $rows.eq(currGroupStartIdx).data('rowspan') + 1;
+            $rows.eq(currGroupStartIdx).data('rowspan', rowSpan);
         }
     });
     $.each(items, function(i) {
         var $row = $rows.eq(this[0]);
-        var rowspan = $row.data('rowspan');
-        $row.prepend('<td rowspan="' + rowspan + '">' + this[1] + '</td>');
+        var rowSpan = $row.data('rowspan');
+        $row.prepend('<td rowspan="' + rowSpan + '">' + this[1] + '</td>');
     });
 
 	var n1 = new tutorialElement($('#tutorial_odloty'), "Hard_Bottom_Left", "Site_Bottom", "Odprawy oraz zaplanowane odloty", "inner", false);
@@ -165,6 +164,7 @@ $(function() {
 	var n3 = new tutorialElement($('#tutorial_dziennik'), "Site_Top", "Site_Top", "Dziennik, wyświetlający wszystkie ostatnie zmiany stanu konta", "inner", false);
 	var n4 = new tutorialElement($('#tutorial_notatnik'), "Site_Top", "Site_Top", "Prywatny notatnik do użytku gracza", "inner", false);
 	var n5 = new tutorialElement($('#tutorial_podsumowanie'), "Site_Left", "Site_Top", "Podsumowanie finansowe gracza z wybranego okresu czasu", "inner", false);
-	window.tutorialElements.push(n1, n2, n3, n4, n5);
+	var n6 = new tutorialElement($('#menu'), "Site_Left", "Site_Left", "Menu gry", "inner", false);
+	window.tutorialElements.push(n1, n2, n3, n4, n5, n6);
 });
 </script>

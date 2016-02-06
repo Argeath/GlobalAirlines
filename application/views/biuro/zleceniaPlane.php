@@ -29,10 +29,10 @@
 			<table style="width: 100%;" class="table table-striped">
 			<thead>
 				<tr>
-					<th>Samolot</th>
+					<th><span id="tutorial_plane">Samolot</span></th>
 					<th>Załoga</th>
-					<th>Korzystaj z paliwa w bazie</th>
-					<th>Wybierz</th>
+					<th><span id="tutorial_fuel">Korzystaj z paliwa w bazie</span></th>
+					<th><span id="tutorial_time">Wybierz</span></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -100,5 +100,10 @@
         $(".planowany_start_button").click(function(){
             $(this).parent().parent().find(".planowany_start_input").datetimepicker("show");
         });
+
+		var n1 = new tutorialElement($('#tutorial_plane'), "Hard_Bottom_Left", "Site_Bottom", "Wybierz samolot, który ma wykonać zlecenie", "inner", false);
+		var n2 = new tutorialElement($('#tutorial_fuel'), "Hard_Bottom_Right", "Site_Top", "Jeżeli posiadasz zbiornik paliwa i paliwo na tym lotnisku, możesz użyć paliwa, które już wczesniej zakupiłeś", "inner", false);
+		var n3 = new tutorialElement($('#tutorial_time'), "Site_Bottom", "Site_Bottom", "Możesz zmienić godzinę, o której samolot ma wystartować z tym zleceniem.", "inner", false);
+		window.tutorialElements.push(n1, n2, n3);
     });
 </script>

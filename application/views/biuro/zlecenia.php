@@ -7,11 +7,11 @@
 			<table style="width: 100%;" class="table table-striped">
 			<thead>
 				<tr>
-					<th>Z</th>
-					<th>Do</th>
-					<th>Zapłata</th>
+					<th><span id="tutorial_from">Z</span></th>
+					<th><span id="tutorial_to">Do</span></th>
+					<th><span id="tutorial_cash">Zapłata</span></th>
 					<th>Pasażerów</th>
-					<th class="hidden-xs">Deadline</th>
+					<th class="hidden-xs" id="tutorial_deadline">Deadline</th>
 					<th>Wykonaj</th>
 				</tr>
 			</thead>
@@ -45,3 +45,13 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(function() {
+		var n1 = new tutorialElement($('#tutorial_from'), "Hard_Bottom_Left", "Site_Bottom", "Lotnisko, z którego samolot ma wystartować", "inner", false);
+		var n2 = new tutorialElement($('#tutorial_to'), "Site_Top", "Site_Top", "Lotnisko, na którym samolot ma wylądować", "inner", false);
+		var n3 = new tutorialElement($('#tutorial_cash'), "Hard_Top_Left", "Site_Bottom", "Ilość pieniędzy, jakie gracz otrzyma za zlecenie (Nie wliczono opłat za lot)", "inner", false);
+		var n4 = new tutorialElement($('#tutorial_deadline'), "Site_Top", "Site_Top", "Termin po jakim gracz zostanie ukarany kwotą pieniężną, jeżeli do tego czasu samolot nie wyląduje", "inner", false);
+		window.tutorialElements.push(n1, n2, n3, n4);
+	});
+</script>
