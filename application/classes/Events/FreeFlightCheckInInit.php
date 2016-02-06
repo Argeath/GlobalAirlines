@@ -11,6 +11,7 @@ class Events_FreeFlightCheckInInit extends Events_Event {
         $to = $this->parameters['to'];
         $from = $this->parameters['from'];
 
+        /** @var Model_UserPlane $plane */
         $plane = $this->event->user->UserPlanes->where('id', '=', $planeId)->find();
         if ($plane->loaded() && $plane->isBusy() == Helper_Busy::NotBusy && $plane->position == $from) {
 
@@ -21,7 +22,6 @@ class Events_FreeFlightCheckInInit extends Events_Event {
             $newEvent->save();
             $event_id = $newEvent->id;
 
-            //Parametry
             $this->manager->addParam($event_id, 'distance', $distance);
             $this->manager->addParam($event_id, 'czas', $czas);
             $this->manager->addParam($event_id, 'plane', $planeId);

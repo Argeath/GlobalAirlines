@@ -4,10 +4,11 @@ class Events_FlightCrash extends Events_Event {
     protected function doWork() {
         $accidentId = $this->parameters['accident'];
 
+        /** @var Model_Accident $accident */
         $accident = ORM::factory("Accident", $accidentId);
         if ($accident->loaded() && $accident->user_id == $this->event->user_id) {
             $typ = $accident->getAccidentInfo();
-            $efekt = $accident->getEffectInfo();
+            //$efekt = $accident->getEffectInfo();
             $plane = $accident->plane;
             $flight = $accident->flight;
 

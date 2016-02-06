@@ -6,6 +6,7 @@ class Events_OrderFlightCheckIn extends Events_Event {
         $zlecenieId = $this->parameters['zlecenie'];
         $timeInAir = $this->parameters['czas'];
 
+        /** @var Model_UserPlane $plane */
         $plane = ORM::factory("UserPlane", $planeId);
         if ($plane->loaded() && $plane->user_id == $this->event->user->id) {
             $userOrder = ORM::factory("UserOrder", $zlecenieId);

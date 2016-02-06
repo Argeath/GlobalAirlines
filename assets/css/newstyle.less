@@ -737,7 +737,26 @@ tr.collapse.in {
         border: 1px #AAA solid;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
+        cursor: pointer;
       }
+    }
+  }
+
+  .sets-btn {
+    float: left;
+    color: #005700;
+    background: rgba(70, 241, 43, 0.45);
+    border: 1px green solid;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    margin-right: 5px;
+    padding: 3px 5px 2px;
+    cursor: pointer;
+
+    &.toggle-off {
+      background: rgba(241, 169, 171, 0.45);
+      border-color: red;
+      color: #690000;
     }
   }
 
@@ -759,19 +778,6 @@ tr.collapse.in {
       min-height: 30px;
       margin: 5px;
     }
-  }
-
-  .przekreslenie {
-    width: 150%;
-    height: 4px;
-    background: rgba(255, 0, 0, 0.5);
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
-    margin-top: -10px;
-    margin-left: -3px;
   }
 
   .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {

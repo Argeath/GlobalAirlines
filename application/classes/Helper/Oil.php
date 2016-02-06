@@ -43,14 +43,14 @@ class Helper_Oil {
 		$oilCosts = DB::select()->from('oil')->where('data', 'BETWEEN', array($week1, $week2))->execute()->as_array();
 		if(empty($oilCosts))
 			return 5;
-		$suma = 0;
-		$ilosc = 0;
+		$sum = 0;
+		$count = 0;
 		foreach($oilCosts as $oC)
 		{
-			$suma += $oC['cena'];
-			$ilosc++;
+			$sum += $oC['cena'];
+			$count++;
 		}
-		return round($suma/$ilosc, 2);
+		return round($sum/$count, 2);
 	}
 
 	static function getOilDemandChange()
@@ -81,8 +81,9 @@ class Helper_Oil {
 	{
 		//Easy Version - Random cost
 		return Helper_Oil::calculateRandomOilCost($act);
-		
-		if($act == false)
+
+		//Complex Version
+		/*if($act == false)
 			$last = Helper_Oil::getOilCost();
 		else
 			$last = $act;
@@ -115,37 +116,40 @@ class Helper_Oil {
 		$new = round($last + ($rand-1), 2);
 		if( $new != 0 && $last != 0 && (! $new/$last > 0.9 || ! $last/$new > 0.9))
 			$new = $last;
-			
+			*/
 		/*if($new <= 3.5)
 			$new = $new + 0.1;
 		elseif($new >= 6.5)
 			$new = $new - 0.1;*/
 
-		return $new;
+		//return $new;
 	}
 
-	static function speculateOilCost()
+    // Complex Version
+	/*static function speculateOilCost()
 	{
 		$thisWeek = DB::select()->from('oil_demand')->where('startOfWeek', 'BETWEEN', array(time()-Date::WEEK, time()))->execute()->as_array();
 		if( ! empty($thisWeek))
 		{
 			$thisWeek = $thisWeek[0];
-			$startOfWeek = $thisWeek['startOfWeek'];
 			$timeExpired = time() - $thisWeek['startOfWeek'];
 			$timeToWeekEnd = Date::WEEK - $timeExpired;
 			$interval = 3600;
-			$fors = floor($timeToWeekEnd / $interval);
+			$repeats = floor($timeToWeekEnd / $interval);
 			$cost = Helper_Oil::getOilCost();
-			for($i = 0; $i < $fors; $i++)
+			for($i = 0; $i < $repeats; $i++)
 				$cost = Helper_Oil::calculateOilCost($cost);
 			return $cost;
 		}
-	}
+	}*/
 
 	static function debugOil()
 	{
+        // Easy Version
 		return true;
-		$srednia = Helper_Oil::getOilAverageCostLastWeek();
+
+        // Complex Version
+		/*$srednia = Helper_Oil::getOilAverageCostLastWeek();
 		$last = DB::select()->from('oil_demand')->where('startOfWeek', 'BETWEEN', array(time()-Date::WEEK*2, time()-Date::WEEK))->execute()->get('demand', 0);
 		if($last == 0)
 			$last = DB::select()->from('oil_demand')->where('startOfWeek', '<=', time()-Date::WEEK)->order_by('startOfWeek', 'DESC')->limit(1)->execute()->get('demand', 0);
@@ -166,7 +170,7 @@ class Helper_Oil {
 		echo "Zmiana: ".formatCash(($change-1)*100, 2)."% (".formatCash($change, 4).")<br />";
 		echo "MinMax: ".formatCash($minMax, 2).WAL."<br />";
 		echo "Nastepna: ".formatCash($next, 2).WAL."<br />";
-		echo "Spekulacja: ".formatCash($speculateC, 2).WAL."<br />";
+		echo "Spekulacja: ".formatCash($speculateC, 2).WAL."<br />";*/
 	}
 	
 	static function calculateRandomOilCost($act = false)

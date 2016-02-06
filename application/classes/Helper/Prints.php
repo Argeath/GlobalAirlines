@@ -3,21 +3,21 @@
 class Helper_Prints {
 	static function printErrors() {
 		try {
-			$msgs = Session::instance()->get('errs');
-			if (!$msgs) {
+			$messages = Session::instance()->get('errs');
+			if (!$messages) {
 				return false;
 			}
 
-			foreach ($msgs as $k => $msg) {
+			foreach ($messages as $k => $msg) {
 				if ($msg[1] > time()) {
 					echo "<div class='alert alert-danger'>";
 					echo $msg[0];
 					echo "</div>";
 				} else {
-					array_splice($msgs, $k, 1);
+					array_splice($messages, $k, 1);
 				}
 			}
-			Session::instance()->set('errs', $msgs);
+			Session::instance()->set('errs', $messages);
 			return true;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
@@ -26,21 +26,21 @@ class Helper_Prints {
 	}
 	static function printMsg() {
 		try {
-			$msgs = Session::instance()->get('msgs');
-			if (!$msgs) {
+			$messages = Session::instance()->get('msgs');
+			if (!$messages) {
 				return false;
 			}
 
-			foreach ($msgs as $k => $msg) {
+			foreach ($messages as $k => $msg) {
 				if ($msg[1] > time()) {
 					echo "<div class='alert alert-success'>";
 					echo $msg[0];
 					echo "</div>";
 				} else {
-					array_splice($msgs, $k, 1);
+					array_splice($messages, $k, 1);
 				}
 			}
-			Session::instance()->set('msgs', $msgs);
+			Session::instance()->set('msgs', $messages);
 			return true;
 		} catch (Exception $e) {
 			errToDb('[Exception][' . __CLASS__ . '][' . __FUNCTION__ . '][Line: ' . $e->getLine() . '][' . $e->getMessage() . ']');
@@ -55,13 +55,11 @@ class Helper_Prints {
 				$x = formatCash($x);
 			}
 
-			$t = "";
+			$t = $x;
 			if ($l > 0) {
 				$t = "<span style='color: green;'>+" . $x . "</span>";
 			} elseif ($l < 0) {
 				$t = "<span style='color: red;'>" . $x . "</span>";
-			} else {
-				$t = $x;
 			}
 
 			return $t;
@@ -74,22 +72,20 @@ class Helper_Prints {
 	static function colorBgNumber($x, $format = true, $wal = true) {
 		try {
 			$l = $x;
-			$waluta = "";
+			$currency = "";
 			if ($wal) {
-				$waluta = " " . WAL;
+				$currency = " " . WAL;
 			}
 
 			if ($format) {
 				$x = formatCash($x);
 			}
 
-			$t = "";
+			$t = $x;
 			if ($l > 0 || ! is_numeric($x)) {
-				$t = '<span class="text-rounded" style="background: rgb(15, 163, 15);">+' . $x . $waluta . '</span>';
+				$t = '<span class="text-rounded" style="background: rgb(15, 163, 15);">+' . $x . $currency . '</span>';
 			} elseif ($l < 0) {
-				$t = '<span class="text-rounded" style="background: red;">' . $x . $waluta . '</span>';
-			} else {
-				$t = $x;
+				$t = '<span class="text-rounded" style="background: red;">' . $x . $currency . '</span>';
 			}
 
 			return $t;

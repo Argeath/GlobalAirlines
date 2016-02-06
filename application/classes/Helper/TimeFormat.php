@@ -15,19 +15,19 @@ class Helper_TimeFormat {
         return '';
     }
 
-    public static function secondsToText($sec, $maxHours = false, $minMins = false)
+    public static function secondsToText( $sec, $maxHours = false, $minMinutes = false)
     {
         try {
             if($sec < 60)
             {
-                $text = $sec."s";
+                $text = round($sec)."s";
                 return $text;
             }
             $min = floor($sec / 60);
             $sec = $sec % 60;
             if($min < 60)
             {
-                $text = $min."m ".$sec."s";
+                $text = $min."m ".round($sec)."s";
                 return $text;
             }
             $hr = floor($min / 60);
@@ -36,33 +36,33 @@ class Helper_TimeFormat {
             {
                 if($hr < 24)
                 {
-                    if($minMins)
+                    if($minMinutes)
                         $text = $hr."h ".$min."m";
                     else
-                        $text = $hr."h ".$min."m ".$sec."s";
+                        $text = $hr."h ".$min."m ".round($sec)."s";
                     return $text;
                 }
                 $ds = floor($hr / 24);
                 if($ds > 1)
-                    $minMins = true;
+                    $minMinutes = true;
 
                 $hr = $hr % 24;
                 if($ds > 9)
                     $text = $ds."d ".$hr."h";
                 else {
-                    if ($minMins)
+                    if ($minMinutes)
                         $text = $ds . "d " . $hr . "h " . $min . "m";
                     else
-                        $text = $ds . "d " . $hr . "h " . $min . "m " . $sec . "s";
+                        $text = $ds . "d " . $hr . "h " . $min . "m " . round($sec) . "s";
                 }
             } else {
                 if($hr > 100)
                     $text = $hr."h";
                 else {
-                    if ($minMins)
+                    if ($minMinutes)
                         $text = $hr . "h " . $min . "m";
                     else
-                        $text = $hr . "h " . $min . "m " . $sec . "s";
+                        $text = $hr . "h " . $min . "m " . round($sec) . "s";
                 }
             }
             return $text;

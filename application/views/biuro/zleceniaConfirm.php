@@ -27,7 +27,7 @@
 					<?=Helper_Prints::colorBgText("Załogi dodatkowej: " . $juzDodatkowej . "/" . $dodatkowej, "#428bca");?>
 				</td></tr>
 				<tr><td>Honorarium za zlecenie:</td> <td style="color: green;"><?=formatCash($zaplata);?> <?=WAL?></td></tr>
-				<tr data-toggle="collapse" data-target=".costs"><td>Opłaty:</td> <td style="color: red;">-<?=formatCash($kosztP + $kosztO + $kosztZ + $oplaty);?> <?=WAL?></td></tr>
+				<tr data-toggle="collapse" data-target=".costs" class="collapse-zoom"><td>Opłaty:</td> <td style="color: red;">-<?=formatCash($kosztP + $kosztO + $kosztZ + $oplaty);?> <?=WAL?></td></tr>
 
 				<tr class="costs collapse out"><td>Cena paliwa:</td> <td><?=formatCash(Helper_Oil::getOilCost(), 2);?> <?=WAL?></td></tr>
 				<tr class="costs collapse out"><td>Opłata za paliwo:</td> <td style="color: red;">-<?=formatCash($kosztP);?> <?=WAL?></td></tr>
@@ -50,3 +50,14 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$(function() {
+		$(".collapse-zoom").css('cursor', 'zoom-in');
+		$(".costs").on('shown.bs.collapse', function() {
+			$(".collapse-zoom").css('cursor', 'zoom-out');
+		}).on('hidden.bs.collapse', function() {
+			$(".collapse-zoom").css('cursor', 'zoom-in');
+		});
+	})
+</script>

@@ -3,7 +3,7 @@
 class Events_Auction extends Events_Event {
     protected function doWork() {
         $auctionId = $this->parameters['auction'];
-
+        /** @var Model_Auction $auction */
         $auction = ORM::factory('Auction', $auctionId);
         if ($auction->loaded()) {
 

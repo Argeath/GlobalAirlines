@@ -303,12 +303,12 @@ $(function () {
 		var on = $(this).attr("data-on");
 		if(on == 0)
 		{
-			$(this).find(".przekreslenie").remove();
+			$(this).removeClass("toggle-off");
 			$.cookie('chatAutoScroll', 1);
 			$(this).attr("data-on", 1);
 			autoScroll = true;
 		} else {
-			$(this).append('<div class="przekreslenie"></div>');
+            $(this).addClass("toggle-off");
 			$.cookie('chatAutoScroll', 0);
 			$(this).attr("data-on", 0);
 			autoScroll = false;
@@ -322,12 +322,12 @@ $(function () {
 		var on = $(this).attr("data-on");
 		if(on == 0)
 		{
-			$(this).find(".przekreslenie").remove();
+            $(this).removeClass("toggle-off");
 			$.cookie('chatDings', 1);
 			$(this).attr("data-on", 1);
 			dings = true;
 		} else {
-			$(this).append('<div class="przekreslenie"></div>');
+            $(this).addClass("toggle-off");
 			$.cookie('chatDings', 0);
 			$(this).attr("data-on", 0);
 			dings = false;

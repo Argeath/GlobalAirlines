@@ -35,14 +35,16 @@ class Helper_Bot {
 		$u = $this->getUser();
 		$planes = $u->UserPlanes->find_all();
 
+		/** @var Model_UserPlane $plane */
 		foreach ($planes as $plane) {
 			$accidentChance = $plane->getAccidentChance();
 
 			$staffs = $plane->staff->find_all();
 			$break = false;
-			foreach ($staffs as $s) {
-				$s->regenerateCondition($when);
-				if ($s->condition < 85) {
+			/** @var Model_Staff $staff */
+			foreach ($staffs as $staff) {
+				$staff->regenerateCondition($when);
+				if ($staff->condition < 85) {
 					$break = true;
 				}
 			}
@@ -56,18 +58,18 @@ class Helper_Bot {
 					continue;
 				}
 				if ($plane->stan <= 90 && $plane->plane->cost <= $plane->cash / 25) {
-					foreach ($staffs as $s) {
-						$s->delete();
+					foreach ($staffs as $staff) {
+						$staff->delete();
 					}
-					$wartosc = $plane->getCost();
-					$stan = $plane->stan;
-					$za_stan = 1 + ((1 - ($stan / 100)) * 3);
-					$wartosc *= 0.8;
-					$wartosc /= $za_stan;
-					$wartosc = round($wartosc);
+					$planeValue = $plane->getCost();
+					$condition = $plane->stan;
+					$za_stan = 1 + ((1 - ($condition / 100)) * 3);
+					$planeValue *= 0.8;
+					$planeValue /= $za_stan;
+					$planeValue = round($planeValue);
 
 					$info = array('type' => Helper_Financial::SklepSprzedaz, 'plane_id' => $plane->id);
-					$u->operateCash($wartosc, 'Sprzedaż samolotu - ' . $plane->fullName() . '.', $when, $info);
+					$u->operateCash($planeValue, 'Sprzedaż samolotu - ' . $plane->fullName() . '.', $when, $info);
 
 					$plane->user_id = 0;
 					$plane->save();
@@ -99,7 +101,7 @@ class Helper_Bot {
 			$model = $plane->getUpgradedModel();
 			$offices = $plane->plane->getOffices();
 
-			$miejsc = $model->miejsc;
+			$planeSeats = $model->miejsc;
 
 			$orders = ORM::factory('Order')
 				->where('taken', '=', 0)
@@ -107,13 +109,13 @@ class Helper_Bot {
 				->and_where('from', '=', $city)
 				->and_where('taken', '=', 0)
 				->and_where('test', '=', 0)
-				->and_where('count', '<=', $miejsc)
+				->and_where('count', '<=', $planeSeats)
 				->order_by('cash', 'DESC')
 				->limit(10)
 				->find_all();
 
-			$zlecen = $orders->count();
-			if ($zlecen == 0) {
+			$ordersCount = $orders->count();
+			if ($ordersCount == 0) {
 				continue;
 			}
 
@@ -127,7 +129,6 @@ class Helper_Bot {
 				if ($model->zasieg >= $dist) {
 					$zlecenia[] = $o;
 				}
-				//echo $plane->fullName() . " - zasieg " . $model->zasieg . " / " . $dist . "km - " . $dodany . "<br />";
 			}
 			if (count($zlecenia) < 1) {
 				continue;

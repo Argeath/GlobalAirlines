@@ -32,14 +32,6 @@ class Controller_Podglad extends Controller_Template {
 				$c->save();
 			}
 		}
-		//cleanDB();
-
-		/*set_time_limit(0);
-		$cities = ORM::factory("City")->find_all();
-		$checks = 0;
-		foreach($cities as $c)
-		$checks += $c->checkDistances();
-		echo Debug::vars($checks);*/
 
 		$financials = $this->Journals($user);
 

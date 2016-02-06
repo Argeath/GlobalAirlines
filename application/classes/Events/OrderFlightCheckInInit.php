@@ -10,6 +10,7 @@ class Events_OrderFlightCheckInInit extends Events_Event {
         $to = $this->parameters['to'];
         $odprawa = $this->parameters['odprawa'];
 
+        /** @var Model_UserPlane $plane */
         $plane = ORM::factory("UserPlane", $planeId);
         if ($plane->loaded() && $plane->user_id == $this->event->user->id) {
 
@@ -18,6 +19,7 @@ class Events_OrderFlightCheckInInit extends Events_Event {
             if ($userOrder->loaded() && $userOrder->user_id == $this->event->user->id && $userOrder->done == 0) {
 
                 $order = $userOrder->order;
+                /** @var Model_Flight $flight */
                 $flight = $this->event->user->flights->where('id', '=', $userOrder->flight_id)->find();
 
                 if ($flight->loaded() && $flight->user_id == $this->event->user->id) {
@@ -43,7 +45,6 @@ class Events_OrderFlightCheckInInit extends Events_Event {
                         $flight->checked = 1;
                         $flight->save();
 
-                        //Parametry
                         $this->manager->addParam($event_id, 'distance', $distance);
                         $this->manager->addParam($event_id, 'czas', $czas);
                         $this->manager->addParam($event_id, 'plane', $planeId);

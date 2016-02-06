@@ -2,6 +2,7 @@
 
 class Events_FreeFlight extends Events_Event {
     protected function doWork() {
+        /** @var Model_Flight $flight */
         $flight = $this->user->flights->where('event', '=', $this->event->id)->find();
         if ($flight->loaded()) {
             $plane = $flight->UserPlane;

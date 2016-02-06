@@ -26,8 +26,7 @@ class Helper_Menu {
 			$fb_logoutPath = $FB->getLogoutUrl(URL::base($protocol) . 'user/logout');
 		}
 
-		echo '<nav class="new-menu" id="menu" onselectstart="return false" onselect="return false">
-            <ul>';
+		echo '<nav class="new-menu" id="menu" onselectstart="return false" onselect="return false"><ul>';
 
 		$menus = Kohana::$config->load('menu');
 		if (GlobalVars::$logged) {

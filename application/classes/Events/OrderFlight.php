@@ -2,6 +2,7 @@
 
 class Events_OrderFlight extends Events_Event {
     protected function doWork() {
+        /** @var Model_Flight $flight */
         $flight = $this->event->user->flights->where('event', '=', $this->event->id)->find();
         if ($flight->loaded() && $flight->canceled == 0 && $flight->user_id == $this->event->user->id) {
             $plane = $flight->UserPlane;

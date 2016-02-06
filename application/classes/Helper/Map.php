@@ -17,40 +17,40 @@ class Helper_Map {
 		return $regions;
 	}
 
-	static function countRegionMaxOrders($biuro, $region) {
+	static function countRegionMaxOrders( $office, $region) {
 		//$zlec = DB::select(array('COUNT(*)', 'zlecen'))->from('zlecenia')->where('region', '=', $region)->execute()->get('zlecen');
-		if (in_array($biuro, array(1, 2, 5, 6))) {
+		if (in_array( $office, array( 1, 2, 5, 6))) {
 			$cities = Helper_Map::getRegionCities($region);
 		} else {
 			$cities = Helper_Map::getRegionCities($region, true);
 		}
 
-		$zlecen = 0;
-		$ilosciConfig = Kohana::$config->load('zlecenia.zlecenia');
-		$ilosciConfig = $ilosciConfig[$biuro];
+		$orders = 0;
+		$countConfig = Kohana::$config->load('zlecenia.zlecenia');
+		$countConfig = $countConfig[ $office];
 		foreach ($cities as $city) {
 
-			$ilosci = $ilosciConfig[$city->rozmiar];
-			$zlecen += array_sum($ilosci);
+			$count = $countConfig[$city->rozmiar];
+			$orders += array_sum($count);
 		}
-		return $zlecen;
+		return $orders;
 	}
 
 	static function getRegionCities($region, $onlyBig = false) {
-		$rozmiar = 0;
+		$citySize = 0;
 		if ($onlyBig) {
-			$rozmiar = 1;
+			$citySize = 1;
 		}
 
 		if ($region == 'WR') {
-			return ORM::factory("City")->cached()->where('rozmiar', '>=', $rozmiar)->order_by('id', 'asc')->distinct(true)->find_all();
+			return ORM::factory("City")->cached()->where('rozmiar', '>=', $citySize)->order_by('id', 'asc')->distinct(true)->find_all();
 		}
 
 		$continents = Helper_Map::getContinents();
 		if (in_array($region, $continents)) {
-			return ORM::factory("City")->cached()->where('region', 'LIKE', '%-' . $region . '%')->and_where('rozmiar', '>=', $rozmiar)->order_by('id', 'asc')->distinct(true)->find_all();
+			return ORM::factory("City")->cached()->where('region', 'LIKE', '%-' . $region . '%')->and_where('rozmiar', '>=', $citySize)->order_by('id', 'asc')->distinct(true)->find_all();
 		}
-		return ORM::factory("City")->cached()->where('region', '=', $region)->and_where('rozmiar', '>=', $rozmiar)->order_by('id', 'asc')->distinct(true)->find_all();
+		return ORM::factory("City")->cached()->where('region', '=', $region)->and_where('rozmiar', '>=', $citySize)->order_by('id', 'asc')->distinct(true)->find_all();
 	}
 
 	static function getAllRegionCities() {
@@ -114,6 +114,7 @@ class Helper_Map {
 	static function getDistanceBetween($city1, $city2) {
 		try {
 			if (!is_object($city1)) {
+                /** @var Model_City $city1 */
 				$city1 = ORM::factory("City", $city1);
 			}
 
@@ -127,10 +128,12 @@ class Helper_Map {
 	static function findCityOnPath($city1, $city2, $dist) {
 		try {
 			if (!is_object($city1)) {
+				/** @var Model_City $city1 */
 				$city1 = ORM::factory("City", $city1);
 			}
 
 			if (!is_object($city2)) {
+				/** @var Model_City $city2 */
 				$city2 = ORM::factory("City", $city2);
 			}
 
@@ -145,10 +148,14 @@ class Helper_Map {
 			$closestDist = 999999;
 			$closest = null;
 
-			foreach ($city1Distances as $d1 => $c) {
-				$cDist = $c->countDistanceTo($city2);
-				if (($d1 + $cDist - 50) <= $distance && $cDist <= $closestDist) {
-					$closest = $c;
+			/**
+			 * @var int $distanceToCity
+			 * @var Model_City $city
+			 */
+			foreach ($city1Distances as $distanceToCity => $city) {
+				$cDist = $city->countDistanceTo($city2);
+				if (($distanceToCity + $cDist - 50) <= $distance && $cDist <= $closestDist) {
+					$closest = $city;
 					$closestDist = $cDist;
 				}
 			}
@@ -163,10 +170,12 @@ class Helper_Map {
 	static function findPath($city1, $city2) {
 		try {
 			if (!is_object($city1)) {
+				/** @var Model_City $city1 */
 				$city1 = ORM::factory("City", $city1);
 			}
 
 			if (!is_object($city2)) {
+				/** @var Model_City $city2 */
 				$city2 = ORM::factory("City", $city2);
 			}
 
@@ -175,9 +184,9 @@ class Helper_Map {
 				return false;
 			}
 
-			$setek = round($distance / 100) - 1;
+			$hundredsCount = round($distance / 100) - 1;
 			$path = array();
-			for ($i = 1; $i <= $setek; $i++) {
+			for ($i = 1; $i <= $hundredsCount; $i++) {
 				$path[$i] = Helper_Map::findCityOnPath($city1, $city2, $i * 100);
 			}
 

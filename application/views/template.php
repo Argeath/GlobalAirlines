@@ -305,8 +305,8 @@
 					</div>
 					<div class="header" onselect="return false">
 						<div class="sets">
-							<i class="glyphicon glyphicon-flash" id="chatHeaderSetDings" data-on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Miganie czatu"></i>
-							<i class="glyphicon glyphicon-circle-arrow-up" id="chatHeaderSetAutoUp" data-on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Automatyczne przewijanie"></i>
+							<div id="chatHeaderSetDings" class="sets-btn" data-on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Miganie czatu"><i class="glyphicon glyphicon-flash"></i></div>
+							<div id="chatHeaderSetAutoUp" class="sets-btn" data-on="1" data-container="body" data-toggle="tooltip" data-placement="top" title="Automatyczne przewijanie"><i class="glyphicon glyphicon-circle-arrow-up"></i></div>
 						</div>
 						<div class="channel">LOCAL <p id="chat-status" class="glyphicon glyphicon-remove red"></p></div>
 						<div class="right">

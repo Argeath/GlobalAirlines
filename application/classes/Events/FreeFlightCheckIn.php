@@ -7,6 +7,7 @@ class Events_FreeFlightCheckIn extends Events_Event {
         $timeInAir = $this->parameters['czas'];
         $flightId = $this->parameters['flight'];
 
+        /** @var Model_UserPlane $plane */
         $plane = ORM::factory("UserPlane", $planeId);
         if ($plane->loaded() && $plane->user_id == $this->event->user->id) {
             $flight = ORM::factory("Flight", $flightId);
@@ -22,11 +23,10 @@ class Events_FreeFlightCheckIn extends Events_Event {
                 $flight->event = $event_id;
                 $flight->save();
 
-                $pilotow = $plane->staff->where('type', '=', 'pilot')->count_all();
-                $stanZaLot = round((($timeInAir / 60) * 0.025) / $pilotow, 2);
+                $pilots = $plane->staff->where('type', '=', 'pilot')->count_all();
+                $stanZaLot = round((($timeInAir / 60) * 0.025) / $pilots, 2);
                 $plane->updateStaffConditionFuture(-$stanZaLot);
 
-                //Parametry
                 $this->manager->addParam($event_id, 'distance', $distance);
                 $this->manager->addParam($event_id, 'czas', $timeInAir);
             } else {

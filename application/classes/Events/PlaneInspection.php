@@ -3,6 +3,8 @@
 class Events_PlaneInspection extends Events_Event {
     protected function doWork() {
         $planeId = $this->parameters['plane'];
+
+        /** @var Model_UserPlane $plane */
         $plane = ORM::factory("UserPlane", $planeId);
         if ($plane->loaded() && $plane->user_id == $this->event->user->id) {
             $stan = $plane->stan;

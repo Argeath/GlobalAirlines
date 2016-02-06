@@ -6,10 +6,11 @@ class Events_WorkerFlight extends Events_Event {
         $to = $this->parameters['to'];
         $planeId = $this->parameters['plane'];
 
-        if ($planeId->loaded()) {
+        /*if ($planeId->loaded()) {
             $planeId = $planeId->value;
-        }
+        }*/
 
+        /** @var Model_Staff $worker */
         $worker = ORM::factory("Staff", $pracId);
         $worker->position = $to;
 
